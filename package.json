@@ -11,7 +11,8 @@
   ],
   "author": "lukasbicus",
   "license": "ISC",
-  "dependencies": {
-    "@types/node": "^18.19.44"
+  "devDependencies": {
+    "@types/node": "18.19",
+    "typescript": "^5.5.4"
   }
 }
