@@ -1,0 +1,14 @@
+{
+  "name": "algorithms",
+  "version": "0.0.1",
+  "description": "Playground for learning algorithms",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "algorithms"
+  ],
+  "author": "lukasbicus",
+  "license": "ISC"
+}
