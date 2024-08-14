@@ -10,5 +10,8 @@
     "algorithms"
   ],
   "author": "lukasbicus",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^18.19.44"
+  }
 }
