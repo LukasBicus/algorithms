@@ -31,7 +31,7 @@ const giveAGiftOnPosition = (pos: Position) => {
   const giftsCount = givenGifts.get(key)
   if (giftsCount) {
     // if defined, increase by 1
-    givenGifts.set(key, giftsCount+1);
+    givenGifts.set(key, giftsCount + 1);
   } else {
     // if undefined, set to 1
     givenGifts.set(key, 1);
@@ -39,7 +39,6 @@ const giveAGiftOnPosition = (pos: Position) => {
 };
 
 // give a gift on starting position
-giveAGiftOnPosition(startPosition)
 
 // key - compute from current position, if not defined, set to 1, otherwise increase by 1
 // value - number of gifts
@@ -63,23 +62,51 @@ const changePosition = (currentPosition: Position, instruction: Move): Position 
   }
 }
 
-const instructions = readFileSync('./input.txt', 'utf8');
-
-let position: Position = startPosition
-// every move
-// read instruction
-for (const instruction of instructions) {
-  // console.log('instruction', instruction);
-  // change position
-  position = changePosition(position, instruction as Move);
-  // give a gift
-  giveAGiftOnPosition(position)
-}
-
-console.log(givenGifts.size)
-
-
+const instructions = readFileSync('./simplifiedInput.txt', 'utf8');
 
 // give a gift on current position
 
 // at the end of cycle, count of items in set is count of houses with at least one gift
+
+
+// ===============
+// Definitions
+// possible moves south, north, west, east
+// given gifts = a map of houses with count of gifts
+//
+// position of santa
+let santaPosition = {...startPosition}
+// position of robo-santa
+let roboPosition = {...startPosition}
+
+// initial state - position of both santa and robo-santa is 0, 0
+// give gift to initial house once for santa, once for robo santa
+giveAGiftOnPosition(santaPosition)
+giveAGiftOnPosition(roboPosition)
+
+enum Turn {
+  Santa = 'Santa',
+  RoboSanta = 'RoboSanta',
+}
+
+// every move
+let turn: Turn = Turn.Santa
+// read instruction
+for (const instruction of instructions) {
+  if (turn === Turn.Santa) {
+    // change position of santa OR robo-santa
+    santaPosition = changePosition(santaPosition, instruction as Move);
+    // give a gift
+    giveAGiftOnPosition(santaPosition)
+    turn = Turn.RoboSanta
+  } else {
+    // change position of santa OR robo-santa
+    roboPosition = changePosition(roboPosition, instruction as Move);
+    // give a gift
+    giveAGiftOnPosition(roboPosition)
+    turn = Turn.Santa
+  }
+}
+
+// at the end, size of map is count of houses with at least 1 present
+console.log(givenGifts.size)
