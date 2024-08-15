@@ -62,7 +62,7 @@ const changePosition = (currentPosition: Position, instruction: Move): Position 
   }
 }
 
-const instructions = readFileSync('./simplifiedInput.txt', 'utf8');
+const instructions = readFileSync('./input.txt', 'utf8');
 
 // give a gift on current position
 
