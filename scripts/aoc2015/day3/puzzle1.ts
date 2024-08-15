@@ -78,20 +78,20 @@ const changePosition = (currentPosition: Position, instruction: Move): Position 
   }
 }
 
-const instructions = readFileSync('./simplifiedInput.txt', 'utf8');
+const instructions = readFileSync('./input.txt', 'utf8');
 
 let position: Position = startPosition
 // every move
 // read instruction
 for (const instruction of instructions) {
-  console.log('instruction', instruction);
+  // console.log('instruction', instruction);
   // change position
   position = changePosition(position, instruction as Move);
   // give a gift
   giveAGiftOnPosition(position)
 }
 
-console.log(givenGifts)
+console.log(givenGifts.size)
 
 
 
