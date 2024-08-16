@@ -23,13 +23,25 @@ Your puzzle input is bgvyzdsv.
 // start:
 // puzzleAnswerInDecimal is 1
 
+let puzzleAnswerInDecimal = 1
+let hashResult = ''
+
+// const puzzle = `bgvyzdsv`
+const puzzle = `abcdef`
+
+
+
+
 // loop
-// find hash for puzzleAnswerInDecimal
+// find hash for key + puzzleAnswerInDecimal
 // validate with regex, if it starts with `00000` followed by a digit
+export const startRegex = /^00000\d/
 // if it's true - you have found the answer
 // if it's falsy - increase puzzleAnswerInDecimal, rerun loop
 
 // for hash, find a library
+
+
 
 
 
