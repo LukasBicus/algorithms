@@ -9,17 +9,12 @@ Make sure, you are running on proper node. You can use `nvm`
 nvm use
 ```
 
-Then make sure, `ts-node` is installed.
+Install modules
 ```bash
-ts-node --version
-```
-
-Install ts-node
-```bash
-npm install -g ts-node
+npm install
 ```
 
 Run example script in order to check your setup
 ```bash
-ts-node ./scripts/validate-setup.ts
+tsx ./scripts/validate-setup.ts
 ```
