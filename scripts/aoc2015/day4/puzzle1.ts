@@ -23,16 +23,21 @@ Your puzzle input is bgvyzdsv.
 // start:
 // puzzleAnswerInDecimal is 1
 
-let puzzleAnswerInDecimal = 0
+import md5 from 'md5'
+
 let hashResult = ''
+// const puzzle = `abcdef`
+// let puzzleAnswerInDecimal = 609040
+// const puzzle = `pqrstuv`
+// let puzzleAnswerInDecimal = 1048965
 
-// const puzzle = `bgvyzdsv`
-const puzzle = `abcdef`
+const puzzle = `bgvyzdsv`
+let puzzleAnswerInDecimal = 0
 
 
-function hash(input: string): string {return input}
 
-// loop
+function hash(input: string): string {return md5(input)}
+
 export const startRegex = /^00000\d/
 
 do {
@@ -41,8 +46,9 @@ do {
   hashResult = hash(`${puzzle}${puzzleAnswerInDecimal}`)
 // validate with regex, if it starts with `00000` followed by a digit
 // if it's true - you have found the answer
-} while(startRegex.test(hashResult))
+} while(!startRegex.test(hashResult))
 
+console.log(hashResult)
 console.log('puzzleAnswerInDecimal', puzzleAnswerInDecimal)
 // for hash, find a library
 
