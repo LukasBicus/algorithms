@@ -11,4 +11,5 @@ it('should test start of hash', () => {
   assert.equal(startRegex.test('000001asdfas'), true)
   assert.equal(startRegex.test('000002asdfas'), true)
   assert.equal(startRegex.test('000009asdfas'), true)
+  assert.equal(startRegex.test('000000asdfas'), false)
 })

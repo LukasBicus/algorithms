@@ -38,7 +38,7 @@ let puzzleAnswerInDecimal = 0
 
 function hash(input: string): string {return md5(input)}
 
-export const startRegex = /^00000[1-9]/
+export const startRegex = /^000000/
 
 do {
   puzzleAnswerInDecimal++;
