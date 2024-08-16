@@ -4,7 +4,8 @@
   "description": "Playground for learning algorithms",
   "type": "module",
   "scripts": {
-    "test": "test"
+    "test": "node --test --loader=ts-node/esm --no-warnings scripts/**/*.test.ts",
+    "test:watch": "node --test --watch --loader=ts-node/esm --no-warnings scripts/**/*.test.ts"
   },
   "keywords": [
     "algorithms"
@@ -13,10 +14,11 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "18.19",
+    "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
   },
   "engines": {
-    "node": ">=18.20.4",
+    "node": ">=22.6",
     "npm": ">=10.7.0"
   }
 }
