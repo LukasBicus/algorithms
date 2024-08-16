@@ -2,7 +2,7 @@
   "name": "algorithms",
   "version": "0.0.1",
   "description": "Playground for learning algorithms",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "test"
   },
@@ -14,5 +14,9 @@
   "devDependencies": {
     "@types/node": "18.19",
     "typescript": "^5.5.4"
+  },
+  "engines": {
+    "node": ">=18.20.4",
+    "npm": ">=10.7.0"
   }
 }
