@@ -1,6 +1,11 @@
 import assert from "node:assert";
 import {describe, it} from "node:test";
-import {doesContainAbCdPqXy, doesContainALetterTwiceInRow, hasAtLeast3Vowels} from "./utils";
+import {
+  doesContainAbCdPqXy,
+  doesContainALetterTwiceInRow,
+  has2SameLettersWith1BetweenThem,
+  hasAtLeast3Vowels
+} from "./utils";
 
 describe('hasAtLeast3Vowels', () => {
   it('Should return false for a word without all vowels', () => {
@@ -38,5 +43,19 @@ describe('doesContainALetterTwiceInRow', () => {
     assert.equal(doesContainALetterTwiceInRow('asdasdf bb sadfasdf'), true)
     assert.equal(doesContainALetterTwiceInRow('cc asdfadsf asdfa'), true)
     assert.equal(doesContainALetterTwiceInRow('aa bb cc'), true)
+  })
+})
+
+describe('has2SameLettersWith1BetweenThem', () => {
+  it('Should return false for invalid input', () => {
+    assert.equal(has2SameLettersWith1BetweenThem('abcabc'), false)
+  })
+  it('Should return true for valid input', () => {
+    assert.equal(has2SameLettersWith1BetweenThem('aaa'), true)
+    assert.equal(has2SameLettersWith1BetweenThem('aba'), true)
+    assert.equal(has2SameLettersWith1BetweenThem('aasdfasdf aba'), true)
+    assert.equal(has2SameLettersWith1BetweenThem('aba aasdfasdf '), true)
+    assert.equal(has2SameLettersWith1BetweenThem('xcvbxcvbaba aasdfasdf '), true)
+
   })
 })
