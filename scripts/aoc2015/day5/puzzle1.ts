@@ -42,8 +42,8 @@ import {doesContainAbCdPqXy, doesContainALetterTwiceInRow, hasAtLeast3Vowels} fr
 let niceStringsCount = 0
 
 function processLine(chunk: string) {
-  console.log('chunk', chunk)
   if (hasAtLeast3Vowels(chunk) &&  !doesContainAbCdPqXy(chunk) && doesContainALetterTwiceInRow(chunk)) {
+    console.log('nice word', chunk)
     niceStringsCount++
   }
 }
@@ -66,7 +66,7 @@ function readFile(path: string, processLine: (line: string) => void): Promise<vo
   })
 }
 
-await readFile('./simpleInput.txt', processLine).then(() => {
+await readFile('./input.txt', processLine).then(() => {
   console.log('Done!', niceStringsCount);
 })
 console.log('Finished reading the file.', niceStringsCount);
