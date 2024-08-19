@@ -6,3 +6,7 @@ export function hasAllVowels(text: string) {
     && text.includes('u')
     ;
 }
+
+export function doesContainAbCdPqXy(text: string) {
+  return /(ab|cd|pq|xy)/.test(text)
+}
