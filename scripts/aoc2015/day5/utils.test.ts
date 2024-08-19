@@ -66,6 +66,7 @@ describe('hasAPairAppearingTwice', () => {
   })
   it('Should return true for valid input', () => {
     assert.equal(hasAPairAppearingTwice('abab'), true)
+    assert.equal(hasAPairAppearingTwice('aaa'), true)
     assert.equal(hasAPairAppearingTwice('abefab'), true)
     assert.equal(hasAPairAppearingTwice('xabefaby'), true)
   })

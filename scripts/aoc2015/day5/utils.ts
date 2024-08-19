@@ -46,7 +46,13 @@ export function splitToPairs(text: string, pairs: string[]=[]): {
 
 export function hasAPairAppearingTwice(line: string) {
   // split to pairs
+  const {pairs} = splitToPairs(line)
   // loop trough pairs, if you will be able to find same two, break
+  for (const [index, pair] of pairs.entries()) {
+    if (pairs.slice(index + 1).includes(pair)) {
+      return true
+    }
+  }
   return false
 }
 export function has2SameLettersWith1BetweenThem(line: string) {
