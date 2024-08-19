@@ -16,7 +16,37 @@ export function doesContainALetterTwiceInRow(text: string) {
   return /(aa|bb|cc|dd|ee|ff|gg|hh|ii|jj|kk|ll|mm|nn|oo|pp|qq|rr|ss|tt|uu|vv|ww|xx|yy|zz)/.test(text)
 }
 
+export function splitToPairs(text: string, pairs: string[]=[]): {
+  remainingText: string
+  pairs: string[]
+} {
+  // if length is n, add first two letters to array, call splitToPairs again
+  if (text.length > 2) {
+    return splitToPairs(text.slice(1), [...pairs, text.slice(0, 2)])
+  }
+  // if length is 2, add remainingString to pairs and set remaining strings to '', loop is over
+  if (text.length === 2) {
+    return {
+      remainingText: '',
+      pairs: [...pairs, text]
+    }
+  }
+  // if lenght is 1, or 0, return empty array
+  if (text.length < 2) {
+    return {
+      remainingText: text,
+      pairs: pairs
+    }
+  }
+  return {
+    remainingText: '',
+    pairs: []
+  }
+}
+
 export function hasAPairAppearingTwice(line: string) {
+  // split to pairs
+  // loop trough pairs, if you will be able to find same two, break
   return false
 }
 export function has2SameLettersWith1BetweenThem(line: string) {

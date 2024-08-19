@@ -3,8 +3,8 @@ import {describe, it} from "node:test";
 import {
   doesContainAbCdPqXy,
   doesContainALetterTwiceInRow,
-  has2SameLettersWith1BetweenThem,
-  hasAtLeast3Vowels
+  has2SameLettersWith1BetweenThem, hasAPairAppearingTwice,
+  hasAtLeast3Vowels, splitToPairs
 } from "./utils";
 
 describe('hasAtLeast3Vowels', () => {
@@ -57,5 +57,43 @@ describe('has2SameLettersWith1BetweenThem', () => {
     assert.equal(has2SameLettersWith1BetweenThem('aba aasdfasdf '), true)
     assert.equal(has2SameLettersWith1BetweenThem('xcvbxcvbaba aasdfasdf '), true)
 
+  })
+})
+
+describe('hasAPairAppearingTwice', () => {
+  it('Should return false for invalid input', () => {
+    assert.equal(hasAPairAppearingTwice('abcdefggfedcba'), false)
+  })
+  it('Should return true for valid input', () => {
+    assert.equal(hasAPairAppearingTwice('abab'), true)
+    assert.equal(hasAPairAppearingTwice('abefab'), true)
+    assert.equal(hasAPairAppearingTwice('xabefaby'), true)
+  })
+})
+
+describe('splitToPairs', () => {
+  it('Should split an empty string', () => {
+    const {remainingText, pairs} = splitToPairs('')
+    assert.deepEqual(pairs, [])
+    assert.equal(remainingText, '')
+  })
+  it('Should split an one letter string', () => {
+    const {remainingText, pairs} = splitToPairs('a')
+    assert.deepEqual(pairs, [])
+    assert.equal(remainingText, 'a')
+  })
+  it('Should split a two letter string', () => {
+    const {remainingText, pairs} = splitToPairs('ab')
+    assert.equal(remainingText, '')
+    assert.deepEqual(pairs, [
+      'ab'
+    ])
+  })
+  it('Should split a string', () => {
+    const {remainingText, pairs} = splitToPairs('abcde')
+    assert.equal(remainingText, '')
+    assert.deepEqual(pairs, [
+      'ab', 'bc', 'cd', 'de'
+    ])
   })
 })
