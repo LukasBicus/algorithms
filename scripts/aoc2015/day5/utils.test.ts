@@ -1,13 +1,15 @@
 import assert from "node:assert";
 import {describe, it} from "node:test";
-import {doesContainAbCdPqXy, doesContainALetterTwiceInRow, hasAllVowels} from "./utils";
+import {doesContainAbCdPqXy, doesContainALetterTwiceInRow, hasAtLeast3Vowels} from "./utils";
 
-describe('hasAllVowels', () => {
+describe('hasAtLeast3Vowels', () => {
   it('Should return false for a word without all vowels', () => {
-    assert.equal(hasAllVowels('uaei'), false)
+    assert.equal(hasAtLeast3Vowels('ua'), false)
+    assert.equal(hasAtLeast3Vowels('bnm ua rty'), false)
   })
   it('Should return true for a word with all vowels', () => {
-    assert.equal(hasAllVowels('uaeio'), true)
+    assert.equal(hasAtLeast3Vowels('uaei'), true)
+    assert.equal(hasAtLeast3Vowels('uaeio'), true)
   })
 })
 
