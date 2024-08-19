@@ -1,6 +1,6 @@
 import assert from "node:assert";
 import {describe, it} from "node:test";
-import {doesContainAbCdPqXy, hasAllVowels} from "./utils";
+import {doesContainAbCdPqXy, doesContainALetterTwiceInRow, hasAllVowels} from "./utils";
 
 describe('hasAllVowels', () => {
   it('Should return false for a word without all vowels', () => {
@@ -20,5 +20,16 @@ describe('doesContainAbCdPqXy', () => {
     assert.equal(doesContainAbCdPqXy('zxcvzxcv   cd'), true)
     assert.equal(doesContainAbCdPqXy('pq   zxcvzxcv'), true)
     assert.equal(doesContainAbCdPqXy('xy   zxcvzxcv'), true)
+  })
+})
+describe('doesContainALetterTwiceInRow', () => {
+  it('Should return false for invalid input', () => {
+    assert.equal(doesContainALetterTwiceInRow('acpxbdqy'), false)
+  })
+  it('Should return true for invalid input', () => {
+    assert.equal(doesContainALetterTwiceInRow('asdfasdf aa'), true)
+    assert.equal(doesContainALetterTwiceInRow('asdasdf bb sadfasdf'), true)
+    assert.equal(doesContainALetterTwiceInRow('cc asdfadsf asdfa'), true)
+    assert.equal(doesContainALetterTwiceInRow('aa bb cc'), true)
   })
 })
