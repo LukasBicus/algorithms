@@ -29,7 +29,7 @@
 // output: boolean
 
 // It contains at least three vowels (aeiou only), like aei, xazegov, or aeiouaeiouaeiou.
-// --> function
+// --> function hasAllVowels
 
 // It does not contain the strings ab, cd, pq, or xy, even if they are part of one of the other requirements.
 // -> regex
