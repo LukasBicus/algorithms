@@ -56,7 +56,6 @@ describe('has2SameLettersWith1BetweenThem', () => {
     assert.equal(has2SameLettersWith1BetweenThem('aasdfasdf aba'), true)
     assert.equal(has2SameLettersWith1BetweenThem('aba aasdfasdf '), true)
     assert.equal(has2SameLettersWith1BetweenThem('xcvbxcvbaba aasdfasdf '), true)
-
   })
 })
 
@@ -66,9 +65,11 @@ describe('hasAPairAppearingTwice', () => {
   })
   it('Should return true for valid input', () => {
     assert.equal(hasAPairAppearingTwice('abab'), true)
-    assert.equal(hasAPairAppearingTwice('aaa'), true)
     assert.equal(hasAPairAppearingTwice('abefab'), true)
     assert.equal(hasAPairAppearingTwice('xabefaby'), true)
+  })
+  it('Should not overlap', () => {
+    assert.equal(hasAPairAppearingTwice('aaa'), false)
   })
 })
 

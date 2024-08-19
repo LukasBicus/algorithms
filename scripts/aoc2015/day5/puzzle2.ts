@@ -66,7 +66,7 @@ function readFile(path: string, processLine: (line: string) => void): Promise<vo
   })
 }
 
-await readFile('./simpleInput2.txt', processLine).then(() => {
+await readFile('./input.txt', processLine).then(() => {
   console.log('Done!', niceStringsCount);
 })
 
