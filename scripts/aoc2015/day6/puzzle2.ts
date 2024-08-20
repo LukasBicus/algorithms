@@ -1,3 +1,4 @@
+
 import fs from "node:fs";
 import readline from "node:readline";
 
@@ -5,15 +6,15 @@ import readline from "node:readline";
 
 // a grid of lights
 // - each light will be looked by a position: [x, y] tupple
-// - each light can be in 2 states turned on/turned off
-// - starting position is turned off
+// - each light is an non-negative integer - intensity of light can be 0, 1, 2, ...
+// - starting position is 0
 
 export enum LightState {
   TurnedOff = 'turnedOff',
   TurnedOn = 'turnedOn',
 }
 
-const grid = new Map<string, LightState>()
+const grid = new Map<string, number>()
 
 export type Position = {
   x: number
@@ -25,10 +26,10 @@ export function getGridKey(pos: Position) {
 }
 
 // fill starting grid
-export function setupGrid(grid: Map<string, LightState>) {
+export function setupGrid(grid: Map<string, number>) {
   for (let i = 0; i < 1000; i++) {
     for (let j = 0; j < 1000; j++) {
-      grid.set(getGridKey({x: i, y: j}), LightState.TurnedOff)
+      grid.set(getGridKey({x: i, y: j}), 0)
     }
   }
 }
@@ -62,13 +63,14 @@ type Instruction = {
 }
 
 const instructionRegex = /(turn on|toggle|turn off) (\d+),(\d+) through (\d+),(\d+)/
-export function parseInstruction(instruction: string): Instruction | null{
+
+export function parseInstruction(instruction: string): Instruction | null {
 // turn on 0,0 through 999,999
 // toggle 0,0 through 999,0
 // turn off 499,499 through 500,500
 
 // <<action>> <<startX>>,<<startY>> through <<endX>>,<<endY>>
-  const match  = instruction.match(instructionRegex)
+  const match = instruction.match(instructionRegex)
   if (match) {
     return {
       action: match[1] as Action,
@@ -83,19 +85,25 @@ export function parseInstruction(instruction: string): Instruction | null{
 
 // perform action on position(s)
 
-export function performAction(grid: Map<string, LightState>, instruction: Instruction): Map<string, LightState> {
-  if ([Action.TurnOff, Action.TurnOn].includes(instruction.action)) {
-    for (let x = instruction.startX; x <= instruction.endX; x++) {
-      for (let y = instruction.startY; y <= instruction.endY; y++) {
-        grid.set(getGridKey({x, y}), instruction.action === Action.TurnOn ? LightState.TurnedOn: LightState.TurnedOff)
-      }
-    }
-  }
-  if (instruction.action === Action.Toggle) {
-    for (let x = instruction.startX; x <= instruction.endX; x++) {
-      for (let y = instruction.startY; y <= instruction.endY; y++) {
-        const key = getGridKey({x, y})
-        grid.set(key, grid.get(key) === LightState.TurnedOn ? LightState.TurnedOff: LightState.TurnedOn)
+export function performAction(grid: Map<string, number>, instruction: Instruction): Map<string, number> {
+  // todo:  change perform action
+  // on turn off, decrease intensity down to zero
+  // on turn on, increase intensity by one
+  // on toggle, increase intensity by two
+  for (let x = instruction.startX; x <= instruction.endX; x++) {
+    for (let y = instruction.startY; y <= instruction.endY; y++) {
+      const key = getGridKey({x, y})
+      const currentValue = grid.get(key) || 0
+      switch (instruction.action) {
+        case Action.TurnOff:
+          grid.set(key, currentValue < 1 ? 0 : currentValue - 1)
+          break;
+        case Action.TurnOn:
+          grid.set(key, currentValue + 1)
+          break;
+        case Action.Toggle:
+          grid.set(key, currentValue + 2)
+          break;
       }
     }
   }
@@ -112,7 +120,7 @@ function processLine(line: string) {
   if (instruction) {
     // console.log(instruction)
     performAction(grid, instruction)
-  }else {
+  } else {
     console.error(line)
   }
 }
@@ -136,16 +144,14 @@ function readFile(path: string, processLine: (line: string) => void): Promise<vo
 }
 
 readFile('./input.txt', processLine).then(() => {
-  let count = 0
+  let brightness = 0
   for (const value of grid.values()) {
-    if (value === LightState.TurnedOn) {
-      count++
-    }
+    brightness += value
   }
-  console.log('Done!', count)
+  console.log('Done!', brightness)
 })
 // read instructions one by one in a loop
 //    mutate grid based on instruction
 // once loop finishes, iterate grid and get count of turned on lights
 
-// question: how many lights are lit
+// question: What is the total brightness of all lights combined after following Santa's instructions?
