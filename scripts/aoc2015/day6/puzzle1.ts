@@ -23,6 +23,31 @@
 // - each light can be in 2 states turned on/turned off
 // - starting position is turned off
 
+export enum LightState {
+  TurnedOff = 'turnedOff',
+  TurnedOn = 'turnedOn',
+}
+
+const grid = new Map<string, LightState>()
+
+export type Position = {
+  x: number
+  y: number
+}
+
+function getGridKey(pos: Position) {
+  return `${pos.x}-${pos.y}`;
+}
+
+// fill starting grid
+function setupGrid() {
+  for (let i = 0; i < 1000; i++) {
+    for (let j = 0; j < 1000; j++) {
+      grid.set(getGridKey({x: i, y: j}), LightState.TurnedOff)
+    }
+  }
+}
+
 // instructions
 // examples:
 // turn on 0,0 through 999,999
@@ -31,7 +56,38 @@
 
 // <<action>> <<startX>>,<<startY>> through <<endX>>,<<endY>>
 
+
 // algorithm
+
+// utils
+// get data from instruction
+
+export enum Action {
+  TurnOn = 'turnOn',
+  TurnOff = 'turnOff',
+  Toggle = 'toggle'
+}
+
+type Instruction = {
+  action: Action
+  startX: number
+  startY: number
+  endX: number
+  endY: number
+}
+
+export function parseInstruction(instruction: string): Instruction {
+// turn on 0,0 through 999,999
+// toggle 0,0 through 999,0
+// turn off 499,499 through 500,500
+
+// <<action>> <<startX>>,<<startY>> through <<endX>>,<<endY>>
+  return null
+}
+
+// perform action on position(s)
+
+
 // define grid
 // read instructions one by one in a loop
 //    mutate grid based on instruction
