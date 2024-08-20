@@ -128,7 +128,7 @@ setupGrid(grid)
 function processLine(line: string) {
   const instruction = parseInstruction(line)
   if (instruction) {
-    console.log(instruction)
+    // console.log(instruction)
     performAction(grid, instruction)
   }else {
     console.error(line)
@@ -153,7 +153,7 @@ function readFile(path: string, processLine: (line: string) => void): Promise<vo
   })
 }
 
-readFile('./simpleInput.txt', processLine).then(() => {
+readFile('./input.txt', processLine).then(() => {
   let count = 0
   for (const value of grid.values()) {
     if (value === LightState.TurnedOn) {
