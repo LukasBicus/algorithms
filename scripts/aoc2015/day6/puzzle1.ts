@@ -15,6 +15,9 @@
  * turn off 499,499 through 500,500 would turn off (or leave off) the middle four lights.
  * After following the instructions, how many lights are lit?
  */
+import fs from "node:fs";
+import readline from "node:readline";
+import {doesContainAbCdPqXy, doesContainALetterTwiceInRow, hasAtLeast3Vowels} from "../day5/utils";
 
 // definitions
 
@@ -119,6 +122,46 @@ export function performAction(grid: Map<string, LightState>, instruction: Instru
 
 
 // define grid
+
+setupGrid(grid)
+
+function processLine(line: string) {
+  const instruction = parseInstruction(line)
+  if (instruction) {
+    console.log(instruction)
+    performAction(grid, instruction)
+  }else {
+    console.error(line)
+  }
+}
+
+function readFile(path: string, processLine: (line: string) => void): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const readStream = fs.createReadStream(path, {
+      encoding: 'utf8',
+      highWaterMark: 1024 // Adjust the buffer size if needed
+    });
+
+    const rl = readline.createInterface({
+      input: readStream,
+      crlfDelay: Infinity // Recognize all instances of CR LF ('\r\n') as a single line break
+    });
+
+    rl.on('line', processLine);
+
+    rl.on('close', resolve);
+  })
+}
+
+readFile('./simpleInput.txt', processLine).then(() => {
+  let count = 0
+  for (const value of grid.values()) {
+    if (value === LightState.TurnedOn) {
+      count++
+    }
+  }
+  console.log('Done!', count)
+})
 // read instructions one by one in a loop
 //    mutate grid based on instruction
 // once loop finishes, iterate grid and get count of turned on lights
