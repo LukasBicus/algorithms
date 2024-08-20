@@ -1,15 +1,17 @@
-import {readFileSync} from 'node:fs';
-
+import { readFileSync } from "node:fs";
 
 // file with navigation instructions
 const navigationInstructions = readFileSync("./input.txt", "utf8");
-const demoNavigationInstructions = readFileSync("./simplifiedInput.txt", "utf8");
+const demoNavigationInstructions = readFileSync(
+  "./simplifiedInput.txt",
+  "utf8",
+);
 // instruction up
-const UP = '('
+const UP = "(";
 // instruction down
-const DOWN = ')'
+const DOWN = ")";
 // current stage - starts with zero, ends with final stage
-let currentStage = 0
+let currentStage = 0;
 
 // read instruction one by one
 for (const instruction of navigationInstructions) {
@@ -22,7 +24,4 @@ for (const instruction of navigationInstructions) {
 }
 
 // echo final instruction at the end
-console.log('currentStage: ', currentStage);
-
-
-
+console.log("currentStage: ", currentStage);

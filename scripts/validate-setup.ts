@@ -1,1 +1,1 @@
-console.log('Everything went properly, happy coding!');
+console.log("Everything went properly, happy coding!");

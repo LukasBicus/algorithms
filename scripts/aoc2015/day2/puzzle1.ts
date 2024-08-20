@@ -1,29 +1,28 @@
 // read input file
 
-import {readFileSync} from "node:fs";
+import { readFileSync } from "node:fs";
 
 // const input = readFileSync('./simplifiedInput.txt', 'utf8');
-const input = readFileSync('./input.txt', 'utf8');
+const input = readFileSync("./input.txt", "utf8");
 
 // parse dimensions (l, w, h) for each line
 
-const captureLWH = /(\d+)x(\d+)x(\d+)/g
+const captureLWH = /(\d+)x(\d+)x(\d+)/g;
 
 // write regex to get iterator for getting  `lxwxh` groups
 const inputIterator = input.matchAll(captureLWH);
 
 // requiredPaper starts with 0, add all required paper in process
-let requiredPaper = 0
+let requiredPaper = 0;
 
 for (const match of inputIterator) {
-  const [, stringifiedW, stringifiedL, stringifiedH] = match
-  const w = parseFloat(stringifiedW)
-  const l = parseFloat(stringifiedL)
-  const h = parseFloat(stringifiedH)
-  console.log(w, l, h)
+  const [, stringifiedW, stringifiedL, stringifiedH] = match;
+  const w = parseFloat(stringifiedW);
+  const l = parseFloat(stringifiedL);
+  const h = parseFloat(stringifiedH);
+  // console.log(w, l, h)
   // loop add paper for one box
-  requiredPaper += getRequiredPaperForASingleBox(getSides(l, w, h))
-
+  requiredPaper += getRequiredPaperForASingleBox(getSides(l, w, h));
 }
 
 // get smallestSide(sides)
@@ -31,7 +30,7 @@ for (const match of inputIterator) {
 //   compare w with h, return w if smaller
 //   return h
 function getSmallestSide(sides: number[]) {
-  return Math.min(...sides)
+  return Math.min(...sides);
 }
 
 // create a function for required paper for single box
@@ -43,18 +42,17 @@ function getSmallestSide(sides: number[]) {
 
 function getSides(w: number, l: number, h: number) {
   return {
-    lw: l*w,
-    wh: w*h,
-    hl: l*h,
-  }
+    lw: l * w,
+    wh: w * h,
+    hl: l * h,
+  };
 }
-function getRequiredPaperForASingleBox({lw, hl, wh}: {
-  lw: number
-  wh: number
-  hl: number
+function getRequiredPaperForASingleBox({ lw, hl, wh }: {
+  lw: number;
+  wh: number;
+  hl: number;
 }) {
-  return 2 * (lw+ hl+ wh) + getSmallestSide([lw, hl, wh] )
+  return 2 * (lw + hl + wh) + getSmallestSide([lw, hl, wh]);
 }
 
-console.log('requiredPaper', requiredPaper)
-
+console.log("requiredPaper", requiredPaper);

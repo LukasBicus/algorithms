@@ -8,37 +8,30 @@
 // start:
 // puzzleAnswerInDecimal is 1
 
-import md5 from 'md5'
-import {startRegex1} from "./regexes";
+import md5 from "npm:md5";
+import { startRegex1 } from "./regexes.ts";
 
-let hashResult = ''
+let hashResult = "";
 // const puzzle = `abcdef`
 // let puzzleAnswerInDecimal = 609040
 // const puzzle = `pqrstuv`
 // let puzzleAnswerInDecimal = 1048965
 
-const puzzle = `bgvyzdsv`
-let puzzleAnswerInDecimal = 0
+const puzzle = `bgvyzdsv`;
+let puzzleAnswerInDecimal = 0;
 
-
-
-function hash(input: string): string {return md5(input)}
-
-
+function hash(input: string): string {
+  return md5(input);
+}
 
 do {
   puzzleAnswerInDecimal++;
   // find hash for key + puzzleAnswerInDecimal
-  hashResult = hash(`${puzzle}${puzzleAnswerInDecimal}`)
-// validate with regex, if it starts with `00000` followed by a digit
-// if it's true - you have found the answer
-} while(!startRegex1.test(hashResult))
+  hashResult = hash(`${puzzle}${puzzleAnswerInDecimal}`);
+  // validate with regex, if it starts with `00000` followed by a digit
+  // if it's true - you have found the answer
+} while (!startRegex1.test(hashResult));
 
-console.log(hashResult)
-console.log('puzzleAnswerInDecimal', puzzleAnswerInDecimal)
+console.log(hashResult);
+console.log("puzzleAnswerInDecimal", puzzleAnswerInDecimal);
 // for hash, find a library
-
-
-
-
-
