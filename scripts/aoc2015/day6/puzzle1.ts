@@ -35,12 +35,12 @@ export type Position = {
   y: number
 }
 
-function getGridKey(pos: Position) {
+export function getGridKey(pos: Position) {
   return `${pos.x}-${pos.y}`;
 }
 
 // fill starting grid
-function setupGrid() {
+export function setupGrid(grid: Map<string, LightState>) {
   for (let i = 0; i < 1000; i++) {
     for (let j = 0; j < 1000; j++) {
       grid.set(getGridKey({x: i, y: j}), LightState.TurnedOff)
@@ -85,7 +85,6 @@ export function parseInstruction(instruction: string): Instruction | null{
 // <<action>> <<startX>>,<<startY>> through <<endX>>,<<endY>>
   const match  = instruction.match(instructionRegex)
   if (match) {
-    console.log(match)
     return {
       action: match[1] as Action,
       startX: parseInt(match[2], 10),
@@ -98,6 +97,25 @@ export function parseInstruction(instruction: string): Instruction | null{
 }
 
 // perform action on position(s)
+
+export function performAction(grid: Map<string, LightState>, instruction: Instruction): Map<string, LightState> {
+  if ([Action.TurnOff, Action.TurnOn].includes(instruction.action)) {
+    for (let x = instruction.startX; x <= instruction.endX; x++) {
+      for (let y = instruction.startY; y <= instruction.endY; y++) {
+        grid.set(getGridKey({x, y}), instruction.action === Action.TurnOn ? LightState.TurnedOn: LightState.TurnedOff)
+      }
+    }
+  }
+  if (instruction.action === Action.Toggle) {
+    for (let x = instruction.startX; x <= instruction.endX; x++) {
+      for (let y = instruction.startY; y <= instruction.endY; y++) {
+        const key = getGridKey({x, y})
+        grid.set(key, grid.get(key) === LightState.TurnedOn ? LightState.TurnedOff: LightState.TurnedOn)
+      }
+    }
+  }
+  return grid
+}
 
 
 // define grid
