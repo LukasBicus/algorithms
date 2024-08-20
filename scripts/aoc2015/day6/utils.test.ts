@@ -12,18 +12,18 @@ describe('getDataFromInstruction', () => {
       endY: 999
     })
   })
-  it('get data from turn off instruction', () => {
+  it('get data from toggle instruction', {skip: false}, () => {
     assert.deepEqual(parseInstruction('toggle 0,0 through 999,0'), {
-      action: Action.TurnOff,
+      action: Action.Toggle,
       startX: 0,
       startY: 0,
       endX: 999,
       endY: 0
     })
   })
-  it('get data from turn toggle instruction', () => {
+  it('get data from turn off instruction', {skip: false}, () => {
     assert.deepEqual(parseInstruction('turn off 499,499 through 500,500'), {
-      action: Action.Toggle,
+      action: Action.TurnOff,
       startX: 499,
       startY: 499,
       endX: 500,

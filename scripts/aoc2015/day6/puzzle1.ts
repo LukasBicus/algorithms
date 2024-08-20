@@ -63,8 +63,8 @@ function setupGrid() {
 // get data from instruction
 
 export enum Action {
-  TurnOn = 'turnOn',
-  TurnOff = 'turnOff',
+  TurnOn = 'turn on',
+  TurnOff = 'turn off',
   Toggle = 'toggle'
 }
 
@@ -76,12 +76,24 @@ type Instruction = {
   endY: number
 }
 
-export function parseInstruction(instruction: string): Instruction {
+const instructionRegex = /(turn on|toggle|turn off) (\d+),(\d+) through (\d+),(\d+)/
+export function parseInstruction(instruction: string): Instruction | null{
 // turn on 0,0 through 999,999
 // toggle 0,0 through 999,0
 // turn off 499,499 through 500,500
 
 // <<action>> <<startX>>,<<startY>> through <<endX>>,<<endY>>
+  const match  = instruction.match(instructionRegex)
+  if (match) {
+    console.log(match)
+    return {
+      action: match[1] as Action,
+      startX: parseInt(match[2], 10),
+      startY: parseInt(match[3], 10),
+      endX: parseInt(match[4], 10),
+      endY: parseInt(match[5], 10),
+    }
+  }
   return null
 }
 
