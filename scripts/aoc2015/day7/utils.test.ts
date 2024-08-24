@@ -18,12 +18,20 @@ describe("parseSignalLine", () => {
       inputSignal: 123,
     });
   });
-  it("Should return a signal value for line with and gate", () => {
+  it("Should return a signal value for line with AND gate", () => {
     assertEquals(parseSignalLine("x AND y -> d"), {
       outputWire: "d",
       inputWireA: "x",
       inputWireB: "y",
       operator: GateOperator.And,
+    });
+  });
+  it("Should return a signal value for line with OR gate", () => {
+    assertEquals(parseSignalLine("x OR y -> d"), {
+      outputWire: "d",
+      inputWireA: "x",
+      inputWireB: "y",
+      operator: GateOperator.Or,
     });
   });
 });

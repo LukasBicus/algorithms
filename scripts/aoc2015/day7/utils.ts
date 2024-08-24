@@ -58,6 +58,7 @@ const operatorRegex = /(AND|OR|LSHIFT|RSHIFT|NOT)/;
 const signalGateRegex = /(\d+) -> ([a-z]+)/;
 // x AND y -> d
 const andGateRegex = /([a-z]+) AND ([a-z]+) -> ([a-z]+)/;
+const orGateRegex = /([a-z]+) OR ([a-z]+) -> ([a-z]+)/;
 
 export function parseSignalLine(line: string): LogicGate {
   const operatorMatch = line.match(operatorRegex);
@@ -78,6 +79,17 @@ export function parseSignalLine(line: string): LogicGate {
         // x AND y -> d
         return {
           operator: GateOperator.And,
+          inputWireA: match[1],
+          inputWireB: match[2],
+          outputWire: match[3],
+        } satisfies AndLogicGate;
+      }
+    } else if (operator === GateOperator.Or) {
+      const match = line.match(orGateRegex);
+      if (match) {
+        // x OR y -> d
+        return {
+          operator: GateOperator.Or,
           inputWireA: match[1],
           inputWireB: match[2],
           outputWire: match[3],
