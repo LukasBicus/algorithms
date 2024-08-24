@@ -16,3 +16,17 @@ Run example script in order to check your setup
 ```bash
 deno run ./scripts/validate-setup.ts
 ```
+
+## Tests
+
+In order to run tests, execute:
+
+```bash
+deno task test
+```
+
+In order to run tests in single folder, run in the folder
+
+```bash
+deno test **.test.ts --watch
+```
