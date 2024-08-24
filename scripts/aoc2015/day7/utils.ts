@@ -5,7 +5,7 @@ export enum GateOperator {
   And = "AND",
   Or = "OR",
   LShift = "LSHIFT",
-  Rshift = "RSHIFT",
+  RShift = "RSHIFT",
   Not = "NOT",
 }
 
@@ -62,6 +62,8 @@ const andGateRegex = /([a-z]+) AND ([a-z]+) -> ([a-z]+)/;
 const orGateRegex = /([a-z]+) OR ([a-z]+) -> ([a-z]+)/;
 // x LSHIFT 2 -> f
 const lShiftGateRegex = /([a-z]+) LSHIFT (\d+) -> ([a-z]+)/;
+// y RSHIFT 2 -> g
+const rShiftGateRegex = /([a-z]+) RSHIFT (\d+) -> ([a-z]+)/;
 
 export function parseSignalLine(line: string): LogicGate {
   const operatorMatch = line.match(operatorRegex);
@@ -109,9 +111,19 @@ export function parseSignalLine(line: string): LogicGate {
           outputWire: match[3],
         } satisfies LShiftLogicGate;
       }
+    } else if (operator === GateOperator.RShift) {
+      const match = line.match(rShiftGateRegex);
+      if (match) {
+        // y RSHIFT 2 -> g
+        return {
+          operator: GateOperator.RShift,
+          inputWire: match[1],
+          inputSignal: parseInt(match[2], 10),
+          outputWire: match[3],
+        } satisfies RShiftLogicGate;
+      }
     }
   }
-  // x LSHIFT 2 -> f
   // y RSHIFT 2 -> g
   // NOT x -> h
   throw new Error("Unknown signal line");

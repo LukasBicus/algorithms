@@ -42,4 +42,12 @@ describe("parseSignalLine", () => {
       operator: GateOperator.LShift,
     });
   });
+  it("Should return a signal value for line with RSHIFT gate", () => {
+    assertEquals(parseSignalLine("y RSHIFT 3 -> g"), {
+      outputWire: "g",
+      inputWire: "y",
+      inputSignal: 3,
+      operator: GateOperator.RShift,
+    });
+  });
 });
