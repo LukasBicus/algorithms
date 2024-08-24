@@ -1,6 +1,7 @@
 import { assertEquals, assertThrows } from "jsr:@std/assert@1";
 import { beforeAll, describe, it } from "@std/testing/bdd";
 import {
+  AndLogicGate,
   GateOperator,
   LogicGate,
   parseSignalLine,
@@ -102,7 +103,7 @@ describe("resolveSignalForWire", () => {
   it("Should return a signal value for line with signal gate", () => {
     const gate: SignalLogicGate = { outputWire: "b", inputSignal: 12 };
     gates.set(
-      "b",
+      gate.outputWire,
       gate,
     );
     assertEquals(
@@ -114,5 +115,29 @@ describe("resolveSignalForWire", () => {
       gate.inputSignal,
     );
     assertEquals(resolvedSignals.get(gate.outputWire), gate.inputSignal);
+  });
+
+  it("Should return a signal value for line with AND gate", () => {
+    const gate: AndLogicGate = {
+      outputWire: "c",
+      inputWireA: "d",
+      inputWireB: "e",
+      operator: GateOperator.And,
+    };
+    gates.set(
+      gate.outputWire,
+      gate,
+    );
+    resolvedSignals.set(gate.inputWireA, 3);
+    resolvedSignals.set(gate.inputWireB, 5);
+    assertEquals(
+      resolveSignalForWire({
+        resolvedSignals,
+        gates,
+        wire: gate.outputWire,
+      }),
+      3 & 5, //1
+    );
+    assertEquals(resolvedSignals.get(gate.outputWire), 3 & 5);
   });
 });
