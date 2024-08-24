@@ -40,7 +40,6 @@
 
  */
 
-
 // task - what is the signal of wire "a"
 
 // alghoritm
@@ -60,7 +59,6 @@
 //          - it will store resolved wire
 //          - it will compute signal with resolved signals on wires required for logicGate
 //          - it will return computed signal
-
 
 // required utils
 // function for parsing the signalLine
