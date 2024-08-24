@@ -18,31 +18,33 @@ export type SignalLogicGate = BaseLogicGate & {
   inputSignal: number;
 };
 
-type LogicGateWithOperator = BaseLogicGate & {
-  operator: GateOperator;
-};
 // x AND y -> d
-export type AndLogicGate = LogicGateWithOperator & {
+export type AndLogicGate = BaseLogicGate & {
+  operator: GateOperator.And;
   inputWireA: string;
   inputWireB: string;
 };
 // x OR y -> e
-export type OrLogicGate = LogicGateWithOperator & {
+export type OrLogicGate = BaseLogicGate & {
+  operator: GateOperator.Or;
   inputWireA: string;
   inputWireB: string;
 };
 // x LSHIFT 2 -> f
-export type LShiftLogicGate = LogicGateWithOperator & {
+export type LShiftLogicGate = BaseLogicGate & {
+  operator: GateOperator.LShift;
   inputWire: string;
   inputSignal: number;
 };
 // y RSHIFT 2 -> g
-export type RShiftLogicGate = LogicGateWithOperator & {
+export type RShiftLogicGate = BaseLogicGate & {
+  operator: GateOperator.RShift;
   inputWire: string;
   inputSignal: number;
 };
 // NOT x -> h
-export type NotLogicGate = LogicGateWithOperator & {
+export type NotLogicGate = BaseLogicGate & {
+  operator: GateOperator.Not;
   inputWire: string;
 };
 
@@ -147,11 +149,6 @@ function isSignalGate(gate: LogicGate): gate is SignalLogicGate {
   return !(gate as { operator?: GateOperator }).operator;
 }
 
-// - case 3: if its another logicGate:
-//          - it will recursively call resolveSignalForWire with required wire
-//          - it will store resolved wire
-//          - it will compute signal with resolved signals on wires required for logicGate
-//          - it will return computed signal
 export function resolveSignalForWire({
   wire,
   resolvedSignals,
@@ -178,6 +175,30 @@ export function resolveSignalForWire({
       resolvedSignals.set(wire, gate.inputSignal);
       return gate.inputSignal;
     }
+
+    const { operator } = gate;
+
+    if (operator === GateOperator.And) {
+      const wireASignal = resolveSignalForWire({
+        resolvedSignals,
+        gates,
+        wire: gate.inputWireA,
+      });
+      const wireBSignal = resolveSignalForWire({
+        resolvedSignals,
+        gates,
+        wire: gate.inputWireB,
+      });
+      const resolvedSignal = wireASignal & wireBSignal;
+      resolvedSignals.set(wire, resolvedSignal);
+      return resolvedSignal;
+    }
+
+    // - case 3: if its another logicGate:
+    //          - it will recursively call resolveSignalForWire with required wire
+    //          - it will store resolved wire
+    //          - it will compute signal with resolved signals on wires required for logicGate
+    //          - it will return computed signal
   }
   throw new Error("Unable to resolve signal for wire");
 }
