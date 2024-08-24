@@ -1,7 +1,7 @@
 // required utils
 // function for parsing the signalLine
 
-enum GateOperator {
+export enum GateOperator {
   And = "AND",
   Or = "OR",
   Lshift = "LSHIFT",
@@ -56,20 +56,35 @@ export type LogicGate =
 
 const operatorRegex = /(AND|OR|LSHIFT|RSHIFT|NOT)/;
 const signalGateRegex = /(\d+) -> ([a-z]+)/;
+// x AND y -> d
+const andGateRegex = /([a-z]+) AND ([a-z]+) -> ([a-z]+)/;
 
 export function parseSignalLine(line: string): LogicGate {
-  const operator = line.match(operatorRegex);
+  const operatorMatch = line.match(operatorRegex);
   // parsing "123 -> x"
-  if (!operator) {
-    const result = line.match(signalGateRegex);
-    if (result) {
+  if (!operatorMatch) {
+    const match = line.match(signalGateRegex);
+    if (match) {
       return {
-        inputSignal: parseInt(result[1], 10),
-        outputWire: result[2],
+        inputSignal: parseInt(match[1], 10),
+        outputWire: match[2],
       } satisfies SignalLogicGate;
     }
+  } else {
+    const operator = operatorMatch[1] as GateOperator;
+    if (operator === GateOperator.And) {
+      const match = line.match(andGateRegex);
+      if (match) {
+        // x AND y -> d
+        return {
+          operator: GateOperator.And,
+          inputWireA: match[1],
+          inputWireB: match[2],
+          outputWire: match[3],
+        } satisfies AndLogicGate;
+      }
+    }
   }
-  // x AND y -> d
   // x OR y -> e
   // x LSHIFT 2 -> f
   // y RSHIFT 2 -> g

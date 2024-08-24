@@ -1,14 +1,8 @@
 import { assertEquals, assertThrows } from "jsr:@std/assert@1";
 import { describe, it } from "@std/testing/bdd";
-import { parseSignalLine } from "./utils.ts";
+import { GateOperator, parseSignalLine } from "./utils.ts";
 
 describe("parseSignalLine", () => {
-  it("Should return a signal value for line with signal gate", () => {
-    assertEquals(parseSignalLine("123 -> x"), {
-      outputWire: "x",
-      inputSignal: 123,
-    });
-  });
   it("Should throw for unknown signal line", () => {
     assertThrows(
       () => {
@@ -17,5 +11,19 @@ describe("parseSignalLine", () => {
       Error,
       "Unknown signal line",
     );
+  });
+  it("Should return a signal value for line with signal gate", () => {
+    assertEquals(parseSignalLine("123 -> x"), {
+      outputWire: "x",
+      inputSignal: 123,
+    });
+  });
+  it("Should return a signal value for line with and gate", () => {
+    assertEquals(parseSignalLine("x AND y -> d"), {
+      outputWire: "d",
+      inputWireA: "x",
+      inputWireB: "y",
+      operator: GateOperator.And,
+    });
   });
 });
