@@ -50,4 +50,11 @@ describe("parseSignalLine", () => {
       operator: GateOperator.RShift,
     });
   });
+  it("Should return a signal value for line with NOT gate", () => {
+    assertEquals(parseSignalLine("NOT x -> h"), {
+      outputWire: "h",
+      inputWire: "x",
+      operator: GateOperator.Not,
+    });
+  });
 });

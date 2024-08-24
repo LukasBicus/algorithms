@@ -64,6 +64,8 @@ const orGateRegex = /([a-z]+) OR ([a-z]+) -> ([a-z]+)/;
 const lShiftGateRegex = /([a-z]+) LSHIFT (\d+) -> ([a-z]+)/;
 // y RSHIFT 2 -> g
 const rShiftGateRegex = /([a-z]+) RSHIFT (\d+) -> ([a-z]+)/;
+// NOT x -> h
+const notGateRegex = /NOT ([a-z]+) -> ([a-z]+)/;
 
 export function parseSignalLine(line: string): LogicGate {
   const operatorMatch = line.match(operatorRegex);
@@ -122,10 +124,18 @@ export function parseSignalLine(line: string): LogicGate {
           outputWire: match[3],
         } satisfies RShiftLogicGate;
       }
+    } else if (operator === GateOperator.Not) {
+      const match = line.match(notGateRegex);
+      if (match) {
+        // NOT x -> h
+        return {
+          operator,
+          inputWire: match[1],
+          outputWire: match[2],
+        } satisfies NotLogicGate;
+      }
     }
   }
-  // y RSHIFT 2 -> g
-  // NOT x -> h
   throw new Error("Unknown signal line");
 }
 
