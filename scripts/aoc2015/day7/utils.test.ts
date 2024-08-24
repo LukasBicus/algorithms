@@ -5,6 +5,7 @@ import {
   LogicGate,
   parseSignalLine,
   resolveSignalForWire,
+  SignalLogicGate,
 } from "./utils.ts";
 
 describe.skip("parseSignalLine", () => {
@@ -96,5 +97,22 @@ describe("resolveSignalForWire", () => {
       }),
       10,
     );
+  });
+
+  it("Should return a signal value for line with signal gate", () => {
+    const gate: SignalLogicGate = { outputWire: "b", inputSignal: 12 };
+    gates.set(
+      "b",
+      gate,
+    );
+    assertEquals(
+      resolveSignalForWire({
+        resolvedSignals,
+        gates,
+        wire: gate.outputWire,
+      }),
+      gate.inputSignal,
+    );
+    assertEquals(resolvedSignals.get(gate.outputWire), gate.inputSignal);
   });
 });

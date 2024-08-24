@@ -14,7 +14,7 @@ type BaseLogicGate = {
 };
 
 // 123 -> x
-type SignalLogicGate = BaseLogicGate & {
+export type SignalLogicGate = BaseLogicGate & {
   inputSignal: number;
 };
 
@@ -22,27 +22,27 @@ type LogicGateWithOperator = BaseLogicGate & {
   operator: GateOperator;
 };
 // x AND y -> d
-type AndLogicGate = LogicGateWithOperator & {
+export type AndLogicGate = LogicGateWithOperator & {
   inputWireA: string;
   inputWireB: string;
 };
 // x OR y -> e
-type OrLogicGate = LogicGateWithOperator & {
+export type OrLogicGate = LogicGateWithOperator & {
   inputWireA: string;
   inputWireB: string;
 };
 // x LSHIFT 2 -> f
-type LShiftLogicGate = LogicGateWithOperator & {
+export type LShiftLogicGate = LogicGateWithOperator & {
   inputWire: string;
   inputSignal: number;
 };
 // y RSHIFT 2 -> g
-type RShiftLogicGate = LogicGateWithOperator & {
+export type RShiftLogicGate = LogicGateWithOperator & {
   inputWire: string;
   inputSignal: number;
 };
 // NOT x -> h
-type NotLogicGate = LogicGateWithOperator & {
+export type NotLogicGate = LogicGateWithOperator & {
   inputWire: string;
 };
 
@@ -142,7 +142,11 @@ export function parseSignalLine(line: string): LogicGate {
 // recursive function: resolveSignalForWire
 
 // resolveSignalForWire - recursive function, that will findLogic gate for a wire
-// - base case2: it will resolves signal for wire, if it's simple signalLogicGate + it will store the signal in `resolvedSignals` map
+
+function isSignalGate(gate: LogicGate): gate is SignalLogicGate {
+  return !(gate as { operator?: GateOperator }).operator;
+}
+
 // - case 3: if its another logicGate:
 //          - it will recursively call resolveSignalForWire with required wire
 //          - it will store resolved wire
@@ -151,6 +155,7 @@ export function parseSignalLine(line: string): LogicGate {
 export function resolveSignalForWire({
   wire,
   resolvedSignals,
+  gates,
 }: {
   resolvedSignals: Map<string, number>;
   gates: Map<string, LogicGate>;
@@ -163,6 +168,15 @@ export function resolveSignalForWire({
       return signal;
     } else {
       throw new Error("Undefined signal is stored in map!");
+    }
+  }
+  const gate = gates.get(wire);
+  if (gate) {
+    if (isSignalGate(gate)) {
+      // - base case2: it will resolves signal for wire, if it's simple signalLogicGate
+      // + it will store the signal in `resolvedSignals` map
+      resolvedSignals.set(wire, gate.inputSignal);
+      return gate.inputSignal;
     }
   }
   throw new Error("Unable to resolve signal for wire");
