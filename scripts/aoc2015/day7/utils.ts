@@ -54,7 +54,26 @@ export type LogicGate =
   | RShiftLogicGate
   | NotLogicGate;
 
+const operatorRegex = /(AND|OR|LSHIFT|RSHIFT|NOT)/;
+const signalGateRegex = /(\d+) -> ([a-z]+)/;
+
 export function parseSignalLine(line: string): LogicGate {
+  const operator = line.match(operatorRegex);
+  // parsing "123 -> x"
+  if (!operator) {
+    const result = line.match(signalGateRegex);
+    if (result) {
+      return {
+        inputSignal: parseInt(result[1], 10),
+        outputWire: result[2],
+      } satisfies SignalLogicGate;
+    }
+  }
+  // x AND y -> d
+  // x OR y -> e
+  // x LSHIFT 2 -> f
+  // y RSHIFT 2 -> g
+  // NOT x -> h
   throw new Error("Unknown signal line");
 }
 
