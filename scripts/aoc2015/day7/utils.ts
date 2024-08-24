@@ -4,7 +4,7 @@
 export enum GateOperator {
   And = "AND",
   Or = "OR",
-  Lshift = "LSHIFT",
+  LShift = "LSHIFT",
   Rshift = "RSHIFT",
   Not = "NOT",
 }
@@ -58,7 +58,10 @@ const operatorRegex = /(AND|OR|LSHIFT|RSHIFT|NOT)/;
 const signalGateRegex = /(\d+) -> ([a-z]+)/;
 // x AND y -> d
 const andGateRegex = /([a-z]+) AND ([a-z]+) -> ([a-z]+)/;
+// x OR y -> d
 const orGateRegex = /([a-z]+) OR ([a-z]+) -> ([a-z]+)/;
+// x LSHIFT 2 -> f
+const lShiftGateRegex = /([a-z]+) LSHIFT (\d+) -> ([a-z]+)/;
 
 export function parseSignalLine(line: string): LogicGate {
   const operatorMatch = line.match(operatorRegex);
@@ -93,11 +96,21 @@ export function parseSignalLine(line: string): LogicGate {
           inputWireA: match[1],
           inputWireB: match[2],
           outputWire: match[3],
-        } satisfies AndLogicGate;
+        } satisfies OrLogicGate;
+      }
+    } else if (operator === GateOperator.LShift) {
+      const match = line.match(lShiftGateRegex);
+      if (match) {
+        // x LSHIFT 2 -> f
+        return {
+          operator: GateOperator.LShift,
+          inputWire: match[1],
+          inputSignal: parseInt(match[2], 10),
+          outputWire: match[3],
+        } satisfies LShiftLogicGate;
       }
     }
   }
-  // x OR y -> e
   // x LSHIFT 2 -> f
   // y RSHIFT 2 -> g
   // NOT x -> h
