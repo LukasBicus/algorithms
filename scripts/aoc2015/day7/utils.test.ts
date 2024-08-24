@@ -84,4 +84,17 @@ describe("resolveSignalForWire", () => {
       "Unable to resolve signal for wire",
     );
   });
+
+  it("Should return a signal value of already known signal", () => {
+    resolvedSignals.set("a", 10);
+
+    assertEquals(
+      resolveSignalForWire({
+        resolvedSignals,
+        gates,
+        wire: "a",
+      }),
+      10,
+    );
+  });
 });
