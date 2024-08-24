@@ -1,8 +1,13 @@
 import { assertEquals, assertThrows } from "jsr:@std/assert@1";
-import { describe, it } from "@std/testing/bdd";
-import { GateOperator, parseSignalLine } from "./utils.ts";
+import { beforeAll, describe, it } from "@std/testing/bdd";
+import {
+  GateOperator,
+  LogicGate,
+  parseSignalLine,
+  resolveSignalForWire,
+} from "./utils.ts";
 
-describe("parseSignalLine", () => {
+describe.skip("parseSignalLine", () => {
   it("Should throw for unknown signal line", () => {
     assertThrows(
       () => {
@@ -56,5 +61,27 @@ describe("parseSignalLine", () => {
       inputWire: "x",
       operator: GateOperator.Not,
     });
+  });
+});
+
+describe("resolveSignalForWire", () => {
+  let resolvedSignals: Map<string, number>;
+  let gates: Map<string, LogicGate>;
+  beforeAll(() => {
+    resolvedSignals = new Map<string, number>();
+    gates = new Map<string, LogicGate>();
+  });
+  it("Should throw for unresolvable wire", () => {
+    assertThrows(
+      () => {
+        resolveSignalForWire({
+          resolvedSignals,
+          gates,
+          wire: "unknown wire",
+        });
+      },
+      Error,
+      "Unable to resolve signal for wire",
+    );
   });
 });

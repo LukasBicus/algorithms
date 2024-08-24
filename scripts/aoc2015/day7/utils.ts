@@ -139,5 +139,20 @@ export function parseSignalLine(line: string): LogicGate {
   throw new Error("Unknown signal line");
 }
 
-// function for resolvingSignalForLogicGate
 // recursive function: resolveSignalForWire
+
+// resolveSignalForWire - recursive function, that will findLogic gate for a wire
+// - base case1: it will get signal for wire, if it's already defined
+// - base case2: it will resolves signal for wire, if it's simple signalLogicGate + it will store the signal in `resolvedSignals` map
+// - case 3: if its another logicGate:
+//          - it will recursively call resolveSignalForWire with required wire
+//          - it will store resolved wire
+//          - it will compute signal with resolved signals on wires required for logicGate
+//          - it will return computed signal
+export function resolveSignalForWire({}: {
+  resolvedSignals: Map<string, number>;
+  gates: Map<string, LogicGate>;
+  wire: string;
+}): number {
+  throw new Error("Unable to resolve signal for wire");
+}
