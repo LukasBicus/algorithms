@@ -4,6 +4,7 @@ import {
   AndLogicGate,
   GateOperator,
   LogicGate,
+  NotLogicGate,
   OrLogicGate,
   parseSignalLine,
   resolveSignalForWire,
@@ -164,5 +165,27 @@ describe("resolveSignalForWire", () => {
       3 | 5, // 7
     );
     assertEquals(resolvedSignals.get(gate.outputWire), 3 | 5);
+  });
+
+  it("Should return a signal value for line with Not gate", () => {
+    const gate: NotLogicGate = {
+      outputWire: "i",
+      inputWire: "j",
+      operator: GateOperator.Not,
+    };
+    gates.set(
+      gate.outputWire,
+      gate,
+    );
+    resolvedSignals.set(gate.inputWire, 5);
+    assertEquals(
+      resolveSignalForWire({
+        resolvedSignals,
+        gates,
+        wire: gate.outputWire,
+      }),
+      ~5, // -6
+    );
+    assertEquals(resolvedSignals.get(gate.outputWire), ~5);
   });
 });
