@@ -4,10 +4,12 @@ import {
   AndLogicGate,
   GateOperator,
   LogicGate,
+  LShiftLogicGate,
   NotLogicGate,
   OrLogicGate,
   parseSignalLine,
   resolveSignalForWire,
+  RShiftLogicGate,
   SignalLogicGate,
 } from "./utils.ts";
 
@@ -25,6 +27,7 @@ describe.skip("parseSignalLine", () => {
     assertEquals(parseSignalLine("123 -> x"), {
       outputWire: "x",
       inputSignal: 123,
+      operator: null,
     });
   });
   it("Should return a signal value for line with AND gate", () => {
@@ -103,7 +106,11 @@ describe("resolveSignalForWire", () => {
   });
 
   it("Should return a signal value for line with signal gate", () => {
-    const gate: SignalLogicGate = { outputWire: "b", inputSignal: 12 };
+    const gate: SignalLogicGate = {
+      outputWire: "b",
+      inputSignal: 12,
+      operator: null,
+    };
     gates.set(
       gate.outputWire,
       gate,
@@ -167,7 +174,7 @@ describe("resolveSignalForWire", () => {
     assertEquals(resolvedSignals.get(gate.outputWire), 3 | 5);
   });
 
-  it("Should return a signal value for line with Not gate", () => {
+  it("Should return a signal value for line with NOT gate", () => {
     const gate: NotLogicGate = {
       outputWire: "i",
       inputWire: "j",
@@ -187,5 +194,51 @@ describe("resolveSignalForWire", () => {
       ~5, // -6
     );
     assertEquals(resolvedSignals.get(gate.outputWire), ~5);
+  });
+
+  it("Should return a signal value for line with LSHIFT gate", () => {
+    const gate: LShiftLogicGate = {
+      outputWire: "k",
+      inputWire: "l",
+      inputSignal: 2,
+      operator: GateOperator.LShift,
+    };
+    gates.set(
+      gate.outputWire,
+      gate,
+    );
+    resolvedSignals.set(gate.inputWire, 5);
+    assertEquals(
+      resolveSignalForWire({
+        resolvedSignals,
+        gates,
+        wire: gate.outputWire,
+      }),
+      5 << 2, // 20
+    );
+    assertEquals(resolvedSignals.get(gate.outputWire), 5 << 2);
+  });
+
+  it("Should return a signal value for line with RSHIFT gate", () => {
+    const gate: RShiftLogicGate = {
+      outputWire: "m",
+      inputWire: "n",
+      inputSignal: 2,
+      operator: GateOperator.RShift,
+    };
+    gates.set(
+      gate.outputWire,
+      gate,
+    );
+    resolvedSignals.set(gate.inputWire, 5);
+    assertEquals(
+      resolveSignalForWire({
+        resolvedSignals,
+        gates,
+        wire: gate.outputWire,
+      }),
+      5 >> 2, // 1
+    );
+    assertEquals(resolvedSignals.get(gate.outputWire), 5 >> 2);
   });
 });

@@ -16,6 +16,7 @@ type BaseLogicGate = {
 // 123 -> x
 export type SignalLogicGate = BaseLogicGate & {
   inputSignal: number;
+  operator: null;
 };
 
 // x AND y -> d
@@ -78,6 +79,7 @@ export function parseSignalLine(line: string): LogicGate {
       return {
         inputSignal: parseInt(match[1], 10),
         outputWire: match[2],
+        operator: null,
       } satisfies SignalLogicGate;
     }
   } else {
@@ -145,10 +147,6 @@ export function parseSignalLine(line: string): LogicGate {
 
 // resolveSignalForWire - recursive function, that will findLogic gate for a wire
 
-function isSignalGate(gate: LogicGate): gate is SignalLogicGate {
-  return !(gate as { operator?: GateOperator }).operator;
-}
-
 export function resolveSignalForWire({
   wire,
   resolvedSignals,
@@ -169,14 +167,19 @@ export function resolveSignalForWire({
   }
   const gate = gates.get(wire);
   if (gate) {
-    if (isSignalGate(gate)) {
+    const { operator } = gate;
+    if (operator === null) {
       // - base case2: it will resolves signal for wire, if it's simple signalLogicGate
       // + it will store the signal in `resolvedSignals` map
       resolvedSignals.set(wire, gate.inputSignal);
       return gate.inputSignal;
     }
 
-    const { operator } = gate;
+    // - case 3: if its another logicGate:
+    //          - it will recursively call resolveSignalForWire with required wire
+    //          - it will store resolved wire
+    //          - it will compute signal with resolved signals on wires required for logicGate
+    //          - it will return computed signal
 
     if (operator === GateOperator.And) {
       const wireASignal = resolveSignalForWire({
@@ -221,11 +224,27 @@ export function resolveSignalForWire({
       return resolvedSignal;
     }
 
-    // - case 3: if its another logicGate:
-    //          - it will recursively call resolveSignalForWire with required wire
-    //          - it will store resolved wire
-    //          - it will compute signal with resolved signals on wires required for logicGate
-    //          - it will return computed signal
+    if (operator === GateOperator.LShift) {
+      const inputWireSignal = resolveSignalForWire({
+        resolvedSignals,
+        gates,
+        wire: gate.inputWire,
+      });
+      const resolvedSignal = inputWireSignal << gate.inputSignal;
+      resolvedSignals.set(wire, resolvedSignal);
+      return resolvedSignal;
+    }
+
+    if (operator === GateOperator.RShift) {
+      const inputWireSignal = resolveSignalForWire({
+        resolvedSignals,
+        gates,
+        wire: gate.inputWire,
+      });
+      const resolvedSignal = inputWireSignal >> gate.inputSignal;
+      resolvedSignals.set(wire, resolvedSignal);
+      return resolvedSignal;
+    }
   }
   throw new Error("Unable to resolve signal for wire");
 }
