@@ -194,6 +194,22 @@ export function resolveSignalForWire({
       return resolvedSignal;
     }
 
+    if (operator === GateOperator.Or) {
+      const wireASignal = resolveSignalForWire({
+        resolvedSignals,
+        gates,
+        wire: gate.inputWireA,
+      });
+      const wireBSignal = resolveSignalForWire({
+        resolvedSignals,
+        gates,
+        wire: gate.inputWireB,
+      });
+      const resolvedSignal = wireASignal | wireBSignal;
+      resolvedSignals.set(wire, resolvedSignal);
+      return resolvedSignal;
+    }
+
     // - case 3: if its another logicGate:
     //          - it will recursively call resolveSignalForWire with required wire
     //          - it will store resolved wire
