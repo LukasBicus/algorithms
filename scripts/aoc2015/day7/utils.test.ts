@@ -2,6 +2,7 @@ import { assertEquals, assertThrows } from "jsr:@std/assert@1";
 import { beforeAll, describe, it } from "@std/testing/bdd";
 import {
   AndLogicGate,
+  AndLogicGateWithInputSignal,
   GateOperator,
   LogicGate,
   LShiftLogicGate,
@@ -13,7 +14,7 @@ import {
   SignalLogicGate,
 } from "./utils.ts";
 
-describe.skip("parseSignalLine", () => {
+describe("parseSignalLine", () => {
   it("Should throw for unknown signal line", () => {
     assertThrows(
       () => {
@@ -35,6 +36,14 @@ describe.skip("parseSignalLine", () => {
       outputWire: "d",
       inputWireA: "x",
       inputWireB: "y",
+      operator: GateOperator.And,
+    });
+  });
+  it("Should return a signal value for line with AND gate with input signal", () => {
+    assertEquals(parseSignalLine("1 AND y -> d"), {
+      outputWire: "d",
+      inputSignal: 1,
+      inputWire: "y",
       operator: GateOperator.And,
     });
   });
@@ -148,6 +157,29 @@ describe("resolveSignalForWire", () => {
       3 & 5, //1
     );
     assertEquals(resolvedSignals.get(gate.outputWire), 3 & 5);
+  });
+
+  it("Should return a signal value for line with AND gate with input signal", () => {
+    const gate: AndLogicGateWithInputSignal = {
+      outputWire: "cx",
+      inputWire: "dx",
+      inputSignal: 1,
+      operator: GateOperator.And,
+    };
+    gates.set(
+      gate.outputWire,
+      gate,
+    );
+    resolvedSignals.set(gate.inputWire, 3);
+    assertEquals(
+      resolveSignalForWire({
+        resolvedSignals,
+        gates,
+        wire: gate.outputWire,
+      }),
+      3 & 1,
+    );
+    assertEquals(resolvedSignals.get(gate.outputWire), 3 & 1);
   });
 
   it("Should return a signal value for line with OR gate", () => {

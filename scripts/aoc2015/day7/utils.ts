@@ -25,6 +25,12 @@ export type AndLogicGate = BaseLogicGate & {
   inputWireA: string;
   inputWireB: string;
 };
+// 1 AND ht -> hu
+export type AndLogicGateWithInputSignal = BaseLogicGate & {
+  operator: GateOperator.And;
+  inputWire: string;
+  inputSignal: number;
+};
 // x OR y -> e
 export type OrLogicGate = BaseLogicGate & {
   operator: GateOperator.Or;
@@ -52,6 +58,7 @@ export type NotLogicGate = BaseLogicGate & {
 export type LogicGate =
   | SignalLogicGate
   | AndLogicGate
+  | AndLogicGateWithInputSignal
   | OrLogicGate
   | LShiftLogicGate
   | RShiftLogicGate
@@ -61,6 +68,8 @@ const operatorRegex = /(AND|OR|LSHIFT|RSHIFT|NOT)/;
 const signalGateRegex = /(\d+) -> ([a-z]+)/;
 // x AND y -> d
 const andGateRegex = /([a-z]+) AND ([a-z]+) -> ([a-z]+)/;
+// 1 AND ht -> hu
+const andWithSignalGateRegex = /(\d+) AND ([a-z]+) -> ([a-z]+)/;
 // x OR y -> d
 const orGateRegex = /([a-z]+) OR ([a-z]+) -> ([a-z]+)/;
 // x LSHIFT 2 -> f
@@ -94,6 +103,17 @@ export function parseSignalLine(line: string): LogicGate {
           inputWireB: match[2],
           outputWire: match[3],
         } satisfies AndLogicGate;
+      } else {
+        const match2 = line.match(andWithSignalGateRegex);
+        if (match2) {
+          // 1 AND y -> d
+          return {
+            operator: GateOperator.And,
+            inputSignal: parseInt(match2[1], 10),
+            inputWire: match2[2],
+            outputWire: match2[3],
+          } satisfies AndLogicGateWithInputSignal;
+        }
       }
     } else if (operator === GateOperator.Or) {
       const match = line.match(orGateRegex);
@@ -143,6 +163,13 @@ export function parseSignalLine(line: string): LogicGate {
   throw new Error("Unknown signal line: " + line);
 }
 
+function isAndGateWithInputSignal(
+  gate: AndLogicGateWithInputSignal | AndLogicGate,
+): gate is AndLogicGateWithInputSignal {
+  // noinspection SuspiciousTypeOfGuard
+  return typeof (gate as AndLogicGateWithInputSignal).inputSignal === "number";
+}
+
 // recursive function: resolveSignalForWire
 
 // resolveSignalForWire - recursive function, that will findLogic gate for a wire
@@ -182,19 +209,30 @@ export function resolveSignalForWire({
     //          - it will return computed signal
 
     if (operator === GateOperator.And) {
-      const wireASignal = resolveSignalForWire({
-        resolvedSignals,
-        gates,
-        wire: gate.inputWireA,
-      });
-      const wireBSignal = resolveSignalForWire({
-        resolvedSignals,
-        gates,
-        wire: gate.inputWireB,
-      });
-      const resolvedSignal = wireASignal & wireBSignal;
-      resolvedSignals.set(wire, resolvedSignal);
-      return resolvedSignal;
+      if (!isAndGateWithInputSignal(gate)) {
+        const wireASignal = resolveSignalForWire({
+          resolvedSignals,
+          gates,
+          wire: gate.inputWireA,
+        });
+        const wireBSignal = resolveSignalForWire({
+          resolvedSignals,
+          gates,
+          wire: gate.inputWireB,
+        });
+        const resolvedSignal = wireASignal & wireBSignal;
+        resolvedSignals.set(wire, resolvedSignal);
+        return resolvedSignal;
+      } else {
+        const inputWireSignal = resolveSignalForWire({
+          resolvedSignals,
+          gates,
+          wire: gate.inputWire,
+        });
+        const resolvedSignal = inputWireSignal & gate.inputSignal;
+        resolvedSignals.set(wire, resolvedSignal);
+        return resolvedSignal;
+      }
     }
 
     if (operator === GateOperator.Or) {
