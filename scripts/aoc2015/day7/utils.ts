@@ -18,6 +18,11 @@ export type SignalLogicGate = BaseLogicGate & {
   inputSignal: number;
   operator: null;
 };
+// xx -> x
+export type SignalLogicGateWith2Wires = BaseLogicGate & {
+  inputWire: string;
+  operator: null;
+};
 
 // x AND y -> d
 export type AndLogicGate = BaseLogicGate & {
@@ -57,6 +62,7 @@ export type NotLogicGate = BaseLogicGate & {
 
 export type LogicGate =
   | SignalLogicGate
+  | SignalLogicGateWith2Wires
   | AndLogicGate
   | AndLogicGateWithInputSignal
   | OrLogicGate
@@ -65,7 +71,10 @@ export type LogicGate =
   | NotLogicGate;
 
 const operatorRegex = /(AND|OR|LSHIFT|RSHIFT|NOT)/;
+// 3 -> y
 const signalGateRegex = /(\d+) -> ([a-z]+)/;
+// x -> y
+const signalGateWithInputWireRegex = /([a-z]+) -> ([a-z]+)/;
 // x AND y -> d
 const andGateRegex = /([a-z]+) AND ([a-z]+) -> ([a-z]+)/;
 // 1 AND ht -> hu
@@ -90,6 +99,15 @@ export function parseSignalLine(line: string): LogicGate {
         outputWire: match[2],
         operator: null,
       } satisfies SignalLogicGate;
+    } else {
+      const match2 = line.match(signalGateWithInputWireRegex);
+      if (match2) {
+        return {
+          inputWire: match2[1],
+          outputWire: match2[2],
+          operator: null,
+        } satisfies SignalLogicGateWith2Wires;
+      }
     }
   } else {
     const operator = operatorMatch[1] as GateOperator;
@@ -170,6 +188,13 @@ function isAndGateWithInputSignal(
   return typeof (gate as AndLogicGateWithInputSignal).inputSignal === "number";
 }
 
+function isSignalGateWithInputWire(
+  gate: SignalLogicGateWith2Wires | SignalLogicGate,
+): gate is SignalLogicGate {
+  // noinspection SuspiciousTypeOfGuard
+  return typeof ((gate as SignalLogicGate).inputSignal) === "number";
+}
+
 // recursive function: resolveSignalForWire
 
 // resolveSignalForWire - recursive function, that will findLogic gate for a wire
@@ -198,8 +223,18 @@ export function resolveSignalForWire({
     if (operator === null) {
       // - base case2: it will resolves signal for wire, if it's simple signalLogicGate
       // + it will store the signal in `resolvedSignals` map
-      resolvedSignals.set(wire, gate.inputSignal);
-      return gate.inputSignal;
+      if (isSignalGateWithInputWire(gate)) {
+        resolvedSignals.set(wire, gate.inputSignal);
+        return gate.inputSignal;
+      } else {
+        const inputWireSignal = resolveSignalForWire({
+          wire: gate.inputWire,
+          resolvedSignals,
+          gates,
+        });
+        resolvedSignals.set(gate.outputWire, inputWireSignal);
+        return inputWireSignal;
+      }
     }
 
     // - case 3: if its another logicGate:

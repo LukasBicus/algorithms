@@ -1,5 +1,5 @@
 import { assertEquals, assertThrows } from "jsr:@std/assert@1";
-import { beforeAll, describe, it } from "@std/testing/bdd";
+import { beforeEach, describe, it } from "@std/testing/bdd";
 import {
   AndLogicGate,
   AndLogicGateWithInputSignal,
@@ -12,6 +12,7 @@ import {
   resolveSignalForWire,
   RShiftLogicGate,
   SignalLogicGate,
+  SignalLogicGateWith2Wires,
 } from "./utils.ts";
 
 describe("parseSignalLine", () => {
@@ -31,6 +32,14 @@ describe("parseSignalLine", () => {
       operator: null,
     });
   });
+  it("Should return a signal value for line with signal gate with input signal", () => {
+    assertEquals(parseSignalLine("xx -> x"), {
+      outputWire: "x",
+      inputWire: "xx",
+      operator: null,
+    });
+  });
+
   it("Should return a signal value for line with AND gate", () => {
     assertEquals(parseSignalLine("x AND y -> d"), {
       outputWire: "d",
@@ -83,7 +92,7 @@ describe("parseSignalLine", () => {
 describe("resolveSignalForWire", () => {
   let resolvedSignals: Map<string, number>;
   let gates: Map<string, LogicGate>;
-  beforeAll(() => {
+  beforeEach(() => {
     resolvedSignals = new Map<string, number>();
     gates = new Map<string, LogicGate>();
   });
@@ -133,6 +142,28 @@ describe("resolveSignalForWire", () => {
       gate.inputSignal,
     );
     assertEquals(resolvedSignals.get(gate.outputWire), gate.inputSignal);
+  });
+
+  it("Should return a signal value for line with signal gate with 2 wires", () => {
+    const gate: SignalLogicGateWith2Wires = {
+      outputWire: "ba",
+      inputWire: "bb",
+      operator: null,
+    };
+    gates.set(
+      gate.outputWire,
+      gate,
+    );
+    resolvedSignals.set(gate.inputWire, 10);
+    assertEquals(
+      resolveSignalForWire({
+        resolvedSignals,
+        gates,
+        wire: gate.outputWire,
+      }),
+      10,
+    );
+    assertEquals(resolvedSignals.get(gate.outputWire), 10);
   });
 
   it("Should return a signal value for line with AND gate", () => {
