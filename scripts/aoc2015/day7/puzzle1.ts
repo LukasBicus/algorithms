@@ -93,6 +93,7 @@ let resolvedSignals: Map<string, number> = new Map<string, number>();
 // function for parsing the signalLine
 // recursive function: resolveSignalForWire
 
+/** Solution for simpleInput
 readFile("./simpleInput.txt", processLine).then(() => {
   const signalForWireD = resolveSignalForWire({
     wire: "d",
@@ -145,5 +146,18 @@ readFile("./simpleInput.txt", processLine).then(() => {
     signalForWireI,
     signalForWireX,
     signalForWireY,
+  );
+});
+*/
+readFile("./input.txt", processLine).then(() => {
+  const signalForWireA = resolveSignalForWire({
+    wire: "a",
+    gates,
+    resolvedSignals,
+  });
+
+  console.log(
+    "Done!",
+    signalForWireA,
   );
 });

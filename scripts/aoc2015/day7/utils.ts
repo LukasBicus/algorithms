@@ -140,7 +140,7 @@ export function parseSignalLine(line: string): LogicGate {
       }
     }
   }
-  throw new Error("Unknown signal line");
+  throw new Error("Unknown signal line: " + line);
 }
 
 // recursive function: resolveSignalForWire
