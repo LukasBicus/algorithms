@@ -2,7 +2,8 @@
   "tasks": {
     "fmt": "deno fmt",
     "fmt:check": "deno fmt --check",
-    "test": "deno test scripts/**/*.test.ts"
+    "test": "deno test scripts/**/*.test.ts",
+    "check": "deno check scripts/**/*.ts"
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1",
