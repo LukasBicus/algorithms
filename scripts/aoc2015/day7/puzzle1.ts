@@ -40,6 +40,10 @@
 
  */
 
+import fs from "node:fs";
+import readline from "node:readline";
+import { LogicGate, parseSignalLine, resolveSignalForWire } from "./utils.ts";
+
 // task - what is the signal of wire "a"
 
 // alghoritm
@@ -47,20 +51,99 @@
 // parse logicGates
 // fill map of logicGates with it
 
+let gates: Map<string, LogicGate> = new Map<string, LogicGate>();
+
+function processLine(line: string) {
+  const logicGate = parseSignalLine(line);
+  if (logicGate) {
+    // console.log(instruction)
+    gates.set(logicGate.outputWire, logicGate);
+  } else {
+    console.error(line);
+  }
+}
+
+function readFile(
+  path: string,
+  processLine: (line: string) => void,
+): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const readStream = fs.createReadStream(path, {
+      encoding: "utf8",
+      highWaterMark: 1024, // Adjust the buffer size if needed
+    });
+
+    const rl = readline.createInterface({
+      input: readStream,
+      crlfDelay: Infinity, // Recognize all instances of CR LF ('\r\n') as a single line break
+    });
+
+    rl.on("line", processLine);
+
+    rl.on("close", resolve);
+  });
+}
+
 // create map of `resolvedSignals`
 // key is a wire name
 // value is signal name
-
-// resolveSignalForWire - recursive function, that will findLogic gate for a wire
-// - base case1: it will get signal for wire, if it's already defined
-// - base case2: it will resolves signal for wire, if it's simple signalLogicGate + it will store the signal in `resolvedSignals` map
-// - case 3: if its another logicGate:
-//          - it will recursively call resolveSignalForWire with required wire
-//          - it will store resolved wire
-//          - it will compute signal with resolved signals on wires required for logicGate
-//          - it will return computed signal
+let resolvedSignals: Map<string, number> = new Map<string, number>();
 
 // required utils
 // function for parsing the signalLine
-// function for resolvingSignalForLogicGate
 // recursive function: resolveSignalForWire
+
+readFile("./simpleInput.txt", processLine).then(() => {
+  const signalForWireD = resolveSignalForWire({
+    wire: "d",
+    gates,
+    resolvedSignals,
+  });
+  const signalForWireE = resolveSignalForWire({
+    wire: "e",
+    gates,
+    resolvedSignals,
+  });
+  const signalForWireF = resolveSignalForWire({
+    wire: "f",
+    gates,
+    resolvedSignals,
+  });
+  const signalForWireG = resolveSignalForWire({
+    wire: "g",
+    gates,
+    resolvedSignals,
+  });
+  const signalForWireH = resolveSignalForWire({
+    wire: "h",
+    gates,
+    resolvedSignals,
+  });
+  const signalForWireI = resolveSignalForWire({
+    wire: "i",
+    gates,
+    resolvedSignals,
+  });
+  const signalForWireX = resolveSignalForWire({
+    wire: "x",
+    gates,
+    resolvedSignals,
+  });
+  const signalForWireY = resolveSignalForWire({
+    wire: "y",
+    gates,
+    resolvedSignals,
+  });
+
+  console.log(
+    "Done!",
+    signalForWireD,
+    signalForWireE,
+    signalForWireF,
+    signalForWireG,
+    signalForWireH,
+    signalForWireI,
+    signalForWireX,
+    signalForWireY,
+  );
+});

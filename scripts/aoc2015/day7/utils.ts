@@ -219,7 +219,7 @@ export function resolveSignalForWire({
         gates,
         wire: gate.inputWire,
       });
-      const resolvedSignal = ~inputWireSignal;
+      const resolvedSignal = ~inputWireSignal & 0xFFFF;
       resolvedSignals.set(wire, resolvedSignal);
       return resolvedSignal;
     }
@@ -230,7 +230,7 @@ export function resolveSignalForWire({
         gates,
         wire: gate.inputWire,
       });
-      const resolvedSignal = inputWireSignal << gate.inputSignal;
+      const resolvedSignal = (inputWireSignal << gate.inputSignal) & 0xFFFF;
       resolvedSignals.set(wire, resolvedSignal);
       return resolvedSignal;
     }
@@ -241,7 +241,7 @@ export function resolveSignalForWire({
         gates,
         wire: gate.inputWire,
       });
-      const resolvedSignal = inputWireSignal >> gate.inputSignal;
+      const resolvedSignal = (inputWireSignal >> gate.inputSignal) & 0xFFFF;
       resolvedSignals.set(wire, resolvedSignal);
       return resolvedSignal;
     }

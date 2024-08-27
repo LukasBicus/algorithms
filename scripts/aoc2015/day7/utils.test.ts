@@ -184,22 +184,22 @@ describe("resolveSignalForWire", () => {
       gate.outputWire,
       gate,
     );
-    resolvedSignals.set(gate.inputWire, 5);
+    resolvedSignals.set(gate.inputWire, 123);
     assertEquals(
       resolveSignalForWire({
         resolvedSignals,
         gates,
         wire: gate.outputWire,
       }),
-      ~5, // -6
+      65412,
     );
-    assertEquals(resolvedSignals.get(gate.outputWire), ~5);
+    assertEquals(resolvedSignals.get(gate.outputWire), 65412);
   });
 
   it("Should return a signal value for line with LSHIFT gate", () => {
     const gate: LShiftLogicGate = {
-      outputWire: "k",
-      inputWire: "l",
+      outputWire: "xf",
+      inputWire: "x",
       inputSignal: 2,
       operator: GateOperator.LShift,
     };
@@ -207,22 +207,22 @@ describe("resolveSignalForWire", () => {
       gate.outputWire,
       gate,
     );
-    resolvedSignals.set(gate.inputWire, 5);
+    resolvedSignals.set(gate.inputWire, 123);
     assertEquals(
       resolveSignalForWire({
         resolvedSignals,
         gates,
         wire: gate.outputWire,
       }),
-      5 << 2, // 20
+      492, // 20
     );
-    assertEquals(resolvedSignals.get(gate.outputWire), 5 << 2);
+    assertEquals(resolvedSignals.get(gate.outputWire), 492);
   });
 
   it("Should return a signal value for line with RSHIFT gate", () => {
     const gate: RShiftLogicGate = {
-      outputWire: "m",
-      inputWire: "n",
+      outputWire: "yg",
+      inputWire: "y",
       inputSignal: 2,
       operator: GateOperator.RShift,
     };
@@ -230,15 +230,15 @@ describe("resolveSignalForWire", () => {
       gate.outputWire,
       gate,
     );
-    resolvedSignals.set(gate.inputWire, 5);
+    resolvedSignals.set(gate.inputWire, 456);
     assertEquals(
       resolveSignalForWire({
         resolvedSignals,
         gates,
         wire: gate.outputWire,
       }),
-      5 >> 2, // 1
+      114,
     );
-    assertEquals(resolvedSignals.get(gate.outputWire), 5 >> 2);
+    assertEquals(resolvedSignals.get(gate.outputWire), 114);
   });
 });
