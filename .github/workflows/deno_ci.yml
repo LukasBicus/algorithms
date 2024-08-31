@@ -6,15 +6,20 @@ on:
       - master
 
 jobs:
-  build:
+  tests:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
+      - name: Read Deno version from .dvmrc
+        id: deno-version
+        run: echo "DENO_VERSION=$(cat .dvmrc)" >> $GITHUB_ENV
+
       - name: Set up Deno
         uses: denoland/setup-deno@v1
         with:
-          deno-version: 'latest'
+          deno-version: ${{ env.DENO_VERSION }}
+
 
       - name: Check formatting
         run: deno task fmt:check
