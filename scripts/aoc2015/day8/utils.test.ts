@@ -1,6 +1,6 @@
 import { assertEquals } from "jsr:@std/assert@1";
 import { describe, it } from "@std/testing/bdd";
-import { getCodeLength } from "./utils.ts";
+import { getCodeLength, getStringLength } from "./utils.ts";
 
 // string     code length                     string length
 // ""         2                               0
@@ -9,38 +9,39 @@ import { getCodeLength } from "./utils.ts";
 // "aaa\\aaa" 10                              7
 // "\x27"     6                               1
 
-describe.only("getCodeLength", function () {
+describe("getCodeLength", function () {
   it('Should return length of ""', function () {
     assertEquals(getCodeLength('""'), 2);
   });
 
-  it.only('Should return length of "abc"', function () {
+  it('Should return length of "abc"', function () {
     assertEquals(getCodeLength('"abc"'), 5);
   });
   it(`Should return length of "aaa\\"aaa"`, function () {
-    assertEquals(getCodeLength(`"aaa\"aaa"`), 10);
+    assertEquals(getCodeLength(`"aaa\\"aaa"`), 10);
   });
   it('Should return length of "aaa\\\\aaa"', function () {
-    assertEquals(getCodeLength(`"aaa\\aaa"`), 10);
+    assertEquals(getCodeLength(`"aaa\\\\aaa"`), 10);
   });
   it("Should return length of `\\x27`", function () {
-    assertEquals(getCodeLength(`"\x27"`), 6);
+    assertEquals(getCodeLength(`"\\x27"`), 6);
   });
 });
 describe("getStringLength", function () {
   it('Should return length of ""', function () {
-    assertEquals(getCodeLength('""'), 0);
+    assertEquals(getStringLength('""'), 0);
   });
+
   it('Should return length of "abc"', function () {
-    assertEquals(getCodeLength('"abc"'), 3);
+    assertEquals(getStringLength('"abc"'), 3);
   });
-  it('Should return length of "aaa"aaa"', function () {
-    assertEquals(getCodeLength('"aaa"aaa"'), 7);
+  it(`Should return length of "aaa\\"aaa"`, function () {
+    assertEquals(getStringLength(`"aaa\\"aaa"`), 7);
   });
-  it('Should return length of "aaa\\aaa"', function () {
-    assertEquals(getCodeLength('"aaa\\aaa"'), 7);
+  it('Should return length of "aaa\\\\aaa"', function () {
+    assertEquals(getStringLength(`"aaa\\\\aaa"`), 7);
   });
-  it('Should return length of "\x27"', function () {
-    assertEquals(getCodeLength('"\x27"'), 1);
+  it("Should return length of `\\x27`", function () {
+    assertEquals(getStringLength(`"\\x27"`), 1);
   });
 });

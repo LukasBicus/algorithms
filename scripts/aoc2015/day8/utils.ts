@@ -13,14 +13,20 @@
 // get code length - util
 
 export function getCodeLength(line: string): number {
-  const lineWithoutApostrophe = line.slice(1, line.length - 1);
-
-  const step2string = lineWithoutApostrophe.replaceAll(`"`, "Xn")
-    .replace("\\", "YY");
-  return step2string.length + 2;
+  // const lineWithoutApostrophe = line.slice(1, line.length - 1);
+  //
+  // const step2string = lineWithoutApostrophe.replaceAll(`\\"`, "Xn")
+  //   .replaceAll(`\\\\`, "YY");
+  // return step2string.length + 2;
+  return line.length;
 }
 // get string length - util
 
 export function getStringLength(line: string) {
-  return line.length;
+  const lineWithoutApostrophe = line.slice(1, line.length - 1);
+  const step2string = lineWithoutApostrophe.replaceAll(`\\"`, '"')
+    .replaceAll(`\\\\`, "\\")
+    .replaceAll(/(\\x[0-9a-f]{2})/g, "X");
+
+  return step2string.length;
 }
