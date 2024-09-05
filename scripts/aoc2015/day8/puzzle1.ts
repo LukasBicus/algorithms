@@ -40,6 +40,28 @@
 
 // read file line by line - line operation, get line diff. Accumulate line diff.
 
+import { getCodeLength, getStringLength } from "./utils.ts";
+
+Deno.readTextFile("./simpleInput.txt").then((text) => {
+  // console.log(text);
+  let total = 0;
+  for (const line of text.split("\n")) {
+    console.log(`line: `, line, getCodeLength(line), getStringLength(line));
+    total = total + getCodeLength(line) - getStringLength(line);
+  }
+  console.log("total", total);
+});
+
+Deno.readTextFile("./input.txt").then((text) => {
+  // console.log(text);
+  let total = 0;
+  for (const line of text.split("\n")) {
+    // console.log(`line: `, line, getCodeLength(line), getStringLength(line));
+    total = total + getCodeLength(line) - getStringLength(line);
+  }
+  console.log("total", total);
+});
+
 // line operation
 // get code length
 // get string lenght
