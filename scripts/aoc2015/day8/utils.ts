@@ -12,12 +12,12 @@
 
 // get code length - util
 
-const backSlashApostropheRegex = /\"/;
-
-export function getCodeLength(line: string) {
+export function getCodeLength(line: string): number {
   const lineWithoutApostrophe = line.slice(1, line.length - 1);
 
-  return lineWithoutApostrophe.replace(`"`, "Xn").length + 2;
+  const step2string = lineWithoutApostrophe.replaceAll(`"`, "Xn")
+    .replace("\\", "YY");
+  return step2string.length + 2;
 }
 // get string length - util
 
