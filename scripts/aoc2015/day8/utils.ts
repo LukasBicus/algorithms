@@ -13,11 +13,6 @@
 // get code length - util
 
 export function getCodeLength(line: string): number {
-  // const lineWithoutApostrophe = line.slice(1, line.length - 1);
-  //
-  // const step2string = lineWithoutApostrophe.replaceAll(`\\"`, "Xn")
-  //   .replaceAll(`\\\\`, "YY");
-  // return step2string.length + 2;
   return line.length;
 }
 // get string length - util
