@@ -39,18 +39,25 @@ What is the distance of the shortest route?
 // input: set of values, currentArray
 // output
 
-// for currentArray and set of values {'A'} it will return
-//     [[...currentArray, 'A']]
-// for currentArray and set {'A, 'B'} it will return
+// for currentArrays and set of values {'A'} it will return
 //     [
-//        ...combine([...currentArray, 'A'], {'B'}),
-//        ...combine([...currentArray, 'B'], {'A'})
+//        [...currentArrays[0], 'A'],
+//        [...currentArrays[1], 'A'],
+//        [...currentArrays[2], 'A'],
+//        ...
+//        [...currentArrays[n], 'A'],
+//
+//     ]
+// for currentArrays and set {'A, 'B'} it will return
+//     [
+//        ...combine(combine(currentArrays, {'A'}), {'B'}),
+//        ...combine(combine(currentArrays, {'B'}), {'A'}),
 //     ]
 // for currentArray and values ['A, 'B', 'C'] it will return
 //     [
-//        ...combine([...currentArray, 'A'], {'B', 'C'}),
-//        ...combine([...currentArray, 'B'], {'A', 'C'})
-//        ...combine([...currentArray, 'C'], {'A', 'B'})
+//        ...combine(combine(currentArrays, {'A'}), {'B', 'C'}),
+//        ...combine(combine(currentArrays, {'B'}), {'A', 'C'}),
+//        ...combine(combine(currentArrays, {'C'}), {'A', 'B'}),
 //     ]
 // ...
 
