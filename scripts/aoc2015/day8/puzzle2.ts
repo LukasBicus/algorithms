@@ -21,19 +21,24 @@ is 42 - 23 = 19.
 **/
 import { encodeLine, getCodeLength } from "./utils.ts";
 
-// read file
-const simpleInput = await Deno.readTextFile("simpleInput.txt");
-// split to lines
-const lines = simpleInput.split("\n");
+async function processFile(filename: string) {
+  // read file
+  const simpleInput = await Deno.readTextFile(filename);
+  // split to lines
+  const lines = simpleInput.split("\n");
 
-let total = 0;
+  let total = 0;
 
-for (const line of lines) {
-  // encode line and get code length of encoded line
-  // get code length of line
-  // subtract encoded line code length - line code length
-  total += getCodeLength(encodeLine(line)) - getCodeLength(line);
+  for (const line of lines) {
+    // encode line and get code length of encoded line
+    // get code length of line
+    // subtract encoded line code length - line code length
+    total += getCodeLength(encodeLine(line)) - getCodeLength(line);
+  }
+
+  // print result
+  console.log(`total for file ${filename}: `, total);
 }
 
-// print result
-console.log("total", total);
+await processFile("./simpleInput.txt");
+await processFile("./input.txt");
