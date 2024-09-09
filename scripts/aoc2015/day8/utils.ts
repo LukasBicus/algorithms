@@ -30,3 +30,7 @@ export function getStringLength(line: string) {
 
   return step2string.length;
 }
+
+export function encodeLine(line: string): string {
+  return line;
+}
