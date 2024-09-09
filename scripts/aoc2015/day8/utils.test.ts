@@ -66,7 +66,7 @@ describe("encodeLine", function () {
     assertEquals(encodeLine(`"aaa\\"aaa"`), `"\\"aaa\\\\\\"aaa\\""`);
   });
   // "\x27" encodes to "\"\\x27\"", an increase from 6 characters to 11.
-  it(`Should encode "\\x27" to "\"\\x27\""`, function () {
+  it(`Should encode "\\x27" to "\\"\\\\x27\\""`, function () {
     assertEquals(encodeLine(`"\\x27"`), `"\\"\\\\x27\\""`);
   });
 });
