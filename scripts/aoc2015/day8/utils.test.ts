@@ -55,11 +55,11 @@ describe("getStringLength", function () {
 describe("encodeLine", function () {
   // "" encodes to "\"\"", an increase from 2 characters to 6.
   it(`Should encode "" to "\\"\\""`, function () {
-    assertEquals(encodeLine(""), `"\\"\\""`);
+    assertEquals(encodeLine(`""`), `"\\"\\""`);
   });
   // "abc" encodes to "\"abc\"", an increase from 5 characters to 9.
   it(`Should encode "abc" to "\\"abc\\""`, function () {
-    assertEquals(encodeLine("abc"), `"\\"abc\\""`);
+    assertEquals(encodeLine(`"abc"`), `"\\"abc\\""`);
   });
   // "aaa\"aaa" encodes to "\"aaa\\\"aaa\"", an increase from 10 characters to 16.
   it(`Should encode "aaa\\"aaa" to "\\"aaa\\\\\\"aaa\\""`, function () {
@@ -67,6 +67,6 @@ describe("encodeLine", function () {
   });
   // "\x27" encodes to "\"\\x27\"", an increase from 6 characters to 11.
   it(`Should encode "\\x27" to "\"\\x27\""`, function () {
-    assertEquals(encodeLine(`"\\x27"`), `"\"\\x27\""`);
+    assertEquals(encodeLine(`"\\x27"`), `"\\"\\\\x27\\""`);
   });
 });

@@ -32,5 +32,9 @@ export function getStringLength(line: string) {
 }
 
 export function encodeLine(line: string): string {
-  return line;
+  const step1 = line
+    .replaceAll(`\\`, `\\\\`)
+    .replaceAll(`\"`, `\\"`);
+
+  return `"${step1}"`;
 }
