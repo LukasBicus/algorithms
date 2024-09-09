@@ -19,14 +19,21 @@ the total encoded length (6 + 9 + 16 + 11 = 42) minus
 the characters in the original code representation (23, just like in the first part of this puzzle)
 is 42 - 23 = 19.
 **/
+import { encodeLine, getCodeLength } from "./utils.ts";
 
 // read file
+const simpleInput = await Deno.readTextFile("simpleInput.txt");
 // split to lines
+const lines = simpleInput.split("\n");
 
-// encode line and get code length of encoded line
-// get code length of line
-// subtract encoded line code length - line code length
+let total = 0;
+
+for (const line of lines) {
+  // encode line and get code length of encoded line
+  // get code length of line
+  // subtract encoded line code length - line code length
+  total += getCodeLength(encodeLine(line)) - getCodeLength(line);
+}
+
 // print result
-
-// how to encode line?
-//
+console.log("total", total);
