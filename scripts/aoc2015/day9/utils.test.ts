@@ -75,7 +75,7 @@ describe("combine", () => {
   });
 });
 
-describe.only("getDistance", function () {
+describe("getDistance", function () {
   const resolvedCombinations = new Map<string, number>();
   beforeEach(() => {
     resolvedCombinations.clear();
@@ -108,8 +108,8 @@ describe.only("getDistance", function () {
   });
   it("Should resolve ABCDE combination", function () {
     assertEquals(getDistance("ABCDE", resolvedCombinations), 10);
-    assertEquals(resolvedCombinations.get("ABC"), 3);
-    assertEquals(resolvedCombinations.get("ABCD"), 6);
+    assertEquals(resolvedCombinations.get("CDE"), 7);
+    assertEquals(resolvedCombinations.get("BCDE"), 9);
     assertEquals(resolvedCombinations.get("ABCDE"), 10);
   });
 });

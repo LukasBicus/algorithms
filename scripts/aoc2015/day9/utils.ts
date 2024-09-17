@@ -78,32 +78,41 @@ export function getDistance(
   combination: string,
   resolvedCombinations: Map<string, number>,
 ): number {
+  // basic case ->
+  // combination has 2 letters "AB" -> get length of "AB"
   if (resolvedCombinations.has(combination)) {
     return resolvedCombinations.get(combination) as number;
   }
+  // combination is "BA" ->
+  // -> get length of "BA" -> not found
+  // -> reverse combination -> resolve as "BA", store in resolvedCombinations
   const reversedCombination = combination.split("").reverse().join("");
   if (resolvedCombinations.has(reversedCombination)) {
     const result = resolvedCombinations.get(reversedCombination) as number;
     resolvedCombinations.set(combination, result);
     return result;
   }
+  // CASE B:
+  // combination is "ABCDEF"
+  // -> split to getDistance("AB") + getDistance("BCDEF")
+  // -> store length of "ABCDEF" in resolvedCombinations
+  if (combination.length > 2) {
+    const startCombination = combination.slice(0, 2);
+    const distanceOfStartCombination = getDistance(
+      startCombination,
+      resolvedCombinations,
+    );
+    const endCombination = combination.slice(1);
+    const distanceOfEndCombination = getDistance(
+      endCombination,
+      resolvedCombinations,
+    );
+    const totalDistance = distanceOfEndCombination + distanceOfStartCombination;
+    resolvedCombinations.set(combination, totalDistance);
+    return totalDistance;
+  }
+  console.log("Unresolveble combination: ", combination);
   throw Error("Unresolvable combination");
 }
-// basic case ->
-// combination has 2 letters "AB" -> get length of "AB"
-
-// CASE A:
-// combination is "BA" ->
-// -> get length of "BA" -> not found
-// -> reverse combination -> resolve as "BA", store in resolvedCombinations
-// todo: needs reverseString function -> check Array.reverse
-
-// CASE B:
-// combination is "ABCDEF"
-// -> try to find: X
-// -> try to find reversed: X
-// -> split to getLength("AB") + getLength("BCDEF")
-// -> store length of "ABCDEF" in resolvedCombinations
-// -> store length of "FEDCBA" (reversed to "ABCDEF") in resolvedCombinations
 
 // the recursive function will be called with all combinations
