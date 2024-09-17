@@ -26,6 +26,8 @@ The shortest of these is London -> Dublin -> Belfast = 605, and so the answer is
 
 What is the distance of the shortest route?
 
+Puzzle 2 is the longest distance
+
 */
 import { Cities, SimpleInputCities } from "./types.ts";
 import { getDistance, getPermutations, parseCityLine } from "./utils.ts";
@@ -57,6 +59,7 @@ function getProcessFile(cityValues: string[]) {
     }
     // find the smallest distance
     console.log("Min distance", Math.min(...allDistances));
+    console.log("Max distance", Math.max(...allDistances));
   };
 }
 
