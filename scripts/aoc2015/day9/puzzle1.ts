@@ -34,39 +34,9 @@ What is the distance of the shortest route?
 // get enum of all cities
 
 // combine them
-// create an util function, that will get an array of values and returns list of combinations of those values
-// this can be done recursively
-// input: set of values, currentArray
-// output
+// create an util function, that will get an set of values and returns list of combinations of those values
 
-// for currentArrays and set of values {'A'} it will return
-//     [
-//        [...currentArrays[0], 'A'],
-//        [...currentArrays[1], 'A'],
-//        [...currentArrays[2], 'A'],
-//        ...
-//        [...currentArrays[n], 'A'],
-//
-//     ]
-// for currentArrays and set {'A, 'B'} it will return
-//     [
-//        ...combine(combine(currentArrays, {'A'}), {'B'}),
-//        ...combine(combine(currentArrays, {'B'}), {'A'}),
-//     ]
-// for currentArray and values ['A, 'B', 'C'] it will return
-//     [
-//        ...combine(combine(currentArrays, {'A'}), {'B', 'C'}),
-//        ...combine(combine(currentArrays, {'B'}), {'A', 'C'}),
-//        ...combine(combine(currentArrays, {'C'}), {'A', 'B'}),
-//     ]
-// ...
-
-// start with empty currentArray and full set of values
-
-// for each combination, get the route length
-// todo: we will need to save all known starting distances -> resolvedCombinations
-
-// getLength(combination, resolvedCombinations) - recursive function
+// getDistance(combination, resolvedCombinations) - recursive function
 // basic case ->
 // combination has 2 letters "AB" -> get length of "AB"
 
