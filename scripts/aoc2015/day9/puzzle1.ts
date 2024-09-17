@@ -27,43 +27,43 @@ The shortest of these is London -> Dublin -> Belfast = 605, and so the answer is
 What is the distance of the shortest route?
 
 */
-import { SimpleInputCities } from "./types.ts";
+import { Cities, SimpleInputCities } from "./types.ts";
 import { getDistance, getPermutations, parseCityLine } from "./utils.ts";
 
-function processFile(text: string) {
-  const lines = text.split("\n");
-  const resolvedCombinations = new Map<string, number>();
-  for (const line of lines) {
-    const { cityALiteral, cityBLiteral, distance } = parseCityLine(line);
-    if (cityALiteral && cityBLiteral) {
-      resolvedCombinations.set(cityALiteral + cityBLiteral, distance);
-    } else {
-      throw new Error("Unknown literals");
+function getProcessFile(cityValues: string[]) {
+  return function processFile(text: string) {
+    const lines = text.split("\n");
+    const resolvedCombinations = new Map<string, number>();
+    for (const line of lines) {
+      // parse line by line
+      const { cityALiteral, cityBLiteral, distance } = parseCityLine(line);
+      if (cityALiteral && cityBLiteral) {
+        //     fill resolvedCombinations with initial data
+        resolvedCombinations.set(cityALiteral + cityBLiteral, distance);
+      } else {
+        throw new Error("Unknown literals");
+      }
     }
-  }
-  const allPermutations = getPermutations(
-    new Set(Object.values(SimpleInputCities).map(String)),
-  );
-  const allDistances = [];
-  for (const permutation of allPermutations) {
-    const distance = getDistance(permutation.join(""), resolvedCombinations);
-    allDistances.push(distance);
-  }
-  console.log("Min distance", Math.min(...allDistances));
+    // combine them with combine function. get list of combinations
+
+    const allPermutations = getPermutations(
+      new Set(cityValues),
+    );
+    const allDistances = [];
+    for (const permutation of allPermutations) {
+      //    for each combination, get distance, store it in array of distances
+      const distance = getDistance(permutation.join(""), resolvedCombinations);
+      allDistances.push(distance);
+    }
+    // find the smallest distance
+    console.log("Min distance", Math.min(...allDistances));
+  };
 }
 
-Deno.readTextFile("./simpleInput.txt").then(processFile);
-Deno.readTextFile("./input.txt").then(processFile);
-
 // read file with cities and distances
-// parse line by line
-//     fill resolvedCombinations with initial data
-// end loop
-
-// combine them with combine function. get list of combinations
-
-// loop combinations
-//    for each combination, get distance, store it in array of distances
-// end loop
-
-// find the smallest distance
+Deno.readTextFile("./simpleInput.txt").then(
+  getProcessFile(Object.values(SimpleInputCities).map(String)),
+);
+Deno.readTextFile("./input.txt").then(
+  getProcessFile(Object.values(Cities).map(String)),
+);
