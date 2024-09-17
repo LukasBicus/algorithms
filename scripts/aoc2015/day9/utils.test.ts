@@ -39,6 +39,7 @@ describe("utils", () => {
         ["X", "B", "A"],
       ]);
     });
+
     it('Should add arrays ["A", "B"], ["B", "A"] to every array in currentArrays', function () {
       assertEquals(combine([["X", "Y"], ["Y", "X"]], uncombinedValues), [
         ["X", "Y", "A", "B"],
@@ -50,7 +51,26 @@ describe("utils", () => {
   });
 
   describe('for set {"A", "B", "C"}', function () {
-    it("Should return result with 6 arrays for empty currentArrays", function () {});
-    it('Should return result with 6 arrays for currentArrays ["X"]', function () {});
+    const uncombinedValues = new Set(["A", "B", "C"]);
+    it("Should return result with 6 arrays for empty currentArrays", function () {
+      assertEquals(combine([[]], uncombinedValues), [
+        ["A", "B", "C"],
+        ["A", "C", "B"],
+        ["B", "A", "C"],
+        ["B", "C", "A"],
+        ["C", "A", "B"],
+        ["C", "B", "A"],
+      ]);
+    });
+    it('Should return result with 6 arrays for currentArrays ["X"]', function () {
+      assertEquals(combine([["X"]], uncombinedValues), [
+        ["X", "A", "B", "C"],
+        ["X", "A", "C", "B"],
+        ["X", "B", "A", "C"],
+        ["X", "B", "C", "A"],
+        ["X", "C", "A", "B"],
+        ["X", "C", "B", "A"],
+      ]);
+    });
   });
 });

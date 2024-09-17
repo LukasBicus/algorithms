@@ -1,41 +1,11 @@
-function separateSetValue<T>(
-  set: Set<T>,
-): { value: T; setWithoutValue: Set<T> } {
-  if (set.size === 0) {
-    throw new Error("Set is empty");
-  }
-  let valueIsSet = false;
-  let value: T;
-  const newSet = new Set<T>();
-  for (const item of set.values()) {
-    if (!valueIsSet) {
-      value = item;
-      valueIsSet = true;
-    } else {
-      newSet.add(item);
-    }
-  }
-  return {
-    value: value!,
-    setWithoutValue: newSet,
-  };
-}
-
-// export function combineExistingArrayWithSetValues<T>(arr: T[], set: Set<T>) {
-//   let arrraysToAppend: T[];
-//   for (const item of set.values()) {
-//     const setWithoutItem = new Set<T>(set);
-//     setWithoutItem.delete(item);
-//     arrraysToAppend.push(combine(arr, ));
-//   }
-// }
-
 /*
+CASE 1:
 Input:
 {A}
 Result:
 [[A]]
 
+CASE 2:
 Input:
 {A, B}
 Partial
@@ -46,6 +16,7 @@ Partial
 Result:
 [[A, B], [B, A]]
 
+CASE 3:
 Input:
 {A, B, C}
 
@@ -57,7 +28,7 @@ Partial:
 ]
 Result:
 [
-  [A, B, C], d
+  [A, B, C],
   [A, C, B],
   [B, A, C],
   [B, C, A],
@@ -82,6 +53,7 @@ export function combine<T>(
   // uncombinedValues.size
   // for each currentArray in currentArrays
   return currentArrays.reduce((acc: T[][], currentArray) => {
+    console.log("currentArray", currentArray);
     // for each item in uncombined values
     for (const item of uncombinedValues) {
       // split uncombined values to item and rest values
@@ -91,8 +63,12 @@ export function combine<T>(
       const arrayWithItem = currentArray.concat([item]);
       // combine (new current arrays, rest values)
       const newArrays = combine([arrayWithItem], newSet);
-      acc.push(newArrays.flat());
+      acc = acc.concat(newArrays);
     }
     return acc;
   }, []);
+}
+
+export function getPermutations<T>(set: Set<T>): T[][] {
+  return combine([[]], set);
 }
