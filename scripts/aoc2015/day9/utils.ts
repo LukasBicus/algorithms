@@ -30,6 +30,42 @@ function separateSetValue<T>(
 //   }
 // }
 
+/*
+Input:
+{A}
+Result:
+[[A]]
+
+Input:
+{A, B}
+Partial
+[
+...[[A] + combine{B} ]
+...[[B] + combine{A} ]
+]
+Result:
+[[A, B], [B, A]]
+
+Input:
+{A, B, C}
+
+Partial:
+[
+...[[A] + combine({B, C})]
+...[[B] + combine({A, C})]
+...[[C] + combine({A, B})]
+]
+Result:
+[
+  [A, B, C], d
+  [A, C, B],
+  [B, A, C],
+  [B, C, A],
+  [C, A, B],
+  [C, B, A],
+]
+ */
+
 export function combine<T>(
   currentArrays: T[][],
   uncombinedValues: Set<T>,
@@ -43,12 +79,20 @@ export function combine<T>(
       currentArray.concat(Array.from(uncombinedValues))
     );
   }
-  if (uncombinedValues.size > 1) {
-    const { value, setWithoutValue } = separateSetValue(uncombinedValues);
-    return currentArrays.reduce((acc: T[][], currentArray) => {
-      // concat current array with one value from set
-      return acc.concat;
-    }, [[]]);
-  }
-  return [];
+  // uncombinedValues.size
+  // for each currentArray in currentArrays
+  return currentArrays.reduce((acc: T[][], currentArray) => {
+    // for each item in uncombined values
+    for (const item of uncombinedValues) {
+      // split uncombined values to item and rest values
+      const newSet = new Set(uncombinedValues);
+      newSet.delete(item);
+      // create new current arrays => every current array + item
+      const arrayWithItem = currentArray.concat([item]);
+      // combine (new current arrays, rest values)
+      const newArrays = combine([arrayWithItem], newSet);
+      acc.push(newArrays.flat());
+    }
+    return acc;
+  }, []);
 }

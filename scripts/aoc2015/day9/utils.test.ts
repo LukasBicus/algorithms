@@ -3,7 +3,7 @@ import { describe, it } from "@std/testing/bdd";
 import { combine } from "./utils.ts";
 
 describe("utils", () => {
-  describe.only('for set {"A"}', () => {
+  describe('for set {"A"}', () => {
     const uncombinedValues = new Set(["A"]);
     it('Should return [["A"]] for empty currentArrays', function () {
       assertEquals(
@@ -25,7 +25,7 @@ describe("utils", () => {
     });
   });
 
-  describe.only('for set {"A", "B"}', function () {
+  describe('for set {"A", "B"}', function () {
     const uncombinedValues = new Set(["A", "B"]);
     it('Should return result with arrays ["A", "B"], ["B", "A"] for empty currentArrays', function () {
       assertEquals(combine([[]], uncombinedValues), [
