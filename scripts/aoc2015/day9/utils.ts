@@ -72,3 +72,29 @@ export function combine<T>(
 export function getPermutations<T>(set: Set<T>): T[][] {
   return combine([[]], set);
 }
+
+// getDistance(combination, resolvedCombinations) - recursive function
+export function getDistance(
+  combination: string,
+  resolvedCombinations: Map<string, number>,
+): number {
+  throw Error("Unresolvable combination");
+}
+// basic case ->
+// combination has 2 letters "AB" -> get length of "AB"
+
+// CASE A:
+// combination is "BA" ->
+// -> get length of "BA" -> not found
+// -> reverse combination -> resolve as "BA", store in resolvedCombinations
+// todo: needs reverseString function -> check Array.reverse
+
+// CASE B:
+// combination is "ABCDEF"
+// -> try to find: X
+// -> try to find reversed: X
+// -> split to getLength("AB") + getLength("BCDEF")
+// -> store length of "ABCDEF" in resolvedCombinations
+// -> store length of "FEDCBA" (reversed to "ABCDEF") in resolvedCombinations
+
+// the recursive function will be called with all combinations

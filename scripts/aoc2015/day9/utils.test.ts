@@ -1,8 +1,8 @@
-import { assertEquals } from "jsr:@std/assert@1";
-import { describe, it } from "@std/testing/bdd";
-import { combine } from "./utils.ts";
+import { assertEquals, assertThrows } from "jsr:@std/assert@1";
+import { beforeEach, describe, it } from "@std/testing/bdd";
+import { combine, getDistance } from "./utils.ts";
 
-describe("utils", () => {
+describe("combine", () => {
   describe('for set {"A"}', () => {
     const uncombinedValues = new Set(["A"]);
     it('Should return [["A"]] for empty currentArrays', function () {
@@ -72,5 +72,44 @@ describe("utils", () => {
         ["X", "C", "B", "A"],
       ]);
     });
+  });
+});
+
+describe.only("getDistance", function () {
+  const resolvedCombinations = new Map<string, number>();
+  beforeEach(() => {
+    resolvedCombinations.clear();
+    resolvedCombinations.set("AB", 1);
+    resolvedCombinations.set("BC", 2);
+    resolvedCombinations.set("CD", 3);
+    resolvedCombinations.set("DE", 4);
+  });
+  it("Should throw error for unresolvable combination", function () {
+    assertThrows(() => {
+      getDistance("XY", resolvedCombinations);
+    });
+  });
+  it("Should resolve AB combination", function () {
+    assertEquals(getDistance("AB", resolvedCombinations), 1);
+  });
+  it("Should resolve BA combination", function () {
+    assertEquals(getDistance("BA", resolvedCombinations), 1);
+    assertEquals(resolvedCombinations.get("BA"), 1);
+  });
+  it("Should resolve ABC combination", function () {
+    assertEquals(getDistance("ABC", resolvedCombinations), 3);
+    assertEquals(resolvedCombinations.get("ABC"), 3);
+  });
+  it("Should resolve CBA combination", function () {
+    assertEquals(getDistance("CBA", resolvedCombinations), 3);
+    assertEquals(resolvedCombinations.get("CB"), 2);
+    assertEquals(resolvedCombinations.get("BA"), 1);
+    assertEquals(resolvedCombinations.get("CBA"), 3);
+  });
+  it("Should resolve ABCDE combination", function () {
+    assertEquals(getDistance("ABCDE", resolvedCombinations), 10);
+    assertEquals(resolvedCombinations.get("ABC"), 3);
+    assertEquals(resolvedCombinations.get("ABCD"), 6);
+    assertEquals(resolvedCombinations.get("ABCDE"), 10);
   });
 });
