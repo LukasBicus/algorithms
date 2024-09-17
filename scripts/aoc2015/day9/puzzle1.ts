@@ -37,6 +37,8 @@ function processFile(text: string) {
     const { cityALiteral, cityBLiteral, distance } = parseCityLine(line);
     if (cityALiteral && cityBLiteral) {
       resolvedCombinations.set(cityALiteral + cityBLiteral, distance);
+    } else {
+      throw new Error("Unknown literals");
     }
   }
   const allPermutations = getPermutations(
@@ -51,6 +53,7 @@ function processFile(text: string) {
 }
 
 Deno.readTextFile("./simpleInput.txt").then(processFile);
+Deno.readTextFile("./input.txt").then(processFile);
 
 // read file with cities and distances
 // parse line by line
