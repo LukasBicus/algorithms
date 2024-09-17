@@ -27,15 +27,40 @@ The shortest of these is London -> Dublin -> Belfast = 605, and so the answer is
 What is the distance of the shortest route?
 
 */
+import { SimpleInputCities } from "./types.ts";
+import { getDistance, getPermutations, parseCityLine } from "./utils.ts";
 
-// we have distances between cities
-// we want to get the shortest route between all cities
+function processFile(text: string) {
+  const lines = text.split("\n");
+  const resolvedCombinations = new Map<string, number>();
+  for (const line of lines) {
+    const { cityALiteral, cityBLiteral, distance } = parseCityLine(line);
+    if (cityALiteral && cityBLiteral) {
+      resolvedCombinations.set(cityALiteral + cityBLiteral, distance);
+    }
+  }
+  const allPermutations = getPermutations(
+    new Set(Object.values(SimpleInputCities).map(String)),
+  );
+  const allDistances = [];
+  for (const permutation of allPermutations) {
+    const distance = getDistance(permutation.join(""), resolvedCombinations);
+    allDistances.push(distance);
+  }
+  console.log("Min distance", Math.min(...allDistances));
+}
 
-// get enum of all cities
+Deno.readTextFile("./simpleInput.txt").then(processFile);
 
-// combine them
-// create an util function, that will get an set of values and returns list of combinations of those values
+// read file with cities and distances
+// parse line by line
+//     fill resolvedCombinations with initial data
+// end loop
 
-// getDistance(combination, resolvedCombinations) - recursive function
+// combine them with combine function. get list of combinations
 
-// get lengths for all starting combinations, find the smallest length
+// loop combinations
+//    for each combination, get distance, store it in array of distances
+// end loop
+
+// find the smallest distance

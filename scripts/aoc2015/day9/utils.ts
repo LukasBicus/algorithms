@@ -55,7 +55,6 @@ export function combine<T>(
   // uncombinedValues.size
   // for each currentArray in currentArrays
   return currentArrays.reduce((acc: T[][], currentArray) => {
-    console.log("currentArray", currentArray);
     // for each item in uncombined values
     for (const item of uncombinedValues) {
       // split uncombined values to item and rest values
