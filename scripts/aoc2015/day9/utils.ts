@@ -37,6 +37,8 @@ Result:
 ]
  */
 
+import { Cities } from "./types.ts";
+
 export function combine<T>(
   currentArrays: T[][],
   uncombinedValues: Set<T>,
@@ -115,4 +117,42 @@ export function getDistance(
   throw Error("Unresolvable combination");
 }
 
-// the recursive function will be called with all combinations
+function getCity(city: string) {
+  switch (city) {
+    case "Faerun":
+    case "London":
+      return Cities.Faerun;
+    case "Norrath":
+    case "Dublin":
+      return Cities.Norrath;
+    case "Tristram":
+    case "Belfast":
+      return Cities.Tristram;
+    case "AlphaCentauri":
+      return Cities.AlphaCentauri;
+    case "Arbre":
+      return Cities.Arbre;
+    case "Snowdin":
+      return Cities.Snowdin;
+    case "Tambi":
+      return Cities.Tambi;
+    case "Straylight":
+      return Cities.Straylight;
+    default:
+      return null;
+  }
+}
+
+const lineRegex = /([a-zA-Z\s]+) to ([a-zA-Z\s]+) = ([\d]+)/;
+export function parseCityLine(line: string) {
+  const match = line.match(lineRegex);
+  if (!match) {
+    throw new Error("line does not match: " + line);
+  }
+  const [, city1, city2, distance] = match;
+  return {
+    cityALiteral: getCity(city1)?.toString(),
+    cityBLiteral: getCity(city2)?.toString(),
+    distance: parseInt(distance, 10),
+  };
+}

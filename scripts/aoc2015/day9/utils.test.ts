@@ -1,6 +1,6 @@
 import { assertEquals, assertThrows } from "jsr:@std/assert@1";
 import { beforeEach, describe, it } from "@std/testing/bdd";
-import { combine, getDistance } from "./utils.ts";
+import { combine, getDistance, parseCityLine } from "./utils.ts";
 
 describe("combine", () => {
   describe('for set {"A"}', () => {
@@ -111,5 +111,20 @@ describe("getDistance", function () {
     assertEquals(resolvedCombinations.get("CDE"), 7);
     assertEquals(resolvedCombinations.get("BCDE"), 9);
     assertEquals(resolvedCombinations.get("ABCDE"), 10);
+  });
+});
+
+describe("parseCityLine", function () {
+  it("Should throw error for invalid city line", function () {
+    assertThrows(() => {
+      parseCityLine("ascsdf");
+    });
+  });
+  it("Should parse valid city line", function () {
+    assertEquals(parseCityLine("London to Dublin = 464"), {
+      cityALiteral: "A",
+      cityBLiteral: "B",
+      distance: 464,
+    });
   });
 });
