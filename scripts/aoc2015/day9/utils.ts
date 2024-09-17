@@ -78,6 +78,15 @@ export function getDistance(
   combination: string,
   resolvedCombinations: Map<string, number>,
 ): number {
+  if (resolvedCombinations.has(combination)) {
+    return resolvedCombinations.get(combination) as number;
+  }
+  const reversedCombination = combination.split("").reverse().join("");
+  if (resolvedCombinations.has(reversedCombination)) {
+    const result = resolvedCombinations.get(reversedCombination) as number;
+    resolvedCombinations.set(combination, result);
+    return result;
+  }
   throw Error("Unresolvable combination");
 }
 // basic case ->
