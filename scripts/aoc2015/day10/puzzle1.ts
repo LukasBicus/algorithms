@@ -16,6 +16,7 @@ Starting with the digits in your puzzle input, apply this process 40 times. What
   Your puzzle input is 3113322113.
 
 **/
+import { splitTextToGroups, transformGroup } from "./utils.ts";
 
 // inputs
 // Your puzzle input is 3113322113.
@@ -31,6 +32,18 @@ Starting with the digits in your puzzle input, apply this process 40 times. What
 
 // 3. merge groups together
 
+function processText(text: string): string {
+  const groups = splitTextToGroups(text);
+  const transformedGroups = groups.map((group) => transformGroup(group));
+  return transformedGroups.join("");
+}
+
+let text = "3113322113";
 // we need to apply steps 1., 2., 3. 40 times. So we get result
+for (let i = 0; i < 40; i++) {
+  text = processText(text);
+}
+
+console.log(text.length);
 
 // expected output: length of process result applied 40 times.
