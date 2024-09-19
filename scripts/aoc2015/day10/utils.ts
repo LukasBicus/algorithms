@@ -31,3 +31,12 @@ export function splitTextToGroups(text: string): string[] {
   // return result array
   return resultArray;
 }
+
+// 2. transform group based on group char and group length
+// for input "111" char is "1" and length is "3", eg. transformed group is "31"
+export function transformGroup(group: string): string {
+  if (group.length === 0) {
+    throw new Error("Group length is 0");
+  }
+  return `${group.length}${group[0]}`;
+}
