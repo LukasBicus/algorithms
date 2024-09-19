@@ -47,3 +47,13 @@ for (let i = 0; i < 40; i++) {
 console.log(text.length);
 
 // expected output: length of process result applied 40 times.
+
+// puzzle 2
+
+text = "3113322113";
+// we need to apply steps 1., 2., 3. 50 times. So we get result
+for (let i = 0; i < 50; i++) {
+  text = processText(text);
+}
+
+console.log(text.length);
