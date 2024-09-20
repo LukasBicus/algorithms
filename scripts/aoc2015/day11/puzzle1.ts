@@ -1,3 +1,10 @@
+import {
+  containsTwoPairsOfLetters,
+  incrementTextByOneLetter,
+  textIncludesAtLeastOneIncreasingStraight,
+  textIncludesOneOfChars,
+} from "./utils.ts";
+
 /**
 --- Day 11: Corporate Policy ---
 Santa's previous password expired, and he needs help choosing a new one.
@@ -29,12 +36,27 @@ Given Santa's current password (your puzzle input), what should his next passwor
 
 Your puzzle input is hepxcrrq.
  */
+function getNextPassword(text: string): string {
+  // we start with old password
+  // lets have a newPassword = oldPassword
+  // do {
+  do {
+    //    set newPassword to increment of newPassword by 1 step
+    text = incrementTextByOneLetter(text);
+    // } while ((check if newPassword break at least one rule))
+  } while (
+    textIncludesOneOfChars(text) ||
+    !containsTwoPairsOfLetters(text) ||
+    !textIncludesAtLeastOneIncreasingStraight(text)
+  );
+  return text;
+}
 
-// we start with old password
-
-// lets have a newPassword = oldPassword
-// do {
-//    set newPassword to increment of newPassword by 1 step
-// } while ((check if newPassword break at least one rule))
-
-// console log new santas password
+const testOuput = getNextPassword("abcdefgh");
+console.log("testOuput", testOuput);
+const testOuput2 = getNextPassword("ghijklmn");
+console.log("testOuput2", testOuput2);
+const santaPassword = getNextPassword("hepxcrrq");
+console.log("santaPassword", santaPassword);
+const santaPassword2 = getNextPassword(santaPassword);
+console.log("santaPassword2", santaPassword2);
