@@ -4,6 +4,7 @@ import {
   containsTwoPairsOfLetters,
   getNextChar,
   incrementTextByOneLetter,
+  textIncludesAtLeastOneIncreasingStraight,
   textIncludesOneOfChars,
 } from "./utils.ts";
 
@@ -77,5 +78,20 @@ describe("containsTwoPairsOfLetters", function () {
   });
   it("should return true for two valid pairs", function () {
     assertEquals(containsTwoPairsOfLetters("bbcdaabcdefgh"), true);
+  });
+});
+
+describe("textIncludesAtLeastOneIncreasingStraight", function () {
+  it("should return true for text with one increasing straight", function () {
+    assertEquals(textIncludesAtLeastOneIncreasingStraight("aaaabcccc"), true);
+  });
+  it("should return true for text with one increasing straight", function () {
+    assertEquals(textIncludesAtLeastOneIncreasingStraight("aaaxyzccc"), true);
+  });
+  it("should return false for text without one increasing straight", function () {
+    assertEquals(textIncludesAtLeastOneIncreasingStraight("aaayzaccc"), false);
+  });
+  it("should return false for text without one increasing straight", function () {
+    assertEquals(textIncludesAtLeastOneIncreasingStraight("abdcba"), false);
   });
 });

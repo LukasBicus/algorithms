@@ -60,3 +60,27 @@ export function containsTwoPairsOfLetters(text: string): boolean {
   }
   return countOfPairs >= 2;
 }
+
+function getArrayOfIncreasingStraights() {
+  const arrayOfIncreasingStraights = [];
+
+  for (const char of "abcdefghijklmnopqrstuvwx") {
+    arrayOfIncreasingStraights.push(
+      `${char}${getNextChar(char)}${getNextChar(getNextChar(char))}`,
+    );
+  }
+  return arrayOfIncreasingStraights;
+}
+
+const arrayOfIncreasingStraights = getArrayOfIncreasingStraights();
+
+export function textIncludesAtLeastOneIncreasingStraight(
+  text: string,
+): boolean {
+  for (const straight of arrayOfIncreasingStraights) {
+    if (text.includes(straight)) {
+      return true;
+    }
+  }
+  return false;
+}
