@@ -47,3 +47,16 @@ export function textIncludesOneOfChars(
   }
   return false;
 }
+
+export function containsTwoPairsOfLetters(text: string): boolean {
+  const splitText = text.split("");
+  let countOfPairs = 0;
+  while (splitText.length > 0) {
+    const char = splitText.shift();
+    if (char === splitText[0]) {
+      countOfPairs += 1;
+      splitText.shift();
+    }
+  }
+  return countOfPairs >= 2;
+}

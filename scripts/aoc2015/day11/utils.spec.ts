@@ -1,6 +1,7 @@
 import { describe, it } from "@std/testing/bdd";
 import { assertEquals, assertThrows } from "@std/assert";
 import {
+  containsTwoPairsOfLetters,
   getNextChar,
   incrementTextByOneLetter,
   textIncludesOneOfChars,
@@ -61,5 +62,20 @@ describe("textIncludesOneOfChars", function () {
   });
   it("should return true for text with forbidden chars", function () {
     assertEquals(textIncludesOneOfChars("ijk"), true);
+  });
+});
+
+describe("containsTwoPairsOfLetters", function () {
+  it("should return false for text without 2 pairs of letters", function () {
+    assertEquals(containsTwoPairsOfLetters("bcdabcdefgh"), false);
+  });
+  it("should return false for partially overlapping pairs", function () {
+    assertEquals(containsTwoPairsOfLetters("bcdaaabcdefgh"), false);
+  });
+  it("should return true for two valid pairs", function () {
+    assertEquals(containsTwoPairsOfLetters("bcdaabbebcdefgh"), true);
+  });
+  it("should return true for two valid pairs", function () {
+    assertEquals(containsTwoPairsOfLetters("bbcdaabcdefgh"), true);
   });
 });
