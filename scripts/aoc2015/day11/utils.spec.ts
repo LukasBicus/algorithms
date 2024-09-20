@@ -1,6 +1,6 @@
 import { describe, it } from "@std/testing/bdd";
-import { assertEquals } from "@std/assert";
-import { getNextPassword } from "./utils.ts";
+import { assertEquals, assertThrows } from "@std/assert";
+import { getNextChar, getNextPassword } from "./utils.ts";
 
 describe("Utils", () => {
   it('Should return "aaaaaaaa" after "zzzzzzzz"', function () {
@@ -26,5 +26,27 @@ describe("Utils", () => {
   });
   it('Should return "aaaaabac" after "aaaaabab"', function () {
     assertEquals(getNextPassword("aaaaabab"), "aaaaabac");
+  });
+});
+
+describe.only("getNextChar", function () {
+  it('should return "b" after "a"', function () {
+    assertEquals(getNextChar("a"), "b");
+  });
+  it('should return "c" after "b"', function () {
+    assertEquals(getNextChar("b"), "c");
+  });
+  it('should return "a" after "z"', function () {
+    assertEquals(getNextChar("z"), "a");
+  });
+  it("should throw for invalid char", function () {
+    assertThrows(function () {
+      getNextChar("A");
+    });
+  });
+  it("should throw for char group", function () {
+    assertThrows(function () {
+      getNextChar("ab");
+    });
   });
 });
