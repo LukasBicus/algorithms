@@ -43,11 +43,14 @@ function getNextPassword(text: string): string {
   do {
     //    set newPassword to increment of newPassword by 1 step
     text = incrementTextByOneLetter(text);
-    // } while ((check if newPassword break at least one rule))
+    // } while ((check if newPassword breaks at least one rule))
   } while (
+    // Break: Passwords must include one increasing straight of at least three letters, like abc, bcd, cde, and so on, up to xyz. They cannot skip letters; abd doesn't count.
+    !textIncludesAtLeastOneIncreasingStraight(text) ||
+    // Break: Passwords may not contain the letters i, o, or l, as these letters can be mistaken for other characters and are therefore confusing.
     textIncludesOneOfChars(text) ||
-    !containsTwoPairsOfLetters(text) ||
-    !textIncludesAtLeastOneIncreasingStraight(text)
+    // Break: Passwords must contain at least two different, non-overlapping pairs of letters, like aa, bb, or zz.
+    !containsTwoPairsOfLetters(text)
   );
   return text;
 }
