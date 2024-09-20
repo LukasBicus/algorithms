@@ -1,35 +1,35 @@
 import { describe, it } from "@std/testing/bdd";
 import { assertEquals, assertThrows } from "@std/assert";
-import { getNextChar, getNextPassword } from "./utils.ts";
+import { getNextChar, incrementTextByOneLetter } from "./utils.ts";
 
-describe("Utils", () => {
+describe("incrementTextByOneLetter", () => {
   it('Should return "aaaaaaaa" after "zzzzzzzz"', function () {
-    assertEquals(getNextPassword("zzzzzzzz"), "aaaaaaaa");
+    assertEquals(incrementTextByOneLetter("zzzzzzzz"), "aaaaaaaa");
   });
   it('Should return "aaaaaaab" after "aaaaaaaa"', function () {
-    assertEquals(getNextPassword("aaaaaaaa"), "aaaaaaab");
+    assertEquals(incrementTextByOneLetter("aaaaaaaa"), "aaaaaaab");
   });
   it('Should return "aaaaaaac" after "aaaaaaab"', function () {
-    assertEquals(getNextPassword("aaaaaaab"), "aaaaaaac");
+    assertEquals(incrementTextByOneLetter("aaaaaaab"), "aaaaaaac");
   });
   it('Should return "aaaaaaba" after "aaaaaaaz"', function () {
-    assertEquals(getNextPassword("aaaaaaaz"), "aaaaaaba");
+    assertEquals(incrementTextByOneLetter("aaaaaaaz"), "aaaaaaba");
   });
   it('Should return "aaaaaabb" after "aaaaaaba"', function () {
-    assertEquals(getNextPassword("aaaaaaba"), "aaaaaabb");
+    assertEquals(incrementTextByOneLetter("aaaaaaba"), "aaaaaabb");
   });
   it('Should return "aaaaabaa" after "aaaaaazz"', function () {
-    assertEquals(getNextPassword("aaaaaazz"), "aaaaabaa");
+    assertEquals(incrementTextByOneLetter("aaaaaazz"), "aaaaabaa");
   });
   it('Should return "aaaaabab" after "aaaaabaa"', function () {
-    assertEquals(getNextPassword("aaaaabaa"), "aaaaabab");
+    assertEquals(incrementTextByOneLetter("aaaaabaa"), "aaaaabab");
   });
   it('Should return "aaaaabac" after "aaaaabab"', function () {
-    assertEquals(getNextPassword("aaaaabab"), "aaaaabac");
+    assertEquals(incrementTextByOneLetter("aaaaabab"), "aaaaabac");
   });
 });
 
-describe.only("getNextChar", function () {
+describe("getNextChar", function () {
   it('should return "b" after "a"', function () {
     assertEquals(getNextChar("a"), "b");
   });

@@ -14,13 +14,24 @@ export function getNextChar(char: string): string {
   return chars[index + 1];
 }
 
-export function getNextPassword(oldPassword: string): string {
-  if (oldPassword === "zzzzzzzz") {
+export function incrementTextByOneLetter(text: string): string {
+  if (text === "zzzzzzzz") {
     return "aaaaaaaa";
   }
-  // const splitText = oldPassword.split("");
-  // if (splitText.at(-1) !== 'z') {
-  //   return
-  // }
-  return oldPassword;
+  const splitText = text.split("");
+  for (let i = text.length - 1; i >= 0; i--) {
+    // find first letters, that doesn't start with `z`
+    if (splitText[i] !== "z") {
+      // increment the letter
+      splitText[i] = getNextChar(splitText[i]);
+      // replace all `z`s on prev positions with `a`
+      if (i !== text.length - 1) {
+        for (let j = i + 1; j < text.length; j++) {
+          splitText[j] = "a";
+        }
+      }
+      break;
+    }
+  }
+  return splitText.join("");
 }
