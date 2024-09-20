@@ -35,3 +35,15 @@ export function incrementTextByOneLetter(text: string): string {
   }
   return splitText.join("");
 }
+
+export function textIncludesOneOfChars(
+  text: string,
+  forbiddenChars = ["i", "o", "l"],
+): boolean {
+  for (const char of forbiddenChars) {
+    if (text.includes(char)) {
+      return true;
+    }
+  }
+  return false;
+}

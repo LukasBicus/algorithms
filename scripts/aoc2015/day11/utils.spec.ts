@@ -1,6 +1,10 @@
 import { describe, it } from "@std/testing/bdd";
 import { assertEquals, assertThrows } from "@std/assert";
-import { getNextChar, incrementTextByOneLetter } from "./utils.ts";
+import {
+  getNextChar,
+  incrementTextByOneLetter,
+  textIncludesOneOfChars,
+} from "./utils.ts";
 
 describe("incrementTextByOneLetter", () => {
   it('Should return "aaaaaaaa" after "zzzzzzzz"', function () {
@@ -48,5 +52,14 @@ describe("getNextChar", function () {
     assertThrows(function () {
       getNextChar("ab");
     });
+  });
+});
+
+describe("textIncludesOneOfChars", function () {
+  it("should return false for text without forbidden chars", function () {
+    assertEquals(textIncludesOneOfChars("abc"), false);
+  });
+  it("should return true for text with forbidden chars", function () {
+    assertEquals(textIncludesOneOfChars("ijk"), true);
   });
 });
