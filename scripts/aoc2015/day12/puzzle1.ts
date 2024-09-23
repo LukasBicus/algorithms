@@ -16,10 +16,21 @@ What is the sum of all numbers in the document?
 
  */
 
-// read the file string
+import { getNumbersFromText } from "./utils.ts";
 
-// write regex, that will get all digits (with optional negative sign)
+async function processFile(filename: string): Promise<number> {
+  // read the file string
+  const input = await Deno.readTextFile(filename);
+  const allNumbers = getNumbersFromText(input);
+  // sum all digits together
+  return allNumbers.reduce(
+    (accumulator: number, number: number) => accumulator + number,
+    0,
+  );
+}
 
-// sum all digits together
+processFile("./simpleInput.txt").then((result) =>
+  console.log("result: ", result)
+);
 
-const input = await Deno.readTextFile("input.txt");
+processFile("./input.txt").then((result) => console.log("result: ", result));
