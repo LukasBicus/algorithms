@@ -33,7 +33,7 @@ export function sumNumbersOfObject(o: object, count = 0): number {
     if (typeof value === "number") {
       count = count + value;
     } else if (Array.isArray(value)) {
-      count = sumNumbersOfObject(value, count);
+      count = sumNumbersOfArray(value, count);
     } else if (typeof value === "object") {
       count = sumNumbersOfObject(value, count);
     }

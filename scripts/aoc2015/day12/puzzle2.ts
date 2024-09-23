@@ -23,3 +23,15 @@ Uh oh - the Accounting-Elves have realized that they double-counted everything r
 //    - sum all it's numbers
 //    - call all values of type object and sumNumberOfObject and sum them
 // if value of object is another object, transform it with sumNumbersOfObject
+
+import { sumNumbersOfObject } from "./utils.ts";
+
+async function processFile(filename: string): Promise<number> {
+  const input = await Deno.readTextFile(filename);
+  const o = JSON.parse(input);
+  return sumNumbersOfObject(o);
+}
+
+processFile("./input.txt").then((result) => {
+  console.log("result: ", result);
+});
