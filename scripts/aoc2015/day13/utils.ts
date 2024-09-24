@@ -1,3 +1,5 @@
+import { Neighbor } from "./types.ts";
+
 export type NeighbourRelation = {
   // positive is gain, negative number is loss
   [neighbour: string]: number;
@@ -22,4 +24,23 @@ export function parseRelationLine(line: string): AllRelations {
       [match[4]]: parseInt(match[3], 10) * ((match[2] === "lose") ? -1 : 1),
     },
   };
+}
+
+export function getHappinessForSetup(
+  setup: Neighbor[],
+  allRelations: AllRelations,
+) {
+  return setup.reduce((acc, neighbor, currentIndex) => {
+    const prevNeighbor = setup.at(currentIndex - 1);
+    if (prevNeighbor) {
+      acc = acc + allRelations[neighbor][prevNeighbor];
+    }
+    const nextNeighbor = currentIndex + 1 < setup.length
+      ? setup.at(currentIndex + 1)
+      : setup[0];
+    if (nextNeighbor) {
+      acc = acc + allRelations[neighbor][nextNeighbor];
+    }
+    return acc;
+  }, 0);
 }
