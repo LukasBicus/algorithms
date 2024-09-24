@@ -72,6 +72,6 @@ processFile("./simpleInput.txt").then(function (result) {
   console.log("hapiness: ", result);
 });
 
-// processFile("./simpleInput").then(function (result) {
-//   console.log("hapiness: ", result);
-// });
+processFile("./input.txt").then(function (result) {
+  console.log("hapiness for full input: ", result);
+});
