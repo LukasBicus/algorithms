@@ -32,14 +32,46 @@ After trying every other seating arrangement in this hypothetical scenario, you 
 What is the total change in happiness for the optimal seating arrangement of the actual guest list?
  */
 
-// read file input
+import { getPermutations } from "../day9/utils.ts";
+import { Neighbor } from "./types.ts";
+import {
+  AllRelations,
+  getHappinessForSetup,
+  parseRelationLine,
+} from "./utils.ts";
 
-// create object relationships, where each person will have relations to other persons with gains/loses in points
+async function processFile(filename: string): Promise<number> {
+  // read file input
 
-// create permutations of all possible seat setups
+  const input = await Deno.readTextFile(filename);
+  // create object relationships, where each person will have relations to other persons with gains/loses in points
+  const allRelations: AllRelations = {};
 
-// count happiness points for each setup
-// get couples from setup
-// sum points for all couples
+  for (const line of input.split("\n")) {
+    const lineRelation = parseRelationLine(line);
+    const [name, relation] = Object.entries(lineRelation)[0];
+    Object.assign(allRelations, {
+      [name]: { ...allRelations[name], ...relation },
+    });
+  }
+  const names = Object.keys(allRelations) as Neighbor[];
+  // create permutations of all possible seat setups
 
-// find the setup with the highest score
+  const allSetups = getPermutations<Neighbor>(new Set(names));
+
+  const happinessScores = allSetups.map(function (setup) {
+    // count happiness points for each setup
+    return getHappinessForSetup(setup, allRelations);
+  });
+
+  // find the setup with the highest score
+  return Math.max(...happinessScores);
+}
+
+processFile("./simpleInput.txt").then(function (result) {
+  console.log("hapiness: ", result);
+});
+
+// processFile("./simpleInput").then(function (result) {
+//   console.log("hapiness: ", result);
+// });
