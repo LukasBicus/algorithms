@@ -38,6 +38,7 @@ export class Reindeer {
   timeSpentOnActivity: number;
   // distanceTraveled: (km)
   distanceTraveled: number;
+  points: number;
   constructor({ name, speed, restLimit, flyLimit }: {
     name: string;
     speed: number;
@@ -51,10 +52,9 @@ export class Reindeer {
     this.currentActivity = ReindeerActivity.Flying;
     this.timeSpentOnActivity = 0;
     this.distanceTraveled = 0;
+    this.points = 0;
   }
 
-  /*
-   */
   tick(): void {
     //   increment time spent on Activity ++1
     this.timeSpentOnActivity++;
@@ -79,5 +79,9 @@ export class Reindeer {
         this.timeSpentOnActivity = 0;
       }
     }
+  }
+
+  addPoint(): void {
+    this.points++;
   }
 }

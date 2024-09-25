@@ -54,10 +54,23 @@ async function processFile(filename: string, finalTime: number): Promise<void> {
     for (const reindeer of board) {
       reindeer.tick();
     }
+    // find max distance
+    const maxDistance = Math.max(
+      ...board.map((reindeer) => reindeer.distanceTraveled),
+    );
+    // award each dear with travelDistance equal to max distance
+    for (
+      const reindeer of board.filter((reindeer) =>
+        reindeer.distanceTraveled === maxDistance
+      )
+    ) {
+      reindeer.addPoint();
+    }
   }
+
   console.log(
-    "max distance",
-    Math.max(...board.map((reindeer) => reindeer.distanceTraveled)),
+    "max points",
+    Math.max(...board.map((reindeer) => reindeer.points)),
   );
 }
 
