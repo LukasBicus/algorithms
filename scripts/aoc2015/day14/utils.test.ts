@@ -15,7 +15,7 @@ describe("parseReindeerLine", function () {
         name: "Dancer",
         speed: 16,
         flyLimit: 11,
-        restLimit: 163,
+        restLimit: 162,
       },
     );
   });
