@@ -32,10 +32,10 @@ After trying every other seating arrangement in this hypothetical scenario, you 
 What is the total change in happiness for the optimal seating arrangement of the actual guest list?
  */
 
-import { getPermutations } from "../day9/utils.ts";
 import { Neighbor } from "./types.ts";
 import {
   AllRelations,
+  getCombinationsBehindTable,
   getHappinessForSetup,
   parseRelationLine,
 } from "./utils.ts";
@@ -58,6 +58,7 @@ async function processFile(filename: string): Promise<number> {
   // create permutations of all possible seat setups
 
   const allSetups = getPermutations<Neighbor>(new Set(names));
+  const allSetups = getCombinationsBehindTable<Neighbor>(new Set(names));
 
   const happinessScores = allSetups.map(function (setup) {
     // count happiness points for each setup

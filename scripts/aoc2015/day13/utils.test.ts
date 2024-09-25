@@ -3,6 +3,7 @@ import { describe, it } from "@std/testing/bdd";
 import { Neighbor } from "./types.ts";
 import {
   AllRelations,
+  getCombinationsBehindTable,
   getHappinessForSetup,
   parseRelationLine,
 } from "./utils.ts";
@@ -73,6 +74,36 @@ describe("getHappinessForSetup", function () {
         Neighbor.David,
       ], allRelations),
       330,
+    );
+  });
+});
+
+describe("getCombinationsBehindTable", function () {
+  it("Should return empty array of results, when there are no items", function () {
+    assertEquals(getCombinationsBehindTable(new Set<string>()), [[]]);
+  });
+  it("Should return one combination, when there there is less then 4 items", function () {
+    assertEquals(getCombinationsBehindTable(new Set<string>(["a"])), [["a"]]);
+    assertEquals(getCombinationsBehindTable(new Set<string>(["a", "b"])), [[
+      "a",
+      "b",
+    ]]);
+    assertEquals(getCombinationsBehindTable(new Set<string>(["a", "b", "c"])), [
+      ["a", "b", "c"],
+      ["a", "c", "b"],
+    ]);
+  });
+  it("Should return 6 combinations, when there there are 4 items", function () {
+    assertEquals(
+      getCombinationsBehindTable(new Set<string>(["a", "b", "c", "d"])).length,
+      6,
+    );
+  });
+  it("Should return 24 combinations, when there there are 5 items", function () {
+    assertEquals(
+      getCombinationsBehindTable(new Set<string>(["a", "b", "c", "d", "e"]))
+        .length,
+      24,
     );
   });
 });

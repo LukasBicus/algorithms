@@ -1,3 +1,4 @@
+import { getPermutations } from "../day9/utils.ts";
 import { Neighbor } from "./types.ts";
 
 export type NeighbourRelation = {
@@ -43,4 +44,16 @@ export function getHappinessForSetup(
     }
     return acc;
   }, 0);
+}
+
+export function getCombinationsBehindTable<T extends string>(
+  items: Set<T>,
+): T[][] {
+  const arr = Array.from(items);
+  if (arr.length === 0) {
+    return [[]];
+  }
+  const name = arr.shift() as T;
+  const permutationsOfRemainingNames = getPermutations<T>(new Set(arr));
+  return permutationsOfRemainingNames.map((row) => [name].concat(row));
 }
