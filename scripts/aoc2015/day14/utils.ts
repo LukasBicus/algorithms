@@ -25,13 +25,13 @@ export enum ReindeerActivity {
 }
 
 export class Reindeer {
-  name: string;
+  private name: string;
   // fly speed (km/s)
-  speed: number;
+  private speed: number;
   // fly limit (s)
-  flyLimit: number;
+  private flyLimit: number;
   // rest limit (s)
-  restLimit: number;
+  private restLimit: number;
   // currentActivity: Flying/Resting
   currentActivity: ReindeerActivity;
   // timeSpentOnActivity (s)
