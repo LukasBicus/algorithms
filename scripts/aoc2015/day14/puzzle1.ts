@@ -17,37 +17,38 @@ Given the descriptions of each reindeer (in your puzzle input), after exactly 25
 
 ALGORITHM:
 
-read input file
-init all reindeer's
-Lets have a board with each reindeer (check class)
-
-After each second, we should "tick" on reindeer
 
 What distance has reindeer traveled after 2503 seconds?
 What distance has winning reindeer traveled? - What is the max distance on the board?
 
-==========
-// Reindeer - class
-fly speed (km/s)
-fly limit (s)
-rest limit (s)
-currentActivity: Flying/Resting
-timeSpentOnActivity (s)
-distanceTraveled: (km)
-
-methods:
-tick()
--if currentActivity is FLying
-  update distance traveled
-  increment time spent on Activity ++1
-  if time spent on activity is equal to fly limit,
-    switch to resting activity
-    set time spent on Activity to 0
-else currentActivity is Resting
-  increment time spent on Activity ++1
-  if time spent on activity is equal to rest limit,
-    switch to flying activity
-    set time spent on Activity to 0
-==========
 
  */
+
+import { parseReindeerLine, Reindeer } from "./utils.ts";
+
+async function processFile(filename: string, finalTime: number): Promise<void> {
+  // read input file
+  const input = await Deno.readTextFile(filename);
+  // Lets have a board with each reindeer (check class)
+  const board: Reindeer[] = [];
+  // init all reindeer's
+  //
+  for (const line of input.split("\n")) {
+    const data = parseReindeerLine(line);
+    if (data) {
+      board.push(new Reindeer(data));
+    }
+  }
+  // After each second, we should "tick" on reindeer
+  for (let i = 0; i <= finalTime; i++) {
+    for (const reindeer of board) {
+      reindeer.tick();
+    }
+  }
+  console.log(
+    "max distance",
+    Math.max(...board.map((reindeer) => reindeer.distanceTraveled)),
+  );
+}
+
+processFile("simpleInput.txt", 1000);
