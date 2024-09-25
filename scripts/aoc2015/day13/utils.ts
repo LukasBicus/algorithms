@@ -53,7 +53,11 @@ export function getCombinationsBehindTable<T extends string>(
   if (arr.length === 0) {
     return [[]];
   }
+  // take one person "A" and give it fixed position at a table
   const name = arr.shift() as T;
+  // seat all other persons around it
+  // compute all permutations for those persons
   const permutationsOfRemainingNames = getPermutations<T>(new Set(arr));
+  // place all persons next to the person "A", the last person in array will sit on the other hand of the person "A"
   return permutationsOfRemainingNames.map((row) => [name].concat(row));
 }
