@@ -54,11 +54,12 @@ async function processFile(filename: string): Promise<number> {
       [name]: { ...allRelations[name], ...relation },
     });
   }
+  console.log("allRelations", allRelations);
   const names = Object.keys(allRelations) as Neighbor[];
   // create permutations of all possible seat setups
 
-  const allSetups = getPermutations<Neighbor>(new Set(names));
   const allSetups = getCombinationsBehindTable<Neighbor>(new Set(names));
+  console.log("allSetups", allSetups);
 
   const happinessScores = allSetups.map(function (setup) {
     // count happiness points for each setup
@@ -69,10 +70,14 @@ async function processFile(filename: string): Promise<number> {
   return Math.max(...happinessScores);
 }
 
-processFile("./simpleInput.txt").then(function (result) {
-  console.log("hapiness: ", result);
-});
+// processFile("./simpleInput.txt").then(function (result) {
+//   console.log("hapiness: ", result);
+// });
+//
+// processFile("./input.txt").then(function (result) {
+//   console.log("hapiness for full input: ", result);
+// });
 
-processFile("./input.txt").then(function (result) {
-  console.log("hapiness for full input: ", result);
+processFile("./inputWithMe.txt").then(function (result) {
+  console.log("hapiness for full input with me: ", result);
 });
