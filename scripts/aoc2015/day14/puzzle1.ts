@@ -40,7 +40,7 @@ async function processFile(filename: string, finalTime: number): Promise<void> {
     }
   }
   // After each second, we should "tick" on reindeer
-  for (let i = 0; i <= finalTime; i++) {
+  for (let i = 0; i < finalTime; i++) {
     for (const reindeer of board) {
       reindeer.tick();
     }
@@ -52,3 +52,5 @@ async function processFile(filename: string, finalTime: number): Promise<void> {
 }
 
 processFile("simpleInput.txt", 1000);
+
+processFile("input.txt", 2503);
