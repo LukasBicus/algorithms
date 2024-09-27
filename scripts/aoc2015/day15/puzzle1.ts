@@ -47,6 +47,28 @@ ALGORITHM
 - add score of each variation to the board
 - find one with best score
 
+ALGORITHM II
+
+- read all ingredients from file
+  - we will need a specific parseIngredient function for that
+
+- make an iterator, that will provide you with next combination with repetition of 100 ingredients from all ingredients
+
+- start to iterate, in each iteration, compute score. If score is above zero, add it to the board
+
+- add score to each variation
+  - take score for each of:
+    capacity
+    durability
+    flavor
+    texture
+    if one of ingredients is bellow 0, total score is zero
+    if all ingredients are above 0, total score is multiplying of those properties
+
+- create a board of results
+- add score of each variation to the board
+- find one with best score
+
 
 
 
