@@ -161,4 +161,62 @@ describe("generateCombinationWithRepetition", function () {
       2,
     )], expectedResults);
   });
+
+  it("should provide x results for names with length 4", function () {
+    const expectedResults = [{
+      blue: 0,
+      red: 0,
+      green: 0,
+      black: 2,
+    }, {
+      blue: 0,
+      red: 0,
+      green: 1,
+      black: 1,
+    }, {
+      blue: 0,
+      red: 0,
+      green: 2,
+      black: 0,
+    }, {
+      blue: 0,
+      red: 1,
+      green: 0,
+      black: 1,
+    }, {
+      blue: 0,
+      red: 1,
+      green: 1,
+      black: 0,
+    }, {
+      blue: 0,
+      red: 2,
+      green: 0,
+      black: 0,
+    }, {
+      blue: 1,
+      red: 0,
+      green: 0,
+      black: 1,
+    }, {
+      blue: 1,
+      red: 0,
+      green: 1,
+      black: 0,
+    }, {
+      blue: 1,
+      red: 1,
+      green: 0,
+      black: 0,
+    }, {
+      blue: 2,
+      red: 0,
+      green: 0,
+      black: 0,
+    }];
+    assertEquals([...generateCombinationWithRepetition(
+      ["blue", "red", "green", "black"],
+      2,
+    )], expectedResults);
+  });
 });

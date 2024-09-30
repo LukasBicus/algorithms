@@ -109,7 +109,7 @@ export function* generateCombinationWithRepetition(
   }
 
   // solve for count of names 3+
-  if (names.length === 3) {
+  if (names.length > 2) {
     const firstName = names[0];
     const restNames = names.slice(1);
     // take one name X and iterate loop for i = 0 to n
