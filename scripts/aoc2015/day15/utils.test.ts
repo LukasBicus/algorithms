@@ -1,6 +1,10 @@
 import { describe, it } from "@std/testing/bdd";
 import { assertEquals, assertThrows } from "@std/assert";
-import { computeScore, parseIngredientLine } from "./utils.ts";
+import {
+  computeScore,
+  generateCombinationWithRepetition,
+  parseIngredientLine,
+} from "./utils.ts";
 
 describe("parseIngredientLine", function () {
   it("should return null for invalid line", function () {
@@ -81,5 +85,33 @@ describe("computeScore", function () {
       }, ingredients),
       62842880,
     );
+  });
+});
+
+describe("generateCombinationWithRepetition", function () {
+  it("should provide 1 result for n = 0", function () {
+    const generator = generateCombinationWithRepetition(
+      ["blue", "brown", "black"],
+      0,
+    );
+    const result = generator.next();
+    assertEquals(result.done, true);
+    assertEquals(result.value, {
+      blue: 0,
+      brown: 0,
+      black: 0,
+    });
+  });
+
+  it("should provide 1 result for names with lenght 1", function () {
+    const generator = generateCombinationWithRepetition(
+      ["blue"],
+      100,
+    );
+    const result = generator.next();
+    assertEquals(result.done, true);
+    assertEquals(result.value, {
+      blue: 100,
+    });
   });
 });

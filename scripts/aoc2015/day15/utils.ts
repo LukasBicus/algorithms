@@ -71,3 +71,34 @@ export function computeScore(
   return recipeProperties.flavor * recipeProperties.texture *
     recipeProperties.capacity * recipeProperties.durability;
 }
+
+export function* generateCombinationWithRepetition(
+  names: string[],
+  n: number, // number of item types, you can choose from
+): Generator<{
+  [name: string]: number;
+}> {
+  // if n = 0
+  // return { name[0]: 0, name[1]: 0, name[2]: 0, ...}
+  // if names length === 1
+  // return {[names[0]]: n}
+
+  // solve for count of names 2
+
+  // run loop for i = 0 to n - 1
+  // if i !== n -1
+  // yield {name[0] = i; name[1] = n - i}
+  // if i === n -1
+  // return {name[0] = i; name[1] = n - i}
+
+  // solve for count of names 3+
+  // take one name X and iterate loop for i = 0 to n
+  // if i !== n - 1
+  // for (const partialCombination of (generateCombinationWithRepetition( {combinations without X}, n - 1 - i)))
+  // yield {X: i, ...partialCombination}
+  // if i === n - 1
+  //
+  // return {X: n - 1, ...
+  // generateCombinationWithRepetition( {combinations without X field}, 0).next().value
+  // }
+}
