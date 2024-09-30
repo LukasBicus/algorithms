@@ -130,3 +130,13 @@ export function* generateCombinationWithRepetition(
     }
   }
 }
+
+export function computeCalories(
+  combination: Record<string, number>,
+  ingredients: Record<string, Ingredient>,
+): number {
+  return Object.entries(combination).reduce(
+    (acc, [name, spoons]) => acc + spoons * ingredients[name].calories,
+    0,
+  );
+}

@@ -1,6 +1,7 @@
 import { describe, it } from "@std/testing/bdd";
 import { assertEquals, assertThrows } from "@std/assert";
 import {
+  computeCalories,
   computeScore,
   generateCombinationWithRepetition,
   parseIngredientLine,
@@ -84,6 +85,36 @@ describe("computeScore", function () {
         Cinnamon: 56,
       }, ingredients),
       62842880,
+    );
+  });
+});
+
+describe("computeCalories", function () {
+  const ingredients = {
+    Butterscotch: {
+      name: "Butterscotch",
+      capacity: -1,
+      durability: -2,
+      flavor: 6,
+      texture: 3,
+      calories: 8,
+    },
+    Cinnamon: {
+      name: "Cinnamon",
+      capacity: 2,
+      durability: 3,
+      flavor: -2,
+      texture: -1,
+      calories: 3,
+    },
+  };
+  it("should compute calories", function () {
+    assertEquals(
+      computeCalories({
+        [ingredients.Butterscotch.name]: 2,
+        [ingredients.Cinnamon.name]: 2,
+      }, ingredients),
+      22,
     );
   });
 });
