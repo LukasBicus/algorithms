@@ -46,33 +46,55 @@ ALGORITHM
 - create a board of results
 - add score of each variation to the board
 - find one with best score
-
-ALGORITHM II
-
-- read all ingredients from file
-  - we will need a specific parseIngredient function for that
-
-- make an iterator, that will provide you with next combination with repetition of 100 ingredients from all ingredients
-
-- start to iterate, in each iteration, compute score. If score is above zero, add it to the board
-
-- add score to each variation
-  - take score for each of:
-    capacity
-    durability
-    flavor
-    texture
-    if one of ingredients is bellow 0, total score is zero
-    if all ingredients are above 0, total score is multiplying of those properties
-
-- create a board of results
-- add score of each variation to the board
-- find one with best score
-
-
-
-
-
-
-
 */
+
+// ALGORITHM II
+//
+//
+// - read all ingredients from file
+//   - we will need a specific parseIngredient function for that
+import {
+  computeScore,
+  generateCombinationWithRepetition,
+  Ingredient,
+  parseIngredientLine,
+} from "./utils.ts";
+
+async function processFile(filename: string): Promise<void> {
+  const input = await Deno.readTextFileSync(filename);
+  const ingredients: Ingredient[] = [];
+  for (const line of input.split("\n")) {
+    const ingredient = parseIngredientLine(line);
+    if (ingredient) {
+      ingredients.push(ingredient);
+    }
+  }
+  console.log("ingredients", ingredients);
+  // - make an iterator, that will provide you with next combination with repetition of 100 ingredients from all ingredients
+  const generator = generateCombinationWithRepetition(
+    ingredients.map((i) => i.name),
+    100,
+  );
+  // - create a board of results
+  const board: number[] = [];
+  const ingredientsMap = ingredients.reduce(
+    (acc: Record<string, Ingredient>, ingredient) => ({
+      ...acc,
+      [ingredient.name]: ingredient,
+    }),
+    {},
+  );
+  // - start to iterate, in each iteration, compute score.
+  for (const combination of generator) {
+    const scoreForCombination = computeScore(combination, ingredientsMap);
+    // If score is above zero, add it to the board
+    if (scoreForCombination) {
+      board.push(scoreForCombination);
+    }
+  }
+  // - find one with best score
+  console.log("max score", Math.max(...board));
+}
+
+// expected score 62842880
+processFile("./simpleInput.txt");
