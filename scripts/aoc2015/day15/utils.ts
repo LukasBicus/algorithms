@@ -80,8 +80,8 @@ export function* generateCombinationWithRepetition(
 }> {
   // if n = 0
   if (n === 0) {
-    // return { name[0]: 0, name[1]: 0, name[2]: 0, ...}
-    return names.reduce((acc: {
+    // yield { name[0]: 0, name[1]: 0, name[2]: 0, ...}
+    yield names.reduce((acc: {
       [name: string]: number;
     }, name) => ({
       ...acc,
@@ -90,17 +90,23 @@ export function* generateCombinationWithRepetition(
   }
   // if names length === 1
   if (names.length === 1) {
-    // return {[names[0]]: n}
-    return { [names[0]]: n };
+    // yield {[names[0]]: n}
+    yield { [names[0]]: n };
   }
 
   // solve for count of names 2
+  if (names.length === 2) {
+    // run loop for i = 0 to n
+    for (let i = 0; i <= n; i++) {
+      // yield {names[0] = i; names[1] = n - i}
+      yield {
+        [names[0]]: i,
+        [names[1]]: n - i,
+      };
+    }
+  }
 
-  // run loop for i = 0 to n - 1
-  // if i !== n -1
-  // yield {name[0] = i; name[1] = n - i}
-  // if i === n -1
-  // return {name[0] = i; name[1] = n - i}
+  // throw (new Error("Not implemented"));
 
   // solve for count of names 3+
   // take one name X and iterate loop for i = 0 to n

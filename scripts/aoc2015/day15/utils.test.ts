@@ -95,7 +95,6 @@ describe("generateCombinationWithRepetition", function () {
       0,
     );
     const result = generator.next();
-    assertEquals(result.done, true);
     assertEquals(result.value, {
       blue: 0,
       brown: 0,
@@ -109,13 +108,12 @@ describe("generateCombinationWithRepetition", function () {
       100,
     );
     const result = generator.next();
-    assertEquals(result.done, true);
     assertEquals(result.value, {
       blue: 100,
     });
   });
 
-  it("should provide 1 result for names with length 2", function () {
+  it("should provide 3 results for names with length 2", function () {
     const expectedResults = [{
       blue: 0,
       red: 2,
