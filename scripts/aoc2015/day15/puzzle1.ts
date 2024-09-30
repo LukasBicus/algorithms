@@ -98,3 +98,4 @@ async function processFile(filename: string): Promise<void> {
 
 // expected score 62842880
 processFile("./simpleInput.txt");
+processFile("./input.txt");
