@@ -103,7 +103,7 @@ describe("generateCombinationWithRepetition", function () {
     });
   });
 
-  it("should provide 1 result for names with lenght 1", function () {
+  it("should provide 1 result for names with length 1", function () {
     const generator = generateCombinationWithRepetition(
       ["blue"],
       100,
@@ -113,5 +113,22 @@ describe("generateCombinationWithRepetition", function () {
     assertEquals(result.value, {
       blue: 100,
     });
+  });
+
+  it("should provide 1 result for names with length 2", function () {
+    const expectedResults = [{
+      blue: 0,
+      red: 2,
+    }, {
+      blue: 1,
+      red: 1,
+    }, {
+      blue: 2,
+      red: 0,
+    }];
+    assertEquals([...generateCombinationWithRepetition(
+      ["blue", "red"],
+      2,
+    )], expectedResults);
   });
 });
