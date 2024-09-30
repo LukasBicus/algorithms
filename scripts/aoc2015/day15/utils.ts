@@ -79,9 +79,20 @@ export function* generateCombinationWithRepetition(
   [name: string]: number;
 }> {
   // if n = 0
-  // return { name[0]: 0, name[1]: 0, name[2]: 0, ...}
+  if (n === 0) {
+    // return { name[0]: 0, name[1]: 0, name[2]: 0, ...}
+    return names.reduce((acc: {
+      [name: string]: number;
+    }, name) => ({
+      ...acc,
+      [name]: 0,
+    }), {});
+  }
   // if names length === 1
-  // return {[names[0]]: n}
+  if (names.length === 1) {
+    // return {[names[0]]: n}
+    return { [names[0]]: n };
+  }
 
   // solve for count of names 2
 
