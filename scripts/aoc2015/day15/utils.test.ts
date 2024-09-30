@@ -129,4 +129,36 @@ describe("generateCombinationWithRepetition", function () {
       2,
     )], expectedResults);
   });
+
+  it("should provide 6 results for names with length 3", function () {
+    const expectedResults = [{
+      blue: 0,
+      red: 0,
+      green: 2,
+    }, {
+      blue: 0,
+      red: 1,
+      green: 1,
+    }, {
+      blue: 0,
+      red: 2,
+      green: 0,
+    }, {
+      blue: 1,
+      red: 0,
+      green: 1,
+    }, {
+      blue: 1,
+      red: 1,
+      green: 0,
+    }, {
+      blue: 2,
+      red: 0,
+      green: 0,
+    }];
+    assertEquals([...generateCombinationWithRepetition(
+      ["blue", "red", "green"],
+      2,
+    )], expectedResults);
+  });
 });

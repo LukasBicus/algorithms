@@ -87,11 +87,13 @@ export function* generateCombinationWithRepetition(
       ...acc,
       [name]: 0,
     }), {});
+    return;
   }
   // if names length === 1
   if (names.length === 1) {
     // yield {[names[0]]: n}
     yield { [names[0]]: n };
+    return;
   }
 
   // solve for count of names 2
@@ -106,16 +108,25 @@ export function* generateCombinationWithRepetition(
     }
   }
 
-  // throw (new Error("Not implemented"));
-
   // solve for count of names 3+
-  // take one name X and iterate loop for i = 0 to n
-  // if i !== n - 1
-  // for (const partialCombination of (generateCombinationWithRepetition( {combinations without X}, n - 1 - i)))
-  // yield {X: i, ...partialCombination}
-  // if i === n - 1
-  //
-  // return {X: n - 1, ...
-  // generateCombinationWithRepetition( {combinations without X field}, 0).next().value
-  // }
+  if (names.length === 3) {
+    const firstName = names[0];
+    const restNames = names.slice(1);
+    // take one name X and iterate loop for i = 0 to n
+    for (let i = 0; i <= n; i++) {
+      // for (const partialCombination of (generateCombinationWithRepetition( {combinations without X}, n - 1 - i)))
+      for (
+        const partialCombination of generateCombinationWithRepetition(
+          restNames,
+          n - i,
+        )
+      ) {
+        // yield {X: i, ...partialCombination}
+        yield {
+          [firstName]: i,
+          ...partialCombination,
+        };
+      }
+    }
+  }
 }
