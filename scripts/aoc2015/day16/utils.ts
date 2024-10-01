@@ -62,5 +62,26 @@ export function parseSue(line: string): Partial<Sue> | null {
 }
 
 export function checkSue(sue: Partial<Sue>, referenceSue: Sue): boolean {
-  return false;
+  const { name, ...sueWithoutName } = sue;
+  for (const [name, value] of Object.entries(sueWithoutName)) {
+    if (
+      referenceSue[
+        name as (
+          | "children"
+          | "cats"
+          | "samoyeds"
+          | "pomeranians"
+          | "akitas"
+          | "vizslas"
+          | "goldfish"
+          | "trees"
+          | "cars"
+          | "perfumes"
+        )
+      ] !== value
+    ) {
+      return false;
+    }
+  }
+  return true;
 }
