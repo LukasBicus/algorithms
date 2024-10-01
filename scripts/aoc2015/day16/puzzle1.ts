@@ -34,10 +34,41 @@ What is the number of the Sue that got you the gift?
 
 // ALGORITHM
 
-// read file
-// parse information about aunts
+import { checkSue, parseSue, Sue } from "./utils.ts";
 
-// compare information about aunts with information from machine
-// = compare field values from list sue with picked field values from MFCSAM sue
-//
-// print aunt number on match
+const mfcsamSue = {
+  name: "Sue MFCSAM",
+  children: 3,
+  cats: 7,
+  samoyeds: 2,
+  pomeranians: 3,
+  akitas: 0,
+  vizslas: 0,
+  goldfish: 5,
+  trees: 3,
+  cars: 2,
+  perfumes: 1,
+};
+
+async function processFile(filename: string): Promise<void> {
+  // read file
+  const input = await Deno.readTextFile(filename);
+  const sues: Partial<Sue>[] = [];
+  for (const line of input.split("\n")) {
+    // parse information about aunts
+    const sue = parseSue(line);
+    if (sue) {
+      sues.push(sue);
+    }
+  }
+
+  for (const sue of sues) {
+    // compare information about aunts with information from machine
+    if (checkSue(sue, mfcsamSue)) {
+      // print aunt number on match
+      console.log(`${sue.name} satisfies MFCSAM`);
+    }
+  }
+}
+
+processFile("./input.txt");
