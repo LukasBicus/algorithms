@@ -12,6 +12,51 @@ export type Sue = {
   perfumes: number;
 };
 
+const nameRegex = /(Sue \d+): /;
+const thingRegex = /([a-z]+): (\d+)/g;
+
 export function parseSue(line: string): Partial<Sue> | null {
-  return null;
+  const nameMatch = line.match(nameRegex);
+  const sue: Partial<Sue> = {};
+  if (!nameMatch) {
+    return null;
+  }
+  sue.name = nameMatch[1];
+  const thingMatchIterator = line.matchAll(thingRegex);
+  for (const thingMatch of thingMatchIterator) {
+    if (
+      [
+        "children",
+        "cats",
+        "samoyeds",
+        "pomeranians",
+        "akitas",
+        "vizslas",
+        "goldfish",
+        "trees",
+        "cars",
+        "perfumes",
+      ].includes(
+        thingMatch[1],
+      )
+    ) {
+      sue[
+        thingMatch[1] as (
+          | "children"
+          | "cats"
+          | "samoyeds"
+          | "pomeranians"
+          | "akitas"
+          | "vizslas"
+          | "goldfish"
+          | "trees"
+          | "cars"
+          | "perfumes"
+        )
+      ] = parseInt(thingMatch[2], 10);
+    } else {
+      return null;
+    }
+  }
+  return sue;
 }

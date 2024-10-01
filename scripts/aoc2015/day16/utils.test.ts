@@ -2,7 +2,7 @@ import { assertEquals } from "@std/assert";
 import { describe, it } from "@std/testing/bdd";
 import { parseSue, Sue } from "./utils.ts";
 
-describe("utils", () => {
+describe("parseSue", () => {
   it("should return null for invalid line", function () {
     assertEquals(parseSue("invalid line"), null);
   });
