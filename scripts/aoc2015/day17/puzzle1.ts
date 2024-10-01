@@ -15,9 +15,41 @@ Filling all containers entirely, how many different combinations of containers c
 
 // ALGORITHM
 
-// read file
-// parse containers - fill array of containers
+import {
+  generateCombinationsWithoutRepetition,
+  parseContainerLine,
+} from "./utils.ts";
 
-// create iterator based on available containers
+async function processFile(
+  filename: string,
+  amountWanted: number,
+): Promise<void> {
+  // read file
+  const input = await Deno.readTextFile(filename);
+  const containers: number[] = [];
+  for (const line of input.split("\n")) {
+    // parse containers - fill array of containers
+    const container = parseContainerLine(line);
+    if (container) {
+      containers.push(container);
+    }
+  }
+  // create iterator based on available containers
+  const combinations: number[][] = [];
+  for (
+    const combination of generateCombinationsWithoutRepetition(containers)
+  ) {
+    if (
+      combination.reduce((acc, container) => acc + container, 0) ===
+        amountWanted
+    ) {
+      combinations.push(combination);
+    }
+  }
+  console.log("combinations count", combinations.length);
 
-// filter out combinations of containers with size 150l
+  // filter out combinations of containers with size 150l
+}
+
+processFile("simpleInput.txt", 25);
+processFile("input.txt", 150);
