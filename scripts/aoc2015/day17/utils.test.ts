@@ -32,9 +32,24 @@ describe("generateCombinationsWithoutRepetition", function () {
     assertEquals(result, expectedResult);
   });
 
-  it("should return 4 results, if length of input items is 1", function () {
+  it("should return 4 results, if length of input items is 2", function () {
     const expectedResult = [[], ["a"], ["b"], ["a", "b"]];
     const result = [...generateCombinationsWithoutRepetition(["a", "b"])];
+    assertEquals(result, expectedResult);
+  });
+
+  it("should return 8 results, if length of input items is 3", function () {
+    const expectedResult = [
+      [],
+      ["a"],
+      ["b"],
+      ["a", "b"],
+      ["a", "c"],
+      ["c"],
+      ["b", "c"],
+      ["a", "b", "c"],
+    ];
+    const result = [...generateCombinationsWithoutRepetition(["a", "b", "c"])];
     assertEquals(result, expectedResult);
   });
 });
