@@ -40,5 +40,18 @@ export function parseContainerLine(line: string): number | null {
 export function* generateCombinationsWithoutRepetition<T>(
   items: T[],
 ): Generator<T[]> {
-  yield [] as T[];
+  if (items.length === 0) {
+    yield [];
+    return;
+  } else if (items.length === 1) {
+    yield [];
+    yield [items[0]];
+    // items.length > 1
+  } else {
+    const firstItem = items.shift() as T;
+    for (const combination of generateCombinationsWithoutRepetition(items)) {
+      yield combination;
+      yield [firstItem].concat(combination);
+    }
+  }
 }

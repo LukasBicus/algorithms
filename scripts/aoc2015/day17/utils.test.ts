@@ -44,8 +44,8 @@ describe("generateCombinationsWithoutRepetition", function () {
       ["a"],
       ["b"],
       ["a", "b"],
-      ["a", "c"],
       ["c"],
+      ["a", "c"],
       ["b", "c"],
       ["a", "b", "c"],
     ];
