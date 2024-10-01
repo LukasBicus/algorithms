@@ -99,13 +99,13 @@ export function checkSue2(sue: Partial<Sue>, referenceSue: Sue): boolean {
     switch (name) {
       case "pomeranians":
       case "goldfish":
-        if (referenceSue[name] < value) {
+        if (referenceSue[name] <= value) {
           return false;
         }
         break;
       case "cats":
       case "trees":
-        if (referenceSue[name] > value) {
+        if (referenceSue[name] >= value) {
           return false;
         }
         break;

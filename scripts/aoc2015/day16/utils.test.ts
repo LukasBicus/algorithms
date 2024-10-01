@@ -53,7 +53,7 @@ describe("checkSue", function () {
       false,
     );
   });
-  it("should return false when there is no match", function () {
+  it("should return true when there is match", function () {
     assertEquals(
       checkSue({
         name: "Sue X",
@@ -84,19 +84,19 @@ describe("checkSue2", function () {
     assertEquals(
       checkSue2({
         name: "Sue 8",
-        pomeranians: 7,
-        goldfish: 8,
-        cars: 10,
+        pomeranians: 3,
+        cats: 7,
+        trees: 3,
       }, referenceSue),
       false,
     );
   });
-  it("should return false when there is no match", function () {
+  it("should return true when there is match", function () {
     assertEquals(
       checkSue2({
         name: "Sue X",
-        trees: 5,
         cats: 8,
+        trees: 4,
         cars: 2,
         pomeranians: 2,
         goldfish: 4,
