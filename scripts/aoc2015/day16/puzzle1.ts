@@ -38,4 +38,6 @@ What is the number of the Sue that got you the gift?
 // parse information about aunts
 
 // compare information about aunts with information from machine
+// = compare field values from list sue with picked field values from MFCSAM sue
+//
 // print aunt number on match
