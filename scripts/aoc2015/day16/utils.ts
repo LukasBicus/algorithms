@@ -60,3 +60,7 @@ export function parseSue(line: string): Partial<Sue> | null {
   }
   return sue;
 }
+
+export function checkSue(sue: Partial<Sue>, referenceSue: Sue): boolean {
+  return false;
+}
