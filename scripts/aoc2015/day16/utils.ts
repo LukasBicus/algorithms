@@ -85,3 +85,63 @@ export function checkSue(sue: Partial<Sue>, referenceSue: Sue): boolean {
   }
   return true;
 }
+
+/*
+some of values indicate ranges.
+cats and trees readings indicates that there are greater than that many
+pomeranians and goldfish readings indicate that there are fewer than that many
+
+ */
+
+export function checkSue2(sue: Partial<Sue>, referenceSue: Sue): boolean {
+  const { name, ...sueWithoutName } = sue;
+  for (const [name, value] of Object.entries(sueWithoutName)) {
+    if (
+      [
+        "pomeranians",
+        "goldfish",
+      ].includes(name)
+    ) {
+      if (
+        referenceSue[
+          name as (
+            | "pomeranians"
+            | "goldfish"
+          )
+        ] < value
+      ) {
+        return false;
+      }
+    } else if (
+      [
+        "cats",
+        "trees",
+      ].includes(name)
+    ) {
+      if (
+        referenceSue[
+          name as (
+            | "cats"
+            | "trees"
+          )
+        ] > value
+      ) {
+        return false;
+      }
+    } else if (
+      referenceSue[
+        name as (
+          | "children"
+          | "samoyeds"
+          | "akitas"
+          | "vizslas"
+          | "cars"
+          | "perfumes"
+        )
+      ] !== value
+    ) {
+      return false;
+    }
+  }
+  return true;
+}
