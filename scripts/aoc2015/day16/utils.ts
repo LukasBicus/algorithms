@@ -96,51 +96,30 @@ pomeranians and goldfish readings indicate that there are fewer than that many
 export function checkSue2(sue: Partial<Sue>, referenceSue: Sue): boolean {
   const { name, ...sueWithoutName } = sue;
   for (const [name, value] of Object.entries(sueWithoutName)) {
-    if (
-      [
-        "pomeranians",
-        "goldfish",
-      ].includes(name)
-    ) {
-      if (
-        referenceSue[
-          name as (
-            | "pomeranians"
-            | "goldfish"
-          )
-        ] < value
-      ) {
-        return false;
-      }
-    } else if (
-      [
-        "cats",
-        "trees",
-      ].includes(name)
-    ) {
-      if (
-        referenceSue[
-          name as (
-            | "cats"
-            | "trees"
-          )
-        ] > value
-      ) {
-        return false;
-      }
-    } else if (
-      referenceSue[
-        name as (
-          | "children"
-          | "samoyeds"
-          | "akitas"
-          | "vizslas"
-          | "cars"
-          | "perfumes"
-        )
-      ] !== value
-    ) {
-      return false;
+    switch (name) {
+      case "pomeranians":
+      case "goldfish":
+        if (referenceSue[name] < value) {
+          return false;
+        }
+        break;
+      case "cats":
+      case "trees":
+        if (referenceSue[name] > value) {
+          return false;
+        }
+        break;
+      case "children":
+      case "samoyeds":
+      case "akitas":
+      case "vizslas":
+      case "cars":
+      case "perfumes":
+        if (referenceSue[name] !== value) {
+          return false;
+        }
+        break;
+      default:
     }
   }
   return true;
