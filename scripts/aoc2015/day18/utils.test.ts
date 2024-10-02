@@ -15,4 +15,24 @@ describe("getNeighboursPositions", () => {
       { x: 2, y: 3 },
     ]);
   });
+
+  it("should return position for {x: 0, y: 3}", function () {
+    assertEquals(getNeighboursPositions({ x: 0, y: 3 }, 6), [
+      { x: 0, y: 2 },
+      { x: 1, y: 2 },
+      { x: 1, y: 3 },
+      { x: 0, y: 4 },
+      { x: 1, y: 4 },
+    ]);
+  });
+
+  it("should return position for {x: 3, y: 0}", function () {
+    assertEquals(getNeighboursPositions({ x: 3, y: 0 }, 6), [
+      { x: 2, y: 0 },
+      { x: 4, y: 0 },
+      { x: 2, y: 1 },
+      { x: 3, y: 1 },
+      { x: 4, y: 1 },
+    ]);
+  });
 });
