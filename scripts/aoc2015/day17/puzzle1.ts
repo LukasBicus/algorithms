@@ -60,8 +60,19 @@ async function processFile(
 
   // find the combination with shortest length
   // create array of combination lengths, find min
+  const theSmallestCountOfContainers = Math.min(
+    ...combinations.map((combination) => combination.length),
+  );
 
   // find the count of combinations with the shortest length
+  const count =
+    combinations.filter((combination) =>
+      combination.length === theSmallestCountOfContainers
+    ).length;
+  console.log(
+    "count of combinations with the smallest count of containers",
+    count,
+  );
 }
 
 processFile("simpleInput.txt", 25);
