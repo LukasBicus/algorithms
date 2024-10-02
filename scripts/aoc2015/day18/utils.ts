@@ -18,7 +18,22 @@ export function getNeighboursPositions(
   pos: Position,
   gridSize: number,
 ): Position[] {
-  return [];
+  if (pos.x < 0 || pos.x >= gridSize || pos.y < 0 || pos.y >= gridSize) {
+    throw new Error("Position is not in grid");
+  }
+  const positions: Position[] = [];
+  for (const y of [pos.y - 1, pos.y, pos.y + 1]) {
+    if (y >= 0 && y < gridSize) {
+      for (const x of [pos.x - 1, pos.x, pos.x + 1]) {
+        if (x >= 0 && x < gridSize) {
+          if (!(x === pos.x && y === pos.y)) {
+            positions.push({ x, y });
+          }
+        }
+      }
+    }
+  }
+  return positions;
 }
 
 export function getGridKey(pos: Position) {
