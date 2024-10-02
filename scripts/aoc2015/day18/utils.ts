@@ -127,3 +127,15 @@ export function performStep(prevGrid: LightGrid, size: number) {
   // gets positions all neighbours of a light in a grid
   return grid;
 }
+
+export function litGridCorners(grid: LightGrid, size: number) {
+  const cornerPosition = size - 1;
+  grid.set(getGridKey({ x: 0, y: 0 }), LightState.TurnedOn);
+  grid.set(getGridKey({ x: 0, y: cornerPosition }), LightState.TurnedOn);
+  grid.set(getGridKey({ x: cornerPosition, y: 0 }), LightState.TurnedOn);
+  grid.set(
+    getGridKey({ x: cornerPosition, y: cornerPosition }),
+    LightState.TurnedOn,
+  );
+  return grid;
+}

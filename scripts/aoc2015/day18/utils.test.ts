@@ -5,6 +5,7 @@ import {
   getNeighboursPositions,
   LightGrid,
   LightState,
+  litGridCorners,
   performStep,
 } from "./utils.ts";
 
@@ -76,5 +77,23 @@ describe("performStep", function () {
 #.....
 #.##..`);
     assertEquals(performStep(initialGrid, size), expectedGrid);
+  });
+});
+
+describe("litGridCorners", function () {
+  it("should lit grid corners", function () {
+    const { grid: initialGrid, size } = fillGrid(`.#.#.#
+...##.
+#....#
+..#...
+#.#..#
+####..`);
+    const { grid: expectedGrid } = fillGrid(`##.#.#
+...##.
+#....#
+..#...
+#.#..#
+####.#`);
+    assertEquals(litGridCorners(initialGrid, size), expectedGrid);
   });
 });
