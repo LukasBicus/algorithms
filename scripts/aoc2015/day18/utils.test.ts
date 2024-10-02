@@ -1,6 +1,11 @@
-import { assertEquals } from "https://jsr.io/@std/assert/1.0.2/equals.ts";
-import { describe, it } from "https://jsr.io/@std/testing/1.0.0/bdd.ts";
-import { getNeighboursPositions } from "./utils.ts";
+import { assertEquals } from "@std/assert";
+import { describe, it } from "@std/testing/bdd";
+import {
+  fillGrid,
+  getNeighboursPositions,
+  LightGrid,
+  LightState,
+} from "./utils.ts";
 
 describe("getNeighboursPositions", () => {
   it("should return position for {x: 1, y:2}", function () {
@@ -34,5 +39,23 @@ describe("getNeighboursPositions", () => {
       { x: 3, y: 1 },
       { x: 4, y: 1 },
     ]);
+  });
+});
+
+describe("fillGrid", function () {
+  it("should fill simpleGrid", function () {
+    const expectedGrid: LightGrid = new Map();
+    expectedGrid.set("0-0", LightState.TurnedOff);
+    expectedGrid.set("0-1", LightState.TurnedOn);
+    expectedGrid.set("1-0", LightState.TurnedOff);
+    expectedGrid.set("1-1", LightState.TurnedOff);
+    assertEquals(
+      fillGrid(`.#
+..`),
+      {
+        grid: expectedGrid,
+        size: 2,
+      },
+    );
   });
 });

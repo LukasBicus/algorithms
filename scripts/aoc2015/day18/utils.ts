@@ -32,3 +32,14 @@ export function getPositionFromKey(key: string): Position {
     y: parseInt(y, 10),
   };
 }
+
+// fill a grid of 100x100
+// A # means "on", and a . means "off".
+// a "\n" means new line in grid
+export function fillGrid(input: string): { grid: LightGrid; size: number } {
+  const grid: LightGrid = new Map();
+  return {
+    grid,
+    size: 0,
+  };
+}
