@@ -46,8 +46,8 @@ describe("fillGrid", function () {
   it("should fill simpleGrid", function () {
     const expectedGrid: LightGrid = new Map();
     expectedGrid.set("0-0", LightState.TurnedOff);
-    expectedGrid.set("0-1", LightState.TurnedOn);
-    expectedGrid.set("1-0", LightState.TurnedOff);
+    expectedGrid.set("0-1", LightState.TurnedOff);
+    expectedGrid.set("1-0", LightState.TurnedOn);
     expectedGrid.set("1-1", LightState.TurnedOff);
     assertEquals(
       fillGrid(`.#

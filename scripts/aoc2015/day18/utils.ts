@@ -38,8 +38,34 @@ export function getPositionFromKey(key: string): Position {
 // a "\n" means new line in grid
 export function fillGrid(input: string): { grid: LightGrid; size: number } {
   const grid: LightGrid = new Map();
+  const lines = input.split("\n");
+  const size = lines.length;
+  for (const [y, line] of Object.entries(lines)) {
+    for (const [x, char] of Object.entries(line)) {
+      const key = getGridKey({
+        x: parseInt(x, 10),
+        y: parseInt(y, 10),
+      });
+      switch (char) {
+        case ".":
+          grid.set(
+            key,
+            LightState.TurnedOff,
+          );
+          break;
+        case "#":
+          grid.set(
+            key,
+            LightState.TurnedOn,
+          );
+          break;
+        default:
+          break;
+      }
+    }
+  }
   return {
     grid,
-    size: 0,
+    size,
   };
 }
