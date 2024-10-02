@@ -5,6 +5,7 @@ import {
   getNeighboursPositions,
   LightGrid,
   LightState,
+  performStep,
 } from "./utils.ts";
 
 describe("getNeighboursPositions", () => {
@@ -57,5 +58,23 @@ describe("fillGrid", function () {
         size: 2,
       },
     );
+  });
+});
+
+describe("performStep", function () {
+  it("should perform step", function () {
+    const { grid: initialGrid, size } = fillGrid(`.#.#.#
+...##.
+#....#
+..#...
+#.#..#
+####..`);
+    const { grid: expectedGrid } = fillGrid(`..##..
+..##.#
+...##.
+......
+#.....
+#.##..`);
+    assertEquals(performStep(initialGrid, size), expectedGrid);
   });
 });
