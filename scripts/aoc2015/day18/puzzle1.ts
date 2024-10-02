@@ -92,3 +92,27 @@ To begin, get your puzzle input.
 
 // get neighbours function (position - position of a light in a grid)
 // gets positions all neighbours of a light in a grid
+
+import { fillGrid, LightGrid, LightState, performStep } from "./utils.ts";
+
+async function processFile(
+  filename: string,
+  stepsCount: number,
+): Promise<void> {
+  const input = await Deno.readTextFile(filename);
+  const { grid, size } = fillGrid(input);
+  let nextGrid: LightGrid = grid;
+  // perform step
+  for (let i = 0; i < stepsCount; i++) {
+    nextGrid = performStep(nextGrid, size);
+  }
+  let counter = 0;
+  for (const [, light] of nextGrid) {
+    if (light === LightState.TurnedOn) {
+      counter++;
+    }
+  }
+  console.log(`Count of lit lights is: ${counter}`);
+}
+
+processFile("simpleInput.txt", 4);
