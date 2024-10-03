@@ -66,12 +66,7 @@ Given the available replacements and the medicine molecule in your puzzle input,
 
 // Algorithm
 
-import {
-  generateMolecules,
-  parseInput,
-  Replacement,
-  reverseStep,
-} from "./utils.ts";
+import { parseInput, Replacement, reverseStep } from "./utils.ts";
 
 async function processFile(filename: string) {
   const input = await Deno.readTextFile(filename);
@@ -114,4 +109,5 @@ async function processFile(filename: string) {
 }
 
 processFile("simpleInput.txt");
+processFile("simpleInput2.txt");
 // processFile("input.txt");
