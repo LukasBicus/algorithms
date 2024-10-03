@@ -1,6 +1,6 @@
 import { assertEquals } from "@std/assert";
 import { describe, it } from "@std/testing/bdd";
-import { parseReplacementLine } from "./utils.ts";
+import { parseInput, parseReplacementLine } from "./utils.ts";
 
 describe("parseReplacementLine", function () {
   it("should return null for invalid line", function () {
@@ -16,5 +16,33 @@ describe("parseReplacementLine", function () {
       from: "Mg",
       to: "TiMg",
     });
+  });
+});
+
+describe("parseInput", function () {
+  it("should return null for invalid file", function () {
+    assertEquals(parseInput("invalid input"), null);
+  });
+  it("should return data for valid file", function () {
+    assertEquals(
+      parseInput(`H => HO
+H => OH
+O => HH
+
+HOH`),
+      {
+        replacements: [{
+          from: "H",
+          to: "HO",
+        }, {
+          from: "H",
+          to: "OH",
+        }, {
+          from: "O",
+          to: "HH",
+        }],
+        medicineMolecule: "HOH",
+      },
+    );
   });
 });
