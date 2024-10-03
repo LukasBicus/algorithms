@@ -36,3 +36,62 @@ export function parseInput(input: string): {
     medicineMolecule,
   };
 }
+
+// replaceNthOccurence
+
+export function replaceOccurrenceAtPosition(
+  text: string,
+  replacement: Replacement,
+  position: number,
+): string {
+  let currentPosition = 0;
+  return text.replace(new RegExp(replacement.from, "g"), function () {
+    return (position === currentPosition++) ? replacement.to : replacement.from;
+  });
+}
+
+//    replacement will provide you string to be replaced (FROM) and new string (TO)
+export function generateMolecules(
+  medicineMolecule: string,
+  replacement: Replacement,
+): string[] {
+  //    traverse medicine molecule,
+  //
+  //        find each occurrence of FROM and replace it with TO, add new molecule to set of distinct molecules
+
+  // case 1:
+  // medicine molecule HOHOHO
+  // replacement: C => X
+  // expected result: []
+
+  // case 2:
+  // medicine molecule HOHOHO
+  // replacement: H => X
+  // expected:
+  // [
+  // X0HOHO
+  // HOX0HO
+  // HOHOX0
+  // ]
+
+  const molecules: string[] = [];
+  let position = 0;
+  let result;
+  // do
+  do {
+    // replace on position 0
+    result = replaceOccurrenceAtPosition(
+      medicineMolecule,
+      replacement,
+      position,
+    );
+    position++;
+    // if molecule differs from medicineMolecule
+    if (result !== medicineMolecule) {
+      // push new molecule to molecules
+      molecules.push(result);
+    }
+  } while (result !== medicineMolecule);
+
+  return molecules;
+}
