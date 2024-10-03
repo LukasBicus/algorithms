@@ -66,7 +66,12 @@ Given the available replacements and the medicine molecule in your puzzle input,
 
 // Algorithm
 
-import { generateMolecules, parseInput, Replacement } from "./utils.ts";
+import {
+  generateMolecules,
+  parseInput,
+  Replacement,
+  reverseStep,
+} from "./utils.ts";
 
 async function processFile(filename: string) {
   const input = await Deno.readTextFile(filename);
@@ -96,13 +101,16 @@ async function processFile(filename: string) {
   // loop reversed replacements
   //    each reversed replacement will provide you array of prevMolecules
   //    add prevMolecules to possiblePrevSteps
+  let stepCount = 0;
 
   // do
-  //    step++
-  //    stepMolecules = reverseStep(stepMolecules, reversedReplacements)
-  // while (!stepMolecules.has('e'))
+  do {
+    stepCount++;
+    stepMolecules = reverseStep(stepMolecules, reversedReplacements);
+    // while (!stepMolecules.has('e'))
+  } while (!stepMolecules.has("e"));
 
-  // console.log(e)
+  console.log("Step count", stepCount);
 }
 
 processFile("simpleInput.txt");
