@@ -101,21 +101,28 @@ export function generateMolecules(
 // -> will provide set of possiblePrevSteps
 
 export function reverseStep(
-  prevStep: Set<string>,
+  prevStepMolecules: Set<string>,
   reversedReplacements: Replacement[],
 ): Set<string> {
   const nextStep = new Set<string>();
+  const prevStepMoleculesStartingByShortest = [...prevStepMolecules].sort((
+    a,
+    b,
+  ) => a.length - b.length);
   // loop reversed replacements
   for (const replacement of reversedReplacements) {
     if (nextStep.size > 10000) {
       break;
     }
-    for (const molecule of prevStep) {
+    for (const molecule of prevStepMoleculesStartingByShortest) {
       //    each reversed replacement will provide you array of prevMolecules
       const prevMolecules = generateMolecules(molecule, replacement);
       for (const prevMolecule of prevMolecules) {
         //    add prevMolecules to possiblePrevSteps
         nextStep.add(prevMolecule);
+      }
+      if (nextStep.size > 10000) {
+        break;
       }
     }
   }
