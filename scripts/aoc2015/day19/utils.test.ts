@@ -5,6 +5,7 @@ import {
   parseInput,
   parseReplacementLine,
   replaceOccurrenceAtPosition,
+  reverseStep,
 } from "./utils.ts";
 
 describe("parseReplacementLine", function () {
@@ -111,6 +112,36 @@ describe("replaceNthOccurrence", function () {
         to: "X",
       }, 3),
       "HOHOHO",
+    );
+  });
+});
+
+describe("reverseStep", function () {
+  const reversedReplacements = [{
+    from: "H",
+    to: "e",
+  }, {
+    from: "O",
+    to: "e",
+  }, {
+    from: "HO",
+    to: "H",
+  }, {
+    from: "OH",
+    to: "H",
+  }, {
+    from: "HH",
+    to: "O",
+  }];
+  it("should provide set of molecules", function () {
+    assertEquals(
+      reverseStep(new Set(["HOH"]), reversedReplacements),
+      new Set([
+        "eOH",
+        "HOe",
+        "HeH",
+        "HH",
+      ]),
     );
   });
 });
