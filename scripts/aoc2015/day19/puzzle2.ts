@@ -111,20 +111,6 @@ async function processFile(filename: string) {
       reversedReplacements,
     );
 
-    const arr = [...stepMolecules]
-      .filter((molecule) => !molecule.includes("e") || molecule === "e")
-      .filter((molecule) =>
-        molecule.length > 3 ||
-        [
-          "e",
-          "HF",
-          "NAl",
-          "OMg",
-        ]
-          .includes(molecule)
-      );
-
-    stepMolecules = new Set<string>(arr);
     console.log("stepMolecules set", stepMolecules.size);
   } while (!stepMolecules.has("e"));
 
@@ -148,8 +134,8 @@ processFile("input.txt");
 
 // algorithm 4 for puzzle 2
 // find length
-// on every step add use more and more
+// on every step add use more and more less aggressive replacements
 
-// algorithm 5
+// algorithm 5 -> WINNER!
 // order replacements by most aggresive
 // stop adding items to set, when set size is 10000
