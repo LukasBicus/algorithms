@@ -106,8 +106,11 @@ export function reverseStep(
 ): Set<string> {
   const nextStep = new Set<string>();
   // loop reversed replacements
-  for (const molecule of prevStep) {
-    for (const replacement of reversedReplacements) {
+  for (const replacement of reversedReplacements) {
+    if (nextStep.size > 10000) {
+      break;
+    }
+    for (const molecule of prevStep) {
       //    each reversed replacement will provide you array of prevMolecules
       const prevMolecules = generateMolecules(molecule, replacement);
       for (const prevMolecule of prevMolecules) {

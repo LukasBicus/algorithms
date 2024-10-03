@@ -86,6 +86,11 @@ async function processFile(filename: string) {
     },
     [],
   );
+  const aggressiveReversedReplacements = reversedReplacements.sort((ra, rb) =>
+    ra.from.length < rb.from.length ? 1 : -1
+  );
+
+  console.log(aggressiveReversedReplacements);
 
   // create set of stepMolecules with medicine molecule
   let stepMolecules = new Set<string>([medicineMolecule]);
@@ -101,13 +106,65 @@ async function processFile(filename: string) {
   // do
   do {
     stepCount++;
-    stepMolecules = reverseStep(stepMolecules, reversedReplacements);
+    console.log("stepCount", stepCount);
+    stepMolecules = reverseStep(
+      stepMolecules,
+      reversedReplacements,
+    );
+
+    const arr = [...stepMolecules]
+      .filter((molecule) => !molecule.includes("e") || molecule === "e")
+      .filter((molecule) =>
+        molecule.length > 3 ||
+        [
+          "e",
+          "HF",
+          "NAl",
+          "OMg",
+        ]
+          .includes(molecule)
+      );
+
+    // const moleculeLengthSet = new Set<number>(
+    //   arr.map((molecule) => molecule.length),
+    // );
+    // const minLength = Math.min(...moleculeLengthSet);
+    // console.log("minLength", minLength);
+    // const stripLength = minLength + 1;
+    stepMolecules = new Set<string>(
+      // arr.filter((molecule) => molecule.length < stripLength),
+      arr,
+    );
     // while (!stepMolecules.has('e'))
+    // stepMolecules = new Set<string>(arr);
+    console.log("stepMolecules set", stepMolecules.size);
+    if (stepCount === 35) {
+      console.log("stepMolecules", ...stepMolecules);
+    }
   } while (!stepMolecules.has("e"));
 
   console.log("Step count", stepCount);
 }
 
-processFile("simpleInput.txt");
-processFile("simpleInput2.txt");
-// processFile("input.txt");
+// processFile("simpleInput.txt");
+// processFile("simpleInput2.txt");
+processFile("input.txt");
+
+// algorithm 2 for puzzle 2
+// sort replacements by "agresivity" => replacement is aggressive, when replacement.from.length > 5
+// run first 10 rounds only with aggressive replacements
+
+// algorithm 3 for puzzle 2
+// sort replacements by "agresivity" => replacement is aggressive, when replacement.from.length > 5
+// run first 10 rounds only with aggressive replacements
+
+// filter each step -> find length of shortest molecule = LOSM
+// // sort out all molecules from the step, that are longer than LOSM + 2
+
+// algorithm 4 for puzzle 2
+// find length
+// on every step add use more and more
+
+// algorithm 5
+// order replacements by most aggresive
+// stop adding items to set, when set size is 10000
