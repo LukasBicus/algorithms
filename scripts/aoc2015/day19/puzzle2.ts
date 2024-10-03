@@ -103,7 +103,6 @@ async function processFile(filename: string) {
   //    add prevMolecules to possiblePrevSteps
   let stepCount = 0;
 
-  // do
   do {
     stepCount++;
     console.log("stepCount", stepCount);
@@ -125,22 +124,8 @@ async function processFile(filename: string) {
           .includes(molecule)
       );
 
-    // const moleculeLengthSet = new Set<number>(
-    //   arr.map((molecule) => molecule.length),
-    // );
-    // const minLength = Math.min(...moleculeLengthSet);
-    // console.log("minLength", minLength);
-    // const stripLength = minLength + 1;
-    stepMolecules = new Set<string>(
-      // arr.filter((molecule) => molecule.length < stripLength),
-      arr,
-    );
-    // while (!stepMolecules.has('e'))
-    // stepMolecules = new Set<string>(arr);
+    stepMolecules = new Set<string>(arr);
     console.log("stepMolecules set", stepMolecules.size);
-    if (stepCount === 35) {
-      console.log("stepMolecules", ...stepMolecules);
-    }
   } while (!stepMolecules.has("e"));
 
   console.log("Step count", stepCount);
