@@ -40,3 +40,16 @@ and, at the bottom, the medicine molecule for which you need to calibrate the ma
 
 How many distinct molecules can be created after all the different ways you can do one replacement on the medicine molecule?
  */
+
+// Algorithm
+
+// read file, get replacements and medicine molecule from it
+
+// create set of distinctMolecules
+
+// loop replacements
+//    each replacement will provide you string to be replaced (STBR) and new string (NS)
+//    traverse medicine molecule,
+//        find each occurrence of STBR and replace it with NS, add new molecule to set of distinct molecules
+
+// get size of set of distinct molecules
