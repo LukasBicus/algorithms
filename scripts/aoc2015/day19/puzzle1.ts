@@ -53,3 +53,26 @@ How many distinct molecules can be created after all the different ways you can 
 //        find each occurrence of STBR and replace it with NS, add new molecule to set of distinct molecules
 
 // get size of set of distinct molecules
+
+import { generateMolecules, parseInput } from "./utils.ts";
+
+async function processFile(filename: string) {
+  const input = await Deno.readTextFile(filename);
+  const parsedInput = parseInput(input);
+  if (!parsedInput) {
+    return;
+  }
+  const { medicineMolecule, replacements } = parsedInput;
+
+  const molecules = new Set<string>();
+  for (const replacement of replacements) {
+    const newMolecules = generateMolecules(medicineMolecule, replacement);
+    for (const molecule of newMolecules) {
+      molecules.add(molecule);
+    }
+  }
+  console.log("distinct molecules", molecules.size);
+}
+
+processFile("simpleInput.txt");
+processFile("input.txt");
