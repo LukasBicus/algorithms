@@ -66,25 +66,7 @@ Given the available replacements and the medicine molecule in your puzzle input,
 
 // Algorithm
 
-// read file, get reversed replacements and medicine molecule from it
-
-// create set of stepMolecules with medicine molecule
-
-// reverseStep function
-// -> will take stepMolecules and reversedReplacements
-// -> will provide set of possiblePrevSteps
-// loop reversed replacements
-//    each reversed replacement will provide you array of prevMolecules
-//    add prevMolecules to possiblePrevSteps
-
-// do
-//    step++
-//    stepMolecules = reverseStep(stepMolecules, reversedReplacements)
-// while (!stepMolecules.has('e'))
-
-// console.log(e)
-
-import { generateMolecules, parseInput } from "./utils.ts";
+import { generateMolecules, parseInput, Replacement } from "./utils.ts";
 
 async function processFile(filename: string) {
   const input = await Deno.readTextFile(filename);
@@ -93,16 +75,35 @@ async function processFile(filename: string) {
     return;
   }
   const { medicineMolecule, replacements } = parsedInput;
+  // get reversed replacements
+  const reversedReplacements = replacements.reduce(
+    (acc: Replacement[], replacement) => {
+      acc.push({
+        from: replacement.to,
+        to: replacement.from,
+      });
+      return acc;
+    },
+    [],
+  );
 
-  const molecules = new Set<string>();
-  for (const replacement of replacements) {
-    const newMolecules = generateMolecules(medicineMolecule, replacement);
-    for (const molecule of newMolecules) {
-      molecules.add(molecule);
-    }
-  }
-  console.log("distinct molecules", molecules.size);
+  // create set of stepMolecules with medicine molecule
+  let stepMolecules = new Set<string>([medicineMolecule]);
+
+  // reverseStep function
+  // -> will take stepMolecules and reversedReplacements
+  // -> will provide set of possiblePrevSteps
+  // loop reversed replacements
+  //    each reversed replacement will provide you array of prevMolecules
+  //    add prevMolecules to possiblePrevSteps
+
+  // do
+  //    step++
+  //    stepMolecules = reverseStep(stepMolecules, reversedReplacements)
+  // while (!stepMolecules.has('e'))
+
+  // console.log(e)
 }
 
 processFile("simpleInput.txt");
-processFile("input.txt");
+// processFile("input.txt");
