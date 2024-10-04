@@ -99,5 +99,12 @@ export function spreadToPrimeNumbers(
   num: number,
   mappedNumbers: NumberInfoMap,
 ): number[] {
+  if (mappedNumbers.has(num)) {
+    return mappedNumbers.get(num)!.spread;
+  }
+  if (num === 1) {
+    mappedNumbers.set(num, { isPrime: false, spread: [] });
+    return mappedNumbers.get(num)!.spread;
+  }
   return [];
 }
