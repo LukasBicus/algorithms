@@ -50,18 +50,6 @@ export function decomposeToPrimeNumbers(
   // return [1, 11] (1, new prime number)
 }
 
-// Case1 : num is 1
-// check if num is among mapped numbers? if not, set 1 to [1] in mapped numbers
-
-// case2 : num is 5
-// check if num is among mapped numbers
-// if not
-
-//    compute limit 5**0.5
-//    filter prime numbers up to the limit
-//    limit is cca 1.73... there are no prime numbers bellow or equal to that limit
-//    save number 5 to the map ({isPrime: true, spread: [5]})
-
 // case3 : num is 11
 // check if num is among mapped numbers
 // if not
@@ -99,12 +87,32 @@ export function spreadToPrimeNumbers(
   num: number,
   mappedNumbers: NumberInfoMap,
 ): number[] {
+  // check if num is among mapped numbers?
   if (mappedNumbers.has(num)) {
     return mappedNumbers.get(num)!.spread;
   }
+  // Case1 : num is 1
   if (num === 1) {
+    // if not, set 1 to [1] in mapped numbers
     mappedNumbers.set(num, { isPrime: false, spread: [] });
     return mappedNumbers.get(num)!.spread;
   }
+
+  // case2 : num is 5
+  // check if num is among mapped numbers
+  // if not
+  //    compute limit 5**0.5
+  const limit = num ** 0.5;
+  //    filter prime numbers up to the limit
+  const primeNumbersUpToTheLimit = [...mappedNumbers.entries()].filter((
+    [n, info],
+  ) => n < limit && info.isPrime).map(([n]) => n);
+  //    limit is cca 1.73... there are no prime numbers bellow or equal to that limit
+  if (primeNumbersUpToTheLimit.length === 0) {
+    //    save number 5 to the map ({isPrime: true, spread: [5]})
+    mappedNumbers.set(num, { isPrime: true, spread: [num] });
+    return mappedNumbers.get(num)!.spread;
+  }
+
   return [];
 }

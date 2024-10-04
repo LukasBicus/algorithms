@@ -94,7 +94,7 @@ describe("decomposeToPrimeNumbers", function () {
 });
 
 describe.only("spreadToPrimeNumbers", function () {
-  it("Should return empty array for number 1", function () {
+  it.only("Should return empty array for number 1", function () {
     const map: NumberInfoMap = new Map();
     assertEquals(spreadToPrimeNumbers(1, map), []);
     assertEquals(map.get(1), {
@@ -102,32 +102,48 @@ describe.only("spreadToPrimeNumbers", function () {
       spread: [],
     });
   });
-  it("Should return array with 2 for number 2", function () {
+  it.only("Should return array with 2 for number 2", function () {
     const map: NumberInfoMap = new Map();
-    assertEquals(spreadToPrimeNumbers(1, map), [2]);
+    assertEquals(spreadToPrimeNumbers(2, map), [2]);
     assertEquals(map.get(2), {
       isPrime: true,
       spread: [2],
     });
   });
-  it("Should return array with 3 for number 3", function () {
+  it.only("Should return array with 3 for number 3", function () {
     const map: NumberInfoMap = new Map();
     map.set(2, {
       isPrime: true,
-      spread: [],
+      spread: [2],
     });
-    assertEquals(spreadToPrimeNumbers(1, map), [3]);
+    assertEquals(spreadToPrimeNumbers(3, map), [3]);
     assertEquals(map.get(3), {
       isPrime: true,
       spread: [3],
     });
   });
-  it("Should return array with 3 for number 3", function () {
+  it.only("Should return array with 11 for number 11", function () {
     const map: NumberInfoMap = new Map();
-    assertEquals(spreadToPrimeNumbers(1, map), [3]);
-    assertEquals(map.get(3), {
+    map.set(2, {
+      isPrime: true,
+      spread: [2],
+    });
+    map.set(3, {
       isPrime: true,
       spread: [3],
+    });
+    map.set(5, {
+      isPrime: true,
+      spread: [5],
+    });
+    map.set(7, {
+      isPrime: true,
+      spread: [7],
+    });
+    assertEquals(spreadToPrimeNumbers(11, map), [11]);
+    assertEquals(map.get(11), {
+      isPrime: true,
+      spread: [11],
     });
   });
   it("Should return array with [2, 2] for number 4", function () {
