@@ -106,13 +106,29 @@ export function spreadToPrimeNumbers(
   //    filter prime numbers up to the limit
   const primeNumbersUpToTheLimit = [...mappedNumbers.entries()].filter((
     [n, info],
-  ) => n < limit && info.isPrime).map(([n]) => n);
+  ) => n <= limit && info.isPrime).map(([n]) => n);
   //    limit is cca 1.73... there are no prime numbers bellow or equal to that limit
   if (primeNumbersUpToTheLimit.length === 0) {
     //    save number 5 to the map ({isPrime: true, spread: [5]})
     mappedNumbers.set(num, { isPrime: true, spread: [num] });
     return mappedNumbers.get(num)!.spread;
   }
-
-  return [];
+  for (const primeNumber of primeNumbersUpToTheLimit) {
+    if (num % primeNumber === 0) {
+      // process
+      const result = num / primeNumber;
+      const spread = [
+        primeNumber,
+        ...spreadToPrimeNumbers(result, mappedNumbers),
+      ];
+      mappedNumbers.set(num, {
+        isPrime: false,
+        spread,
+      });
+      return spread;
+    }
+  }
+  // no primeNumber found, the num is prime
+  mappedNumbers.set(num, { isPrime: true, spread: [num] });
+  return mappedNumbers.get(num)!.spread;
 }

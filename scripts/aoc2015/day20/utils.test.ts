@@ -93,8 +93,8 @@ describe("decomposeToPrimeNumbers", function () {
   });
 });
 
-describe.only("spreadToPrimeNumbers", function () {
-  it.only("Should return empty array for number 1", function () {
+describe("spreadToPrimeNumbers", function () {
+  it("Should return empty array for number 1", function () {
     const map: NumberInfoMap = new Map();
     assertEquals(spreadToPrimeNumbers(1, map), []);
     assertEquals(map.get(1), {
@@ -102,7 +102,7 @@ describe.only("spreadToPrimeNumbers", function () {
       spread: [],
     });
   });
-  it.only("Should return array with 2 for number 2", function () {
+  it("Should return array with 2 for number 2", function () {
     const map: NumberInfoMap = new Map();
     assertEquals(spreadToPrimeNumbers(2, map), [2]);
     assertEquals(map.get(2), {
@@ -110,7 +110,7 @@ describe.only("spreadToPrimeNumbers", function () {
       spread: [2],
     });
   });
-  it.only("Should return array with 3 for number 3", function () {
+  it("Should return array with 3 for number 3", function () {
     const map: NumberInfoMap = new Map();
     map.set(2, {
       isPrime: true,
@@ -122,7 +122,7 @@ describe.only("spreadToPrimeNumbers", function () {
       spread: [3],
     });
   });
-  it.only("Should return array with 11 for number 11", function () {
+  it("Should return array with 11 for number 11", function () {
     const map: NumberInfoMap = new Map();
     map.set(2, {
       isPrime: true,
@@ -160,6 +160,17 @@ describe.only("spreadToPrimeNumbers", function () {
     assertEquals(map.get(4), {
       isPrime: false,
       spread: [2, 2],
+    });
+  });
+  it("Should return a spread for number 120", function () {
+    const map: NumberInfoMap = new Map();
+    for (let n = 1; n < 119; n++) {
+      spreadToPrimeNumbers(n, map);
+    }
+    assertEquals(spreadToPrimeNumbers(120, map), [2, 2, 2, 3, 5]);
+    assertEquals(map.get(120), {
+      isPrime: false,
+      spread: [2, 2, 2, 3, 5],
     });
   });
 });
