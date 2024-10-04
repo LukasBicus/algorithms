@@ -1,6 +1,10 @@
 import { assertEquals, assertThrows } from "@std/assert";
 import { describe, it } from "@std/testing/bdd";
-import { decomposeToPrimeNumbers } from "./utils.ts";
+import {
+  decomposeToPrimeNumbers,
+  NumberInfoMap,
+  spreadToPrimeNumbers,
+} from "./utils.ts";
 
 describe("decomposeToPrimeNumbers", function () {
   it("should decompose 1 to prime numbers", function () {
@@ -86,5 +90,60 @@ describe("decomposeToPrimeNumbers", function () {
       109,
       113,
     ]);
+  });
+});
+
+describe.only("spreadToPrimeNumbers", function () {
+  it("Should return empty array for number 1", function () {
+    const map: NumberInfoMap = new Map();
+    assertEquals(spreadToPrimeNumbers(1, map), []);
+    assertEquals(map.get(1), {
+      isPrime: false,
+      spread: [],
+    });
+  });
+  it("Should return array with 2 for number 2", function () {
+    const map: NumberInfoMap = new Map();
+    assertEquals(spreadToPrimeNumbers(1, map), [2]);
+    assertEquals(map.get(2), {
+      isPrime: true,
+      spread: [2],
+    });
+  });
+  it("Should return array with 3 for number 3", function () {
+    const map: NumberInfoMap = new Map();
+    map.set(2, {
+      isPrime: true,
+      spread: [],
+    });
+    assertEquals(spreadToPrimeNumbers(1, map), [3]);
+    assertEquals(map.get(3), {
+      isPrime: true,
+      spread: [3],
+    });
+  });
+  it("Should return array with 3 for number 3", function () {
+    const map: NumberInfoMap = new Map();
+    assertEquals(spreadToPrimeNumbers(1, map), [3]);
+    assertEquals(map.get(3), {
+      isPrime: true,
+      spread: [3],
+    });
+  });
+  it("Should return array with [2, 2] for number 4", function () {
+    const map: NumberInfoMap = new Map();
+    map.set(2, {
+      isPrime: true,
+      spread: [2],
+    });
+    map.set(3, {
+      isPrime: true,
+      spread: [3],
+    });
+    assertEquals(spreadToPrimeNumbers(4, map), [2, 2]);
+    assertEquals(map.get(4), {
+      isPrime: false,
+      spread: [2, 2],
+    });
   });
 });

@@ -48,6 +48,56 @@ export function decomposeToPrimeNumbers(
   // 11 % 3 is 2, not 0, continue
   // there are no more numbers -> add 11 to list of prime numbers
   // return [1, 11] (1, new prime number)
+}
 
+// Case1 : num is 1
+// check if num is among mapped numbers? if not, set 1 to [1] in mapped numbers
+
+// case2 : num is 5
+// check if num is among mapped numbers
+// if not
+
+//    compute limit 5**0.5
+//    filter prime numbers up to the limit
+//    limit is cca 1.73... there are no prime numbers bellow or equal to that limit
+//    save number 5 to the map ({isPrime: true, spread: [5]})
+
+// case3 : num is 11
+// check if num is among mapped numbers
+// if not
+
+//    compute limit 11**0.5
+//    filter prime numbers up to the limit
+//    limit is cca 3.31... there are prime numbers bellow or equal to that limit ([2, 3])
+//    test given prime numbers
+//    11 % 2 is 1, not 0, continue
+//    11 % 3 is 2, not 0, continue
+//    there are no more numbers ->
+//    save number 11 to the map ({isPrime: true, spread: [11]})
+
+// case4 : num is 4
+// check if num is among mapped numbers
+// if not
+
+//    compute limit 4**0.5
+//    filter prime numbers up to the limit
+//    limit is 2 there are prime numbers bellow or equal to that limit ([2])
+//    test given prime numbers
+//    4 % 2 is 0
+//    4 / 2 is 2 ; call spreadToPrimeNumbers for 2 - save to RESULT
+//    save number 4 to the map ({isPrime: false, spread: [...RESULT.spread, 2]})
+//    return number 4 from the map
+
+export type NumberInfo = {
+  isPrime: boolean;
+  spread: number[];
+};
+
+export type NumberInfoMap = Map<number, NumberInfo>;
+
+export function spreadToPrimeNumbers(
+  num: number,
+  mappedNumbers: NumberInfoMap,
+): number[] {
   return [];
 }
