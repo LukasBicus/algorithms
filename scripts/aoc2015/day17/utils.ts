@@ -37,6 +37,9 @@ export function parseContainerLine(line: string): number | null {
 // [a, c]
 // [a, b, c]
 
+/**
+ * mutates parameter items!!!
+ */
 export function* generateCombinationsWithoutRepetition<T>(
   items: T[],
 ): Generator<T[]> {

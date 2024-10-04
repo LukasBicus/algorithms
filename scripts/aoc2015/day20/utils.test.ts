@@ -163,6 +163,7 @@ describe("spreadToPrimeNumbers", function () {
       isPrime: false,
       spread: [2, 2],
     });
+    assertEquals(spreadToPrimeNumbers(4, map), [2, 2]);
   });
   it("Should return a spread for number 120", function () {
     const map: NumberInfoMap = new Map();
@@ -190,6 +191,9 @@ describe("mapPrimeNumbersToElfNumbers", function () {
   });
   it("should return uniq elf numbers", function () {
     assertEquals(mapPrimeNumbersToElfNumbers([2, 2, 2]), [1, 2, 4, 8]);
+  });
+  it("should return uniq elf numbers", function () {
+    assertEquals(mapPrimeNumbersToElfNumbers([2, 2, 3]), [1, 2, 3, 4, 6, 12]);
   });
 });
 

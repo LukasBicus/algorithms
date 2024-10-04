@@ -120,7 +120,8 @@ import {
   spreadToPrimeNumbers,
 } from "./utils.ts";
 
-const puzzleInput = 34_000_000;
+// const puzzleInput = 34_000_000;
+const puzzleInput = 1000;
 let presentsDelivered = 0;
 let currentHouse = 0;
 const mappedNumbers: NumberInfoMap = new Map();
@@ -128,9 +129,16 @@ const mappedNumbers: NumberInfoMap = new Map();
 do {
   currentHouse++;
   const primeNumbers = spreadToPrimeNumbers(currentHouse, mappedNumbers);
-  const elfNumbers = mapPrimeNumbersToElfNumbers(primeNumbers);
+  // console.log("mappedNumbers", JSON.stringify([...mappedNumbers.entries()]));
+  const elfNumbers = mapPrimeNumbersToElfNumbers(primeNumbers.concat([]));
   presentsDelivered = getTotalPresentsDelivered(elfNumbers);
-  console.log("presentsDelivered", presentsDelivered);
+  console.log(
+    `presentsDelivered into house ${currentHouse}`,
+    presentsDelivered,
+    // JSON.stringify(elfNumbers),
+    // JSON.stringify(primeNumbers),
+    // JSON.stringify([...mappedNumbers.entries()]),
+  );
 } while (presentsDelivered < puzzleInput);
 
 console.log("currentHouse", currentHouse);
