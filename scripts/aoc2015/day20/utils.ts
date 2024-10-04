@@ -17,7 +17,7 @@ export function decomposeToPrimeNumbers(
   const limit = num ** 0.5;
   // list of prime numbers except 1 is [2]
   const filteredKnownPrimeNumbers = knownPrimeNumbers.slice(1).filter((n) =>
-    n < limit
+    n <= limit
   );
   // list of prime numbers except 1 and bellow 1.7 is []
   if (filteredKnownPrimeNumbers.length === 0) {
@@ -26,14 +26,17 @@ export function decomposeToPrimeNumbers(
     knownPrimeNumbers.push(num);
     return [1, num];
   } else {
-    if (
-      filteredKnownPrimeNumbers.every((filteredKnownPrimeNumber) =>
-        num % filteredKnownPrimeNumber !== 0
-      )
-    ) {
-      knownPrimeNumbers.push(num);
-      return [1, num];
+    for (const filteredKnownPrimeNumber of filteredKnownPrimeNumbers) {
+      if (num % filteredKnownPrimeNumber === 0) {
+        const result = num / filteredKnownPrimeNumber;
+        return [
+          filteredKnownPrimeNumber,
+          ...decomposeToPrimeNumbers(result, knownPrimeNumbers),
+        ].sort((a, b) => a - b);
+      }
     }
+    knownPrimeNumbers.push(num);
+    return [1, num];
   }
   // check foundPrimeNumber of foundPrimeNumbers till foundPrimeNumber <= num**0.5
   // if none of foundPrimeNumbers (except 1) divides the number with remainder 0

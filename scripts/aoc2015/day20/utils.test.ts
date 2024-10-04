@@ -33,17 +33,60 @@ describe("decomposeToPrimeNumbers", function () {
     assertEquals(primeNumbers, [1, 2, 3, 5, 7, 11]);
   });
 
-  it.skip("should decompose 4 to prime numbers", function () {
+  it("should decompose 4 to prime numbers", function () {
     assertEquals(decomposeToPrimeNumbers(4, [1, 2, 3]), [1, 2, 2]);
   });
 
-  it.skip("should decompose 6 to prime numbers", function () {
-    assertEquals(decomposeToPrimeNumbers(6, [1, 2, 3, 5]), [1, 2, 3]);
+  it("should decompose 6 to prime numbers", function () {
+    const primeNumbers = [1, 2, 3, 5];
+    assertEquals(decomposeToPrimeNumbers(6, primeNumbers), [1, 2, 3]);
   });
 
-  it.skip("should decompose 6 to prime numbers", function () {
+  it("should decompose 120 to prime numbers", function () {
     const primeNumbers = [1];
-    assertEquals(decomposeToPrimeNumbers(6, primeNumbers), [1, 2, 3]);
-    assertEquals(primeNumbers, [1, 2, 3]);
+    for (let n = 2; n < 119; n++) {
+      decomposeToPrimeNumbers(n, primeNumbers);
+    }
+    assertEquals(decomposeToPrimeNumbers(120, primeNumbers), [
+      1,
+      2,
+      2,
+      2,
+      3,
+      5,
+    ]);
+    assertEquals(primeNumbers, [
+      1,
+      2,
+      3,
+      5,
+      7,
+      11,
+      13,
+      17,
+      19,
+      23,
+      29,
+      31,
+      37,
+      41,
+      43,
+      47,
+      53,
+      59,
+      61,
+      67,
+      71,
+      73,
+      79,
+      83,
+      89,
+      97,
+      101,
+      103,
+      107,
+      109,
+      113,
+    ]);
   });
 });
