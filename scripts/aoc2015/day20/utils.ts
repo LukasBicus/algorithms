@@ -170,3 +170,11 @@ export function mapPrimeNumbersToElfNumbers(primeNumbers: number[]): number[] {
   }
   return uniq(result);
 }
+
+export function getTotalPresentsDelivered(
+  visitedByElvesWithNumbers: number[],
+): number {
+  return visitedByElvesWithNumbers.reduce(function (acc, item) {
+    return acc + item;
+  }, 0) * 10;
+}
