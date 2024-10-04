@@ -6,25 +6,23 @@ export function decomposeToPrimeNumbers(
     throw new Error("Can decompose only numbers > 1");
   }
   if (num === 1) {
-    return [1];
+    return [];
   }
   if (knownPrimeNumbers.includes(num)) {
-    return [1, num];
+    return [num];
   }
 
   // case 1: num is 3
   // limit is 3**0.5 cca 1.73...
   const limit = num ** 0.5;
   // list of prime numbers except 1 is [2]
-  const filteredKnownPrimeNumbers = knownPrimeNumbers.slice(1).filter((n) =>
-    n <= limit
-  );
+  const filteredKnownPrimeNumbers = knownPrimeNumbers.filter((n) => n <= limit);
   // list of prime numbers except 1 and bellow 1.7 is []
   if (filteredKnownPrimeNumbers.length === 0) {
     // there is no prime number to test
     // add number to list of known prime numbers
     knownPrimeNumbers.push(num);
-    return [1, num];
+    return [num];
   } else {
     for (const filteredKnownPrimeNumber of filteredKnownPrimeNumbers) {
       if (num % filteredKnownPrimeNumber === 0) {
@@ -36,7 +34,7 @@ export function decomposeToPrimeNumbers(
       }
     }
     knownPrimeNumbers.push(num);
-    return [1, num];
+    return [num];
   }
   // check foundPrimeNumber of foundPrimeNumbers till foundPrimeNumber <= num**0.5
   // if none of foundPrimeNumbers (except 1) divides the number with remainder 0

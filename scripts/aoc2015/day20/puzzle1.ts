@@ -37,24 +37,26 @@ elf # | presents count on visit | visit sequence
 3     | 30                      | 3, 6, 9, 12, ...
 
 house # | total presents delivered | visited by elf with numbers | prime numbers decomposition
-1       | 10                       | 1                           | 1
-2       | 30                       | 1, 2                        | 1, 2
-3       | 40                       | 1, 3                        | 1, 3
-4       | 70                       | 1, 2, 4                     | 1, 2, 2
-5       | 60                       | 1, 5                        | 1, 5
-6       | 120                      | 1, 2, 3, 6                  | 1, 2, 3
-7       | 80                       | 1, 7                        | 1, 7
-8       | 150                      | 1, 2, 4, 8                  | 1, 2, 2, 2
-9       | 130                      | 1, 3, 9                     | 1, 3, 3
-10      | ?                        | 1, 2, 5, 10                 | 1, 2, 5
-11      | ?                        | 1, 11                       | 1, 11
-12      | ?                        | 1, 2, 3, 4, 6, 12           | 1, 2, 2, 3
+1       | 10                       | 1                           |
+2       | 30                       | 1, 2                        | 2
+3       | 40                       | 1, 3                        | 3
+4       | 70                       | 1, 2, 4                     | 2, 2
+5       | 60                       | 1, 5                        | 5
+6       | 120                      | 1, 2, 3, 6                  | 2, 3
+7       | 80                       | 1, 7                        | 7
+8       | 150                      | 1, 2, 4, 8                  | 2, 2, 2
+9       | 130                      | 1, 3, 9                     | 3, 3
+10      | 180                      | 1, 2, 5, 10                 | 2, 5
+11      | 120                      | 1, 11                       | 11
+12      | 280                      | 1, 2, 3, 4, 6, 12           | 2, 2, 3
+...
+16      | 310                      | 1, 2, 4, 8, 16              | 2, 2, 2, 2
 
 What will be the first house with more than 34_000_000?
  */
 
-// based on house number, I can get prime numbers decomposition
-// based on prime numbers decomposition, I can get "visited by elf with numbers"
+// based on house number, I can get "prime numbers decomposition"
+// based on "prime numbers decomposition", I can get "visited by elf with numbers"
 // based on "visited by elf with numbers", I can get "total presents delivered"
 
 // I need to loop
