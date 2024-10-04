@@ -2,6 +2,7 @@ import { assertEquals, assertThrows } from "@std/assert";
 import { describe, it } from "@std/testing/bdd";
 import {
   decomposeToPrimeNumbers,
+  getTotalPresentsDelivered,
   mapPrimeNumbersToElfNumbers,
   NumberInfoMap,
   spreadToPrimeNumbers,
@@ -189,5 +190,11 @@ describe("mapPrimeNumbersToElfNumbers", function () {
   });
   it("should return uniq elf numbers", function () {
     assertEquals(mapPrimeNumbersToElfNumbers([2, 2, 2]), [1, 2, 4, 8]);
+  });
+});
+
+describe("getTotalPresentsDelivered", function () {
+  it("should compute proper presents count", function () {
+    assertEquals(getTotalPresentsDelivered([1, 2, 3, 4, 6, 12]), 280);
   });
 });
