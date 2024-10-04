@@ -2,6 +2,7 @@ import { assertEquals, assertThrows } from "@std/assert";
 import { describe, it } from "@std/testing/bdd";
 import {
   decomposeToPrimeNumbers,
+  mapPrimeNumbersToElfNumbers,
   NumberInfoMap,
   spreadToPrimeNumbers,
 } from "./utils.ts";
@@ -172,5 +173,21 @@ describe("spreadToPrimeNumbers", function () {
       isPrime: false,
       spread: [2, 2, 2, 3, 5],
     });
+  });
+});
+
+describe("mapPrimeNumbersToElfNumbers", function () {
+  it("should return 1 for spread []", function () {
+    assertEquals(mapPrimeNumbersToElfNumbers([]), [1]);
+  });
+  it("should add 1 to single prime number", function () {
+    assertEquals(mapPrimeNumbersToElfNumbers([2]), [1, 2]);
+  });
+
+  it("should create combinations for multiple prime number", function () {
+    assertEquals(mapPrimeNumbersToElfNumbers([2, 3]), [1, 2, 3, 6]);
+  });
+  it("should return uniq elf numbers", function () {
+    assertEquals(mapPrimeNumbersToElfNumbers([2, 2, 2]), [1, 2, 4, 8]);
   });
 });

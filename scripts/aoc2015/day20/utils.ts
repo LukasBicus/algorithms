@@ -1,3 +1,5 @@
+import { generateCombinationsWithoutRepetition } from "../day17/utils.ts";
+
 export function decomposeToPrimeNumbers(
   num: number,
   knownPrimeNumbers = [1],
@@ -131,4 +133,40 @@ export function spreadToPrimeNumbers(
   // no primeNumber found, the num is prime
   mappedNumbers.set(num, { isPrime: true, spread: [num] });
   return mappedNumbers.get(num)!.spread;
+}
+
+export function uniq<T>(items: T[]): T[] {
+  return items.reduce(function (
+    acc: T[],
+    item,
+  ) {
+    return acc.includes(item) ? acc : acc.concat(item);
+  }, []);
+}
+/*
+
+visited by elf with numbers | prime numbers decomposition
+1                           |
+1, 2                        | 2
+1, 3                        | 3
+1, 2, 4                     | 2, 2
+1, 5                        | 5
+1, 2, 3, 6                  | 2, 3
+1, 7                        | 7
+1, 2, 4, 8                  | 2, 2, 2
+1, 3, 9                     | 3, 3
+1, 2, 5, 10                 | 2, 5
+1, 11                       | 11
+1, 2, 3, 4, 6, 12           | 2, 2, 3
+...
+1, 2, 4, 8, 16              | 2, 2, 2, 2
+ */
+
+export function mapPrimeNumbersToElfNumbers(primeNumbers: number[]): number[] {
+  const combinations = [...generateCombinationsWithoutRepetition(primeNumbers)];
+  const result = [];
+  for (const combination of combinations) {
+    result.push(combination.reduce((acc, prime) => acc * prime, 1));
+  }
+  return uniq(result);
 }
