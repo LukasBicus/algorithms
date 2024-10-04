@@ -25,6 +25,15 @@ export function decomposeToPrimeNumbers(
     // add number to list of known prime numbers
     knownPrimeNumbers.push(num);
     return [1, num];
+  } else {
+    if (
+      filteredKnownPrimeNumbers.every((filteredKnownPrimeNumber) =>
+        num % filteredKnownPrimeNumber !== 0
+      )
+    ) {
+      knownPrimeNumbers.push(num);
+      return [1, num];
+    }
   }
   // check foundPrimeNumber of foundPrimeNumbers till foundPrimeNumber <= num**0.5
   // if none of foundPrimeNumbers (except 1) divides the number with remainder 0
