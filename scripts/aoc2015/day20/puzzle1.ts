@@ -112,3 +112,29 @@ What will be the first house with more than 34_000_000?
 // for each house
 // get number of elves, that visited the house (call toPrimeNumbers)
 // get number of gifts given in the house (
+
+import {
+  getTotalPresentsDelivered,
+  mapPrimeNumbersToElfNumbers,
+  NumberInfoMap,
+  spreadToPrimeNumbers,
+} from "./utils.ts";
+
+const puzzleInput = 34_000_000;
+let presentsDelivered = 0;
+let currentHouse = 0;
+const mappedNumbers: NumberInfoMap = new Map();
+
+do {
+  currentHouse++;
+  const primeNumbers = spreadToPrimeNumbers(currentHouse, mappedNumbers);
+  const elfNumbers = mapPrimeNumbersToElfNumbers(primeNumbers);
+  presentsDelivered = getTotalPresentsDelivered(elfNumbers);
+  console.log("presentsDelivered", presentsDelivered);
+} while (presentsDelivered < puzzleInput);
+
+console.log("currentHouse", currentHouse);
+
+// What is the lowest house number of the house to get at least as many presents as the number in your puzzle input?
+
+// Your puzzle input is 34000000.
