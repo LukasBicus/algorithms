@@ -168,7 +168,7 @@ export function mapPrimeNumbersToElfNumbers(primeNumbers: number[]): number[] {
   for (const combination of combinations) {
     result.push(combination.reduce((acc, prime) => acc * prime, 1));
   }
-  return uniq(result);
+  return uniq(result).sort((a, b) => a - b);
 }
 
 export function getTotalPresentsDelivered(

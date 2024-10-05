@@ -193,7 +193,14 @@ describe("mapPrimeNumbersToElfNumbers", function () {
     assertEquals(mapPrimeNumbersToElfNumbers([2, 2, 2]), [1, 2, 4, 8]);
   });
   it("should return uniq elf numbers", function () {
-    assertEquals(mapPrimeNumbersToElfNumbers([2, 2, 3]), [1, 2, 3, 4, 6, 12]);
+    assertEquals(mapPrimeNumbersToElfNumbers([2, 2, 3]), [
+      1,
+      2,
+      3,
+      4,
+      6,
+      12,
+    ]);
   });
 });
 
