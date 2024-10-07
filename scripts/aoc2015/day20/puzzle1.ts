@@ -51,6 +51,8 @@ house # | total presents delivered | visited by elf with numbers | prime numbers
 12      | 280                      | 1, 2, 3, 4, 6, 12           | 2, 2, 3
 ...
 16      | 310                      | 1, 2, 4, 8, 16              | 2, 2, 2, 2
+...
+24      | 600                      | 1, 2, 3, 4, 6, 8, 12, 24    | 2, 2, 2, 3
 
 What will be the first house with more than 34_000_000?
  */
@@ -113,32 +115,20 @@ What will be the first house with more than 34_000_000?
 // get number of elves, that visited the house (call toPrimeNumbers)
 // get number of gifts given in the house (
 
-import {
-  getTotalPresentsDelivered,
-  mapPrimeNumbersToElfNumbers,
-  NumberInfoMap,
-  spreadToPrimeNumbers,
-} from "./utils.ts";
+import { findNumberOfGiftsForHouseNumber, NumberInfoMap } from "./utils.ts";
 
-// const puzzleInput = 34_000_000;
-const puzzleInput = 1000;
+// sum of elf numbers will be 3_400_000
+
+const puzzleInput = 34_000_000;
+// const puzzleInput = 3400;
 let presentsDelivered = 0;
 let currentHouse = 0;
 const mappedNumbers: NumberInfoMap = new Map();
 
 do {
   currentHouse++;
-  const primeNumbers = spreadToPrimeNumbers(currentHouse, mappedNumbers);
-  // console.log("mappedNumbers", JSON.stringify([...mappedNumbers.entries()]));
-  const elfNumbers = mapPrimeNumbersToElfNumbers(primeNumbers.concat([]));
-  presentsDelivered = getTotalPresentsDelivered(elfNumbers);
-  console.log(
-    `presentsDelivered into house ${currentHouse}`,
-    presentsDelivered,
-    // JSON.stringify(elfNumbers),
-    // JSON.stringify(primeNumbers),
-    // JSON.stringify([...mappedNumbers.entries()]),
-  );
+  presentsDelivered = findNumberOfGiftsForHouseNumber(currentHouse);
+  console.log("currentHouse", currentHouse, presentsDelivered);
 } while (presentsDelivered < puzzleInput);
 
 console.log("currentHouse", currentHouse);
