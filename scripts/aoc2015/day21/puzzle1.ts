@@ -62,3 +62,20 @@ In this scenario, the player wins! (Barely.)
 
 You have 100 hit points. The boss's actual stats are in your puzzle input. What is the least amount of gold you can spend and still win the fight?
  */
+
+// Algorithm
+
+// create your basic character
+// create boss character (read file)
+
+// create list of items in shop
+
+// create board with prices
+
+// loop
+// create variations of armor (make sure to safe it's complete price)
+// modify your basic character
+// simulate fight
+// if you win, store price into an board
+
+// find min price
