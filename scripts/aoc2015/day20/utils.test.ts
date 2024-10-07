@@ -215,7 +215,15 @@ describe("findNumberOfGiftsForHouseNumber", function () {
   it("should compute proper presents count for house with number 1", function () {
     assertEquals(findNumberOfGiftsForHouseNumber(1), 10);
   });
-  it("should compute proper presents count for house with number 1", function () {
+  it("should compute proper presents count for house with number 120", function () {
     assertEquals(findNumberOfGiftsForHouseNumber(120), 3600);
+  });
+  it("should compute proper presents count for house with large number", function () {
+    const primes = [2, 3, 4, 5, 7, 11, 13, 17];
+    const houseNumber = primes.reduce((acc, i) => acc * i, 1);
+    assertEquals(
+      findNumberOfGiftsForHouseNumber(houseNumber),
+      getTotalPresentsDelivered(mapPrimeNumbersToElfNumbers(primes)),
+    );
   });
 });
