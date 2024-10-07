@@ -25,9 +25,6 @@ export type Character = {
   hitPoints: number;
   damage: number;
   defense: number;
-  weapon?: Weapon;
-  armor?: Armor;
-  rings?: [Ring?, Ring?];
 };
 
 const basicPlayer: Character = {
@@ -44,7 +41,7 @@ const boss: Character = {
 
 // Weapons:    Cost  Damage  Armor
 
-const allWeapons: Weapon[] = [{
+export const allWeapons: Weapon[] = [{
   type: ItemType.Weapon,
   name: "Dagger",
   cost: 8,
@@ -76,7 +73,7 @@ const allWeapons: Weapon[] = [{
   defense: 0,
 }];
 // Armor:      Cost  Damage  Armor
-const allArmors: Armor[] = [
+export const allArmors: Armor[] = [
   {
     name: "Leather",
     cost: 13,
@@ -115,7 +112,7 @@ const allArmors: Armor[] = [
 ];
 
 // Rings:      Cost  Damage  Armor
-const rings: Ring[] = [
+export const allRings: Ring[] = [
   {
     name: "Damage +1",
     cost: 25,
@@ -159,3 +156,22 @@ const rings: Ring[] = [
     type: ItemType.Ring,
   },
 ];
+
+export function equipCharacter(character: Character, equip: {
+  weapon: Weapon;
+  armor?: Armor;
+  ringsLeft?: Ring;
+  ringRight?: Ring;
+}): { character: Character; goldSpent: number } {
+  return {
+    character: {
+      ...character,
+      defense: equip.weapon.defense + (equip.armor?.defense ?? 0) +
+        (equip.ringRight?.defense ?? 0) + (equip.ringsLeft?.defense ?? 0),
+      damage: equip.weapon.damage + (equip.armor?.damage ?? 0) +
+        (equip.ringRight?.damage ?? 0) + (equip.ringsLeft?.damage ?? 0),
+    },
+    goldSpent: equip.weapon.cost + (equip.armor?.cost ?? 0) +
+      (equip.ringRight?.cost ?? 0) + (equip.ringsLeft?.cost ?? 0),
+  };
+}
