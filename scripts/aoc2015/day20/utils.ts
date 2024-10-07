@@ -178,3 +178,22 @@ export function getTotalPresentsDelivered(
     return acc + item;
   }, 0) * 10;
 }
+
+export function findNumberOfGiftsForHouseNumber(
+  houseNumber: number,
+): number {
+  // let gifts = 0
+  let gifts = 0;
+  // for more than 1
+  // for i = 1 ... houseNumber
+  for (let i = 1; i <= houseNumber; i++) {
+    //      if houseNumber % i === 0
+    if (houseNumber % i === 0) {
+      //        ? add i * 10 to currentCountOfGifts
+      gifts += i * 10;
+    }
+    //        : do nothing
+  }
+  // return gifts
+  return gifts;
+}

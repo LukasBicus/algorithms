@@ -2,6 +2,7 @@ import { assertEquals, assertThrows } from "@std/assert";
 import { describe, it } from "@std/testing/bdd";
 import {
   decomposeToPrimeNumbers,
+  findNumberOfGiftsForHouseNumber,
   getTotalPresentsDelivered,
   mapPrimeNumbersToElfNumbers,
   NumberInfoMap,
@@ -207,5 +208,14 @@ describe("mapPrimeNumbersToElfNumbers", function () {
 describe("getTotalPresentsDelivered", function () {
   it("should compute proper presents count", function () {
     assertEquals(getTotalPresentsDelivered([1, 2, 3, 4, 6, 12]), 280);
+  });
+});
+
+describe("findNumberOfGiftsForHouseNumber", function () {
+  it("should compute proper presents count for house with number 1", function () {
+    assertEquals(findNumberOfGiftsForHouseNumber(1), 10);
+  });
+  it("should compute proper presents count for house with number 1", function () {
+    assertEquals(findNumberOfGiftsForHouseNumber(120), 3600);
   });
 });
