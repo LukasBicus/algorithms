@@ -205,7 +205,6 @@ export function findNumberOfGiftsForHouseNumber(
 
 // the last house of elf 1 is 50
 // the last house of elf 2 is 100
-// ...
 // 3 ... 150
 
 // i have house number and elf number
@@ -220,9 +219,12 @@ export function findNumberOfGiftsForHouseNumber(
 export function findNumberOfGiftsForHouseNumberForPuzzle2(
   houseNumber: number,
 ): number {
-  const divisors = getDivisors(houseNumber);
-  const filteredDivisors = divisors.filter((divisor) =>
-    houseNumber <= divisor * 50
+  const divisors = getDivisors(houseNumber).reverse();
+  const indexOfLastElfComing = divisors.findIndex((divisor) =>
+    houseNumber > divisor * 50
   );
+  const filteredDivisors = indexOfLastElfComing >= 0
+    ? divisors.slice(0, indexOfLastElfComing)
+    : divisors;
   return filteredDivisors.reduce((acc, divisor) => acc + divisor, 0) * 11;
 }
