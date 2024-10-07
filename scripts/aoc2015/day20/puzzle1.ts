@@ -115,7 +115,10 @@ What will be the first house with more than 34_000_000?
 // get number of elves, that visited the house (call toPrimeNumbers)
 // get number of gifts given in the house (
 
-import { findNumberOfGiftsForHouseNumber } from "./utils.ts";
+import {
+  findNumberOfGiftsForHouseNumber,
+  findNumberOfGiftsForHouseNumberForPuzzle2,
+} from "./utils.ts";
 
 // sum of elf numbers will be 3_400_000
 
@@ -131,6 +134,16 @@ do {
 } while (presentsDelivered < puzzleInput);
 
 console.log("currentHouse", currentHouse);
+
+currentHouse = 0;
+do {
+  currentHouse++;
+  presentsDelivered = findNumberOfGiftsForHouseNumberForPuzzle2(currentHouse);
+  console.log("currentHouse", currentHouse, presentsDelivered);
+} while (presentsDelivered < puzzleInput);
+
+// 831600 ?
+console.log("currentHouse for puzzle2", currentHouse);
 
 // What is the lowest house number of the house to get at least as many presents as the number in your puzzle input?
 
