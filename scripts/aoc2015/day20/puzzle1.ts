@@ -115,7 +115,7 @@ What will be the first house with more than 34_000_000?
 // get number of elves, that visited the house (call toPrimeNumbers)
 // get number of gifts given in the house (
 
-import { findNumberOfGiftsForHouseNumber, NumberInfoMap } from "./utils.ts";
+import { findNumberOfGiftsForHouseNumber } from "./utils.ts";
 
 // sum of elf numbers will be 3_400_000
 
@@ -123,7 +123,6 @@ const puzzleInput = 34_000_000;
 // const puzzleInput = 3400;
 let presentsDelivered = 0;
 let currentHouse = 0;
-const mappedNumbers: NumberInfoMap = new Map();
 
 do {
   currentHouse++;
