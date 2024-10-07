@@ -6,6 +6,7 @@ import {
   allWeapons,
   Character,
   equipCharacter,
+  generateRings,
 } from "./utils.ts";
 
 describe("equipCharacter", function () {
@@ -33,5 +34,49 @@ describe("equipCharacter", function () {
         goldSpent: armor.cost + weapon.cost + ring.cost,
       },
     );
+  });
+});
+
+describe("generateRings", function () {
+  it("should generate all variations for rings", function () {
+    assertEquals([...generateRings()], [
+      [undefined, undefined],
+      [allRings[0], undefined],
+      [allRings[1], undefined],
+      [allRings[2], undefined],
+      [allRings[3], undefined],
+      [allRings[4], undefined],
+      [allRings[5], undefined],
+      [allRings[0], allRings[1]],
+      [allRings[0], allRings[2]],
+      [allRings[0], allRings[3]],
+      [allRings[0], allRings[4]],
+      [allRings[0], allRings[5]],
+      [allRings[1], allRings[0]],
+      [allRings[1], allRings[2]],
+      [allRings[1], allRings[3]],
+      [allRings[1], allRings[4]],
+      [allRings[1], allRings[5]],
+      [allRings[2], allRings[0]],
+      [allRings[2], allRings[1]],
+      [allRings[2], allRings[3]],
+      [allRings[2], allRings[4]],
+      [allRings[2], allRings[5]],
+      [allRings[3], allRings[0]],
+      [allRings[3], allRings[1]],
+      [allRings[3], allRings[2]],
+      [allRings[3], allRings[4]],
+      [allRings[3], allRings[5]],
+      [allRings[4], allRings[0]],
+      [allRings[4], allRings[1]],
+      [allRings[4], allRings[2]],
+      [allRings[4], allRings[3]],
+      [allRings[4], allRings[5]],
+      [allRings[5], allRings[0]],
+      [allRings[5], allRings[1]],
+      [allRings[5], allRings[2]],
+      [allRings[5], allRings[3]],
+      [allRings[5], allRings[4]],
+    ]);
   });
 });

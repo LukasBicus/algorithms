@@ -175,3 +175,31 @@ export function equipCharacter(character: Character, equip: {
       (equip.ringRight?.cost ?? 0) + (equip.ringsLeft?.cost ?? 0),
   };
 }
+
+export function* generateWeapon(): Generator<Weapon> {
+  for (const weapon of allWeapons) {
+    yield weapon;
+  }
+}
+
+export function* generateArmor(): Generator<undefined | Armor> {
+  yield undefined;
+  for (const armor of allArmors) {
+    yield armor;
+  }
+}
+
+export function* generateRings(): Generator<[Ring?, Ring?]> {
+  yield [undefined, undefined];
+  for (const ring of allRings) {
+    yield [ring, undefined];
+  }
+  for (const ring1 of allRings) {
+    for (
+      const ring2 of allRings
+        .filter((r) => r.name !== ring1.name)
+    ) {
+      yield [ring1, ring2];
+    }
+  }
+}
