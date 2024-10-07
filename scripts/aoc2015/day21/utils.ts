@@ -203,3 +203,20 @@ export function* generateRings(): Generator<[Ring?, Ring?]> {
     }
   }
 }
+
+export function* modifyCharWithEquip(
+  char: Character,
+): Generator<{ character: Character; goldSpent: number }> {
+  for (const weapon of generateWeapon()) {
+    for (const armor of generateArmor()) {
+      for (const [ring1, ring2] of generateRings()) {
+        yield equipCharacter(char, {
+          armor,
+          weapon,
+          ringsLeft: ring1,
+          ringRight: ring2,
+        });
+      }
+    }
+  }
+}
