@@ -220,3 +220,11 @@ export function* modifyCharWithEquip(
     }
   }
 }
+
+export function charAAttacksCharB(charA: Character, charB: Character) {
+  if (charA.damage > charB.defense) {
+    charB.hitPoints = charB.hitPoints - (charA.damage - charB.defense);
+  } else {
+    charB.hitPoints = charB.hitPoints - 1;
+  }
+}

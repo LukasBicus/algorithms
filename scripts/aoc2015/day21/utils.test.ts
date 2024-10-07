@@ -1,9 +1,10 @@
-import { assertEquals, assertThrows } from "@std/assert";
-import { describe, it } from "@std/testing/bdd";
+import { assert, assertEquals, assertThrows } from "@std/assert";
+import { beforeEach, describe, it } from "@std/testing/bdd";
 import {
   allArmors,
   allRings,
   allWeapons,
+  charAAttacksCharB,
   Character,
   equipCharacter,
   generateRings,
@@ -78,5 +79,32 @@ describe("generateRings", function () {
       [allRings[5], allRings[3]],
       [allRings[5], allRings[4]],
     ]);
+  });
+});
+
+describe("charAAttacksCharB", function () {
+  const charA: Character = { hitPoints: 100, damage: 10, defense: 20 };
+  const charB: Character = { hitPoints: 200, damage: 10, defense: 3 };
+
+  it("should execute charA attack on charB", function () {
+    const charAClone = Object.assign({}, charA);
+    const charBClone = Object.assign({}, charB);
+    charAAttacksCharB(charAClone, charBClone);
+    assertEquals(charAClone, charA);
+    assertEquals(charBClone, {
+      ...charB,
+      hitPoints: charB.hitPoints - (charA.damage - charB.defense),
+    });
+  });
+
+  it("should execute charB attack on charA", function () {
+    const charAClone = Object.assign({}, charA);
+    const charBClone = Object.assign({}, charB);
+    charAAttacksCharB(charBClone, charAClone);
+    assertEquals(charBClone, charB);
+    assertEquals(charAClone, {
+      ...charA,
+      hitPoints: charA.hitPoints - 1,
+    });
   });
 });
