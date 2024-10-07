@@ -179,6 +179,23 @@ export function getTotalPresentsDelivered(
   }, 0) * 10;
 }
 
+export function getDivisors(n: number): number[] {
+  const smallDivisors = [];
+  for (let i = 1; i <= Math.sqrt(n); i++) {
+    if (n % i === 0) {
+      smallDivisors.push(i);
+    }
+  }
+  const largeDivisors = [];
+  for (const smallDivisor of smallDivisors.concat([]).reverse()) {
+    const largeDivisor = n / smallDivisor;
+    if (largeDivisor !== smallDivisor) {
+      largeDivisors.push(largeDivisor);
+    }
+  }
+  return smallDivisors.concat(largeDivisors);
+}
+
 export function findNumberOfGiftsForHouseNumber(
   houseNumber: number,
 ): number {

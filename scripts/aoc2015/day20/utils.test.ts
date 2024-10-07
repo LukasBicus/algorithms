@@ -3,6 +3,7 @@ import { describe, it } from "@std/testing/bdd";
 import {
   decomposeToPrimeNumbers,
   findNumberOfGiftsForHouseNumber,
+  getDivisors,
   getTotalPresentsDelivered,
   mapPrimeNumbersToElfNumbers,
   NumberInfoMap,
@@ -225,5 +226,21 @@ describe("findNumberOfGiftsForHouseNumber", function () {
       findNumberOfGiftsForHouseNumber(houseNumber),
       getTotalPresentsDelivered(mapPrimeNumbersToElfNumbers(primes)),
     );
+  });
+});
+
+describe("getDivisors", function () {
+  it("should get divisors of 1", function () {
+    assertEquals(getDivisors(1), [1]);
+  });
+  it("should get divisors of 6", function () {
+    assertEquals(getDivisors(6), [1, 2, 3, 6]);
+  });
+  it("should get divisors of 120", function () {
+    assertEquals(getDivisors(40), [1, 2, 4, 5, 8, 10, 20, 40]);
+  });
+
+  it("should get divisors of 81", function () {
+    assertEquals(getDivisors(81), [1, 3, 9, 27, 81]);
   });
 });
