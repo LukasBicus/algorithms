@@ -27,18 +27,6 @@ export type Character = {
   defense: number;
 };
 
-const basicPlayer: Character = {
-  hitPoints: 100,
-  damage: 0,
-  defense: 0,
-};
-
-const boss: Character = {
-  hitPoints: 109,
-  damage: 8,
-  defense: 2,
-};
-
 // Weapons:    Cost  Damage  Armor
 
 export const allWeapons: Weapon[] = [{
@@ -227,4 +215,27 @@ export function charAAttacksCharB(charA: Character, charB: Character) {
   } else {
     charB.hitPoints = charB.hitPoints - 1;
   }
+}
+
+enum Turn {
+  Player = "player",
+  Boss = "boss",
+}
+
+/**
+ * @return true if player wins
+ */
+export function simulateFight(player: Character, boss: Character): boolean {
+  let turn = Turn.Player;
+  while (player.hitPoints > 0 && boss.hitPoints > 0) {
+    if (turn === Turn.Player) {
+      charAAttacksCharB(player, boss);
+      turn = Turn.Boss;
+    } else {
+      charAAttacksCharB(boss, player);
+      turn = Turn.Player;
+    }
+    console.log("player", player, "boss", boss);
+  }
+  return player.hitPoints > boss.hitPoints;
 }

@@ -8,6 +8,7 @@ import {
   Character,
   equipCharacter,
   generateRings,
+  simulateFight,
 } from "./utils.ts";
 
 describe("equipCharacter", function () {
@@ -106,5 +107,24 @@ describe("charAAttacksCharB", function () {
       ...charA,
       hitPoints: charA.hitPoints - 1,
     });
+  });
+});
+
+describe("simulateFight", function () {
+  it("return true, if player wins", function () {
+    // For example, suppose you have 8 hit points, 5 damage, and 5 armor,
+    // and that the boss has 12 hit points, 7 damage, and 2 armor:
+    assertEquals(
+      simulateFight({
+        hitPoints: 8,
+        damage: 5,
+        defense: 5,
+      }, {
+        hitPoints: 12,
+        damage: 7,
+        defense: 2,
+      }),
+      true,
+    );
   });
 });
