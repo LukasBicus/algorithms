@@ -103,3 +103,27 @@ for (const playerWithEquip of modifyCharWithEquip(basicPlayer)) {
 console.log("min price ", Math.min(...board.map(({ goldSpent }) => goldSpent)));
 console.log("winner ", board.find(({ goldSpent }) => goldSpent === 111));
 // find min price
+
+// find max price and loose
+
+const looseBoard: { character: Character; goldSpent: number }[] = [];
+
+for (const playerWithEquip of modifyCharWithEquip(basicPlayer)) {
+  // simulate fight
+  const playerWins = simulateFight(
+    playerWithEquip.character,
+    Object.assign({}, boss),
+  );
+  // if you win, store price into an looseBoard
+  if (!playerWins) {
+    looseBoard.push(playerWithEquip);
+  }
+}
+console.log(
+  "Max price ",
+  Math.max(...looseBoard.map(({ goldSpent }) => goldSpent)),
+);
+console.log(
+  "looser with most expensive armor ",
+  looseBoard.find(({ goldSpent }) => goldSpent === 188),
+);
