@@ -131,7 +131,8 @@ const boss: Character = {
 const basicPlayer: Character = {
   hitPoints: 50,
   mana: 500,
-  damage: 0
+  damage: 0,
+  defense: 0,
 }
 
 // implement effects (after spells)
@@ -163,9 +164,19 @@ const basicPlayer: Character = {
 // ALGORITHM 2
 // brute force - try all combinations, pick the best
 // I will need to run fight simulations
-// negative - each player turn will increase number of possible scanarios by 1 to 5
+// negative - each player turn will increase number of possible scenarios by 1 to 5
 // once I will find "winning scenario", I can drop all scenarios with more mana spent
 // stop cases:
 // player has no mana for next spell
 // player dies
 // there is other scenario with less mana spent
+
+
+// what describes single step in scenario
+// inputs:
+// who will move (Player/ Boss)
+// list of combinations of Player and Boss, and mana spent
+//
+// outputs:
+// who will move
+// list of combinations of Player and Boss (very likely the count will differ, some combinations will be added, some wil), and mana spent

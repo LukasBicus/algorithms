@@ -25,6 +25,7 @@ export type Character = {
   hitPoints: number;
   damage: number;
   defense: number;
+  mana?: number;
 };
 
 // Weapons:    Cost  Damage  Armor
