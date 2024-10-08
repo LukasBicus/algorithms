@@ -235,7 +235,6 @@ export function simulateFight(player: Character, boss: Character): boolean {
       charAAttacksCharB(boss, player);
       turn = Turn.Player;
     }
-    console.log("player", player, "boss", boss);
   }
   return player.hitPoints > boss.hitPoints;
 }

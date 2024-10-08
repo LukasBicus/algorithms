@@ -66,16 +66,40 @@ You have 100 hit points. The boss's actual stats are in your puzzle input. What 
 // Algorithm
 
 // create your basic character
+import { Character, modifyCharWithEquip, simulateFight } from "./utils.ts";
+
+const basicPlayer: Character = {
+  hitPoints: 100,
+  damage: 0,
+  defense: 0,
+};
+
 // create boss character (read file)
+const boss: Character = {
+  hitPoints: 109,
+  damage: 8,
+  defense: 2,
+};
 
 // create list of items in shop
 
 // create board with prices
+const board: { character: Character; goldSpent: number }[] = [];
 
 // loop
 // create variations of armor (make sure to safe it's complete price)
 // modify your basic character
-// simulate fight
-// if you win, store price into an board
-
+for (const playerWithEquip of modifyCharWithEquip(basicPlayer)) {
+  // simulate fight
+  const playerWins = simulateFight(
+    playerWithEquip.character,
+    Object.assign({}, boss),
+  );
+  // if you win, store price into an board
+  if (playerWins) {
+    board.push(playerWithEquip);
+  }
+}
+console.log("min price ", Math.min(...board.map(({ goldSpent }) => goldSpent)));
+console.log("winner ", board.find(({ goldSpent }) => goldSpent === 111));
 // find min price
