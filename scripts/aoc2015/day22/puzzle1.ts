@@ -273,6 +273,11 @@ while (activeScenarios.length > 0) {
   for (const scenario of activeScenarios) {
     //    apply effects
     applyEffects(scenario.player, scenario.boss);
+    // PUZZLE2 ONLY START!
+    if (scenario.turn === Turn.Player) {
+      scenario.player.hitPoints = scenario.player.hitPoints - 1;
+    }
+    // PUZZLE2 ONLY END!
     const result = isThereAWinner(
       scenario.player,
       scenario.boss,
