@@ -218,7 +218,7 @@ export function charAAttacksCharB(charA: Character, charB: Character) {
   }
 }
 
-enum Turn {
+export enum Turn {
   Player = "player",
   Boss = "boss",
 }

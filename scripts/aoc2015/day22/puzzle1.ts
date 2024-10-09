@@ -120,20 +120,33 @@ You start with 50 hit points and 500 mana points. The boss's actual stats are in
 What is the least amount of mana you can spend and still win the fight? (Do not include mana recharge effects as "spending" negative mana.)
  */
 
-import { Character } from "../day21/utils.ts";
+import { charAAttacksCharB, Turn } from "../day21/utils.ts";
+import {
+  applyEffects,
+  castSpell,
+  Character,
+  cloneChar,
+  getAvailableSpells,
+  isThereAWinner,
+  Spell,
+  spellCost,
+} from "./utils.ts";
 
 const boss: Character = {
   hitPoints: 71,
   damage: 10,
   defense: 0,
-}
+  effects: [],
+  mana: 0,
+};
 
 const basicPlayer: Character = {
   hitPoints: 50,
   mana: 500,
   damage: 0,
   defense: 0,
-}
+  effects: [],
+};
 
 // implement effects (after spells)
 // effects:
@@ -160,7 +173,6 @@ const basicPlayer: Character = {
 // lazy algorithm - always pick the esiest way according to rules
 // - I don't know, If my rules are right
 
-
 // ALGORITHM 2
 // brute force - try all combinations, pick the best
 // I will need to run fight simulations
@@ -170,7 +182,6 @@ const basicPlayer: Character = {
 // player has no mana for next spell
 // player dies
 // there is other scenario with less mana spent
-
 
 // what describes single step in scenario
 // inputs:
@@ -184,3 +195,151 @@ const basicPlayer: Character = {
 
 // function getListOfAvailableSpells
 // depends on player mana, player effects, boss effects
+
+type Scenario = {
+  player: Character;
+  boss: Character;
+  currentManaSpent: number;
+  turn: Turn;
+  spellsList: Spell[];
+};
+
+// lets have a mostEfficientlyManaSpent variable for cases, when player wins
+let mostEfficientlyManaSpent: null | number = null;
+// lets have a list of scenarios with initial scenario (initial stats, player turn)
+let activeScenarios: Scenario[] = [{
+  player: basicPlayer,
+  boss: boss,
+  turn: Turn.Player,
+  currentManaSpent: 0,
+  spellsList: [],
+}];
+
+activeScenarios = [{
+  player: {
+    hitPoints: 10,
+    mana: 250,
+    defense: 0,
+    damage: 0,
+    effects: [],
+  },
+  boss: {
+    hitPoints: 13,
+    mana: 0,
+    defense: 0,
+    damage: 8,
+    effects: [],
+  },
+  turn: Turn.Player,
+  currentManaSpent: 0,
+  spellsList: [],
+}];
+
+function tryToUpdateMostEfficientlyManaSpent(playerManaSpent: number) {
+  console.log("tryToUpdateMostEfficientlyManaSpent", playerManaSpent);
+  if (
+    mostEfficientlyManaSpent === null ||
+    playerManaSpent < mostEfficientlyManaSpent
+  ) {
+    mostEfficientlyManaSpent = playerManaSpent;
+  }
+}
+
+// for each scenario in list
+while (activeScenarios.length > 0) {
+  // lets have a list with new scenarios
+  const newScenarios: Scenario[] = [];
+  for (const scenario of activeScenarios) {
+    //    apply effects
+    applyEffects(scenario.player, scenario.boss);
+    const result = isThereAWinner(
+      scenario.player,
+      scenario.boss,
+      scenario.turn === Turn.Player,
+    );
+    console.log("result", result);
+    //    check if we should continue
+    if (result === "player") {
+      //      if player wins, try to update mostEfficientlyManaSpent
+
+      console.log("player won!");
+      tryToUpdateMostEfficientlyManaSpent(scenario.currentManaSpent);
+      break;
+    }
+    // if its boss turn
+    if (scenario.turn === Turn.Boss) {
+      //    attack by boss
+      charAAttacksCharB(scenario.boss, scenario.player);
+      //    check if we should continue
+      const resultAfterAttack = isThereAWinner(
+        scenario.player,
+        scenario.boss,
+      );
+      console.log("result", resultAfterAttack);
+      //        if boss wins do nothing
+      //        if null, add a new scenario to the list of new scenarios
+      if (resultAfterAttack === null) {
+        newScenarios.push({
+          player: cloneChar(scenario.player),
+          boss: cloneChar(scenario.boss),
+          currentManaSpent: scenario.currentManaSpent,
+          turn: Turn.Player,
+          spellsList: scenario.spellsList,
+        });
+      }
+    } else {
+      // scenario player
+      //    get list of available spells
+      const availableSpells = getAvailableSpells(
+        scenario.player,
+        scenario.boss,
+      );
+      console.log("availableSpells", availableSpells);
+      //    loop for each available spell
+      for (const spell of availableSpells) {
+        //      player casts a spell
+        const player = cloneChar(scenario.player);
+        const boss = cloneChar(scenario.boss);
+        castSpell(player, boss, spell);
+        const manaSpent = spellCost[spell];
+        const result = isThereAWinner(player, boss, false);
+        console.log("result", result);
+        if (result === "player") {
+          //        if player wins, try to update mostEfficientlyManaSpent
+          tryToUpdateMostEfficientlyManaSpent(
+            scenario.currentManaSpent + manaSpent,
+          );
+          //        if null,
+        } else if (result === null) {
+          //           compute new mana spent
+          //           if mostEfficientlyManaSpent === null or new mana spent <  mostEfficientlyManaSpent
+          if (
+            mostEfficientlyManaSpent === null ||
+            scenario.currentManaSpent + manaSpent < mostEfficientlyManaSpent
+          ) {
+            //              add a new scenario to the list of new scenarios with new mana spent
+            newScenarios.push({
+              player: cloneChar(player),
+              boss: cloneChar(boss),
+              currentManaSpent: scenario.currentManaSpent + manaSpent,
+              turn: Turn.Boss,
+              spellsList: scenario.spellsList.concat([spell]),
+            });
+          }
+        }
+      }
+    }
+  }
+  // console.log("newScenarios", newScenarios);
+  if (mostEfficientlyManaSpent === null) {
+    activeScenarios = newScenarios;
+  } else {
+    activeScenarios = newScenarios.filter((ns) =>
+      ns.currentManaSpent < (mostEfficientlyManaSpent as number)
+    );
+  }
+  console.log("activeScenarios", activeScenarios);
+}
+
+console.log("mostEfficientlyManaSpent", mostEfficientlyManaSpent);
+//

@@ -1,5 +1,6 @@
 import { assertEquals, assertThrows } from "@std/assert";
 import { beforeEach, describe, it } from "@std/testing/bdd";
+import { charAAttacksCharB } from "../day21/utils.ts";
 import {
   applyEffects,
   castSpell,
@@ -294,11 +295,27 @@ describe("isThereAWinner", function () {
   };
   it("should return boss if player has no more mana for next spell", function () {
     assertEquals(
-      isThereAWinner({
-        ...playerTemplate,
-        mana: 30,
-      }, bossTemplate),
+      isThereAWinner(
+        {
+          ...playerTemplate,
+          mana: 30,
+        },
+        bossTemplate,
+        true,
+      ),
       "boss",
+    );
+  });
+  it("should return null if player has no more mana and it's boss turn", function () {
+    assertEquals(
+      isThereAWinner(
+        {
+          ...playerTemplate,
+          mana: 30,
+        },
+        bossTemplate,
+      ),
+      null,
     );
   });
   it("should return boss if player hitPoints are bellow one", function () {
@@ -324,5 +341,53 @@ describe("isThereAWinner", function () {
       isThereAWinner(playerTemplate, bossTemplate),
       null,
     );
+  });
+});
+
+describe("a fight", function () {
+  const player: Character = {
+    hitPoints: 10,
+    mana: 250,
+    defense: 0,
+    damage: 0,
+    effects: [],
+  };
+  const boss: Character = {
+    hitPoints: 13,
+    mana: 0,
+    defense: 0,
+    damage: 8,
+    effects: [],
+  };
+  it("player should win", function () {
+    // Player turn
+    applyEffects(player, boss);
+    assertEquals(isThereAWinner(player, boss, true), null);
+    castSpell(player, boss, Spell.Poison);
+    isThereAWinner(player, boss, true);
+    // Boss Turn
+    applyEffects(player, boss);
+    assertEquals(isThereAWinner(player, boss, false), null);
+    charAAttacksCharB(boss, player);
+    assertEquals(isThereAWinner(player, boss, false), null);
+
+    // Player turn
+    applyEffects(player, boss);
+    isThereAWinner(
+      player,
+      boss,
+      true,
+    );
+    castSpell(player, boss, Spell.MagicMissile);
+    assertEquals(isThereAWinner(player, boss, true), null);
+
+    // Boss Turn
+    applyEffects(player, boss);
+    const result = isThereAWinner(
+      player,
+      boss,
+      false,
+    );
+    assertEquals(result, "player");
   });
 });

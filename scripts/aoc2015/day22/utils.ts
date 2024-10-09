@@ -1,3 +1,5 @@
+import { Turn } from "../day21/utils.ts";
+
 export type Character = {
   hitPoints: number;
   damage: number;
@@ -195,11 +197,15 @@ export function cloneChar(char: Character): Character {
 export function isThereAWinner(
   player: Character,
   boss: Character,
+  isPlayerTurn?: boolean,
 ): "player" | "boss" | null {
   if (boss.hitPoints < 1) {
     return "player";
   }
-  if (player.hitPoints < 1 || player.mana < spellCost[Spell.MagicMissile]) {
+  if (player.hitPoints < 1) {
+    return "boss";
+  }
+  if (isPlayerTurn && player.mana < spellCost[Spell.MagicMissile]) {
     return "boss";
   }
   return null;
