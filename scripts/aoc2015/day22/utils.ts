@@ -159,6 +159,20 @@ export function applyEffects(
       rechargingEffect.charges = rechargingEffect.charges - 1;
     }
   }
+
+  const poisonedEffect = target.effects.find((e) =>
+    e.name === EffectName.Poisoned
+  );
+  if (poisonedEffect) {
+    target.hitPoints = target.hitPoints - 3;
+    if (poisonedEffect.charges === 1) {
+      target.effects = target.effects.filter((e) =>
+        e.name !== EffectName.Poisoned
+      );
+    } else {
+      poisonedEffect.charges = poisonedEffect.charges - 1;
+    }
+  }
 }
 
 export function cloneChar(char: Character): Character {

@@ -199,7 +199,7 @@ describe("applyEffects", function () {
     mana: 0,
     effects: [],
   };
-  it.only("should validate ticks and end exit of shielded effect", function () {
+  it("should validate ticks and end exit of shielded effect", function () {
     const player = cloneChar(playerTemplate);
     const boss = cloneChar(bossTemplate);
     castSpell(player, boss, Spell.Shield);
@@ -248,7 +248,7 @@ describe("applyEffects", function () {
       hitPoints: bossTemplate.hitPoints - 6 * 3,
     });
   });
-  it.only("should validate ticks and end exit of recharging effect", function () {
+  it("should validate ticks and end exit of recharging effect", function () {
     const player = cloneChar(playerTemplate);
     const boss = cloneChar(bossTemplate);
     castSpell(player, boss, Spell.Recharge);
