@@ -446,7 +446,6 @@ describe("a fight", function () {
     // Player turn
     applyEffects(player, boss);
     isThereAWinner(player, boss, true);
-    console.log("player", player);
     castSpell(player, boss, Spell.Poison);
     assertEquals(isThereAWinner(player, boss, false), null);
 
@@ -464,7 +463,6 @@ describe("a fight", function () {
 
     // Boss Turn
     applyEffects(player, boss);
-    console.log("player", player);
     assertEquals(isThereAWinner(player, boss, false), "player");
   });
 });

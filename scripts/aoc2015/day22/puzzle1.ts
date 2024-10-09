@@ -287,7 +287,6 @@ while (activeScenarios.length > 0) {
     if (result === "player") {
       //      if player wins, try to update mostEfficientlyManaSpent
 
-      console.log("player won!");
       tryToUpdateMostEfficientlyManaSpent(scenario.currentManaSpent);
       break;
     }
@@ -352,7 +351,6 @@ while (activeScenarios.length > 0) {
       }
     }
   }
-  // console.log("newScenarios", newScenarios);
   if (mostEfficientlyManaSpent === null) {
     activeScenarios = newScenarios;
   } else {
@@ -360,7 +358,6 @@ while (activeScenarios.length > 0) {
       ns.currentManaSpent < (mostEfficientlyManaSpent as number)
     );
   }
-  console.log("activeScenarios", activeScenarios);
 }
 
 console.log("mostEfficientlyManaSpent", mostEfficientlyManaSpent);
