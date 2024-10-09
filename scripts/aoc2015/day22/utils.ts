@@ -143,10 +143,15 @@ export function castSpell(
   }
 }
 
+// modifies author/target stats
+// wear effect off after all charges are used
 export function applyEffects(
   author: Character,
   target: Character,
-  effectBlueprints: EffectBlueprint[],
 ): void {
   console.log("apply effects");
+}
+
+export function cloneChar(char: Character): Character {
+  return Object.assign({}, char);
 }

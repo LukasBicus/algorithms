@@ -1,11 +1,14 @@
 import { assertEquals, assertThrows } from "@std/assert";
 import { beforeEach, describe, it } from "@std/testing/bdd";
 import {
+  applyEffects,
   castSpell,
   Character,
+  cloneChar,
   EffectName,
   isSpellAvailable,
   Spell,
+  spellCost,
 } from "./utils.ts";
 
 describe("castSpell", function () {
@@ -173,5 +176,49 @@ describe("isSpellAvailable", function () {
   });
   it("should return true if spell is available", function () {
     assertEquals(isSpellAvailable(player, boss, Spell.Shield), true);
+  });
+});
+
+describe("applyEffects", function () {
+  const playerTemplate: Character = {
+    hitPoints: 100,
+    damage: 0,
+    defense: 0,
+    mana: 500,
+    effects: [],
+  };
+  const bossTemplate: Character = {
+    hitPoints: 200,
+    damage: 10,
+    defense: 2,
+    mana: 0,
+    effects: [],
+  };
+  it("should validate ticks and end exit of shielded effect", function () {
+    const player = cloneChar(playerTemplate);
+    const boss = cloneChar(bossTemplate);
+    castSpell(player, boss, Spell.Shield);
+    applyEffects(player, boss);
+    assertEquals(player, {
+      ...playerTemplate,
+      mana: playerTemplate.mana - spellCost[Spell.Shield],
+      effects: [{ name: EffectName.Shielded, charges: 5 }],
+      defense: playerTemplate.defense + 7,
+    });
+    assertEquals(boss, bossTemplate);
+    applyEffects(player, boss);
+    applyEffects(player, boss);
+    applyEffects(player, boss);
+    applyEffects(player, boss);
+    applyEffects(player, boss);
+    assertEquals(player, {
+      ...playerTemplate,
+      mana: playerTemplate.mana - spellCost[Spell.Shield],
+      effects: [],
+    });
+  });
+  it("should validate ticks and end exit of poisoned effect", function () {
+  });
+  it("should validate ticks and end exit of recharging effect", function () {
   });
 });
