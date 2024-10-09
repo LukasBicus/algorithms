@@ -28,21 +28,6 @@ export type EffectBlueprint = {
 // poisoned damage 3 for 6 turns
 // recharging gain 101 mana for 5 turns
 
-const effectBlueprints: EffectBlueprint[] = [{
-  name: EffectName.Shielded,
-  onEffectInit: function (
-    { author }: { target: Character; author: Character },
-  ) {
-    author.defense = author.defense + 7;
-  },
-  onEffectExpires: function (
-    { author }: { target: Character; author: Character },
-  ) {
-    author.defense = author.defense - 7;
-  },
-  charges: 6,
-}];
-
 export type Effect = {
   name: EffectName;
   charges: number;
@@ -100,6 +85,9 @@ export function isSpellAvailable(
 // Poison costs 173 mana. It starts an effect that lasts for 6 turns. At the start of each turn while it is active, it deals the boss 3 damage.
 // Recharge costs 229 mana. It starts an effect that lasts for 5 turns. At the start of each turn while it is active, it gives you 101 new mana.
 
+export const RECHARGE_GAIN = 101;
+export const SHIELD_DEFENSE_GAIN = 7;
+
 export function castSpell(
   author: Character,
   target: Character,
@@ -118,7 +106,7 @@ export function castSpell(
       target.hitPoints = target.hitPoints - 2;
       break;
     case Spell.Shield:
-      author.defense = author.defense + 7;
+      author.defense = author.defense + SHIELD_DEFENSE_GAIN;
       author.effects = [...author.effects, {
         name: EffectName.Shielded,
         charges: 6,
@@ -146,6 +134,19 @@ export function applyEffects(
   target: Character,
 ): void {
   console.log("apply effects");
+  const shieldEffect = author.effects.find((e) =>
+    e.name === EffectName.Shielded
+  );
+  if (shieldEffect) {
+    if (shieldEffect.charges === 1) {
+      author.effects = author.effects.filter((e) =>
+        e.name !== EffectName.Shielded
+      );
+      author.defense = author.defense - SHIELD_DEFENSE_GAIN;
+    } else {
+      shieldEffect.charges = shieldEffect.charges - 1;
+    }
+  }
 }
 
 export function cloneChar(char: Character): Character {

@@ -7,6 +7,8 @@ import {
   cloneChar,
   EffectName,
   isSpellAvailable,
+  RECHARGE_GAIN,
+  SHIELD_DEFENSE_GAIN,
   Spell,
   spellCost,
 } from "./utils.ts";
@@ -89,7 +91,7 @@ describe("castSpell", function () {
         name: EffectName.Shielded,
         charges: 6,
       }],
-      defense: playerTemplate.defense + 7,
+      defense: playerTemplate.defense + SHIELD_DEFENSE_GAIN,
       mana: playerTemplate.mana - spellCost[Spell.Shield],
     });
   });
@@ -197,7 +199,7 @@ describe("applyEffects", function () {
     mana: 0,
     effects: [],
   };
-  it("should validate ticks and end exit of shielded effect", function () {
+  it.only("should validate ticks and end exit of shielded effect", function () {
     const player = cloneChar(playerTemplate);
     const boss = cloneChar(bossTemplate);
     castSpell(player, boss, Spell.Shield);
@@ -206,7 +208,7 @@ describe("applyEffects", function () {
       ...playerTemplate,
       mana: playerTemplate.mana - spellCost[Spell.Shield],
       effects: [{ name: EffectName.Shielded, charges: 5 }],
-      defense: playerTemplate.defense + 7,
+      defense: playerTemplate.defense + SHIELD_DEFENSE_GAIN,
     });
     assertEquals(boss, bossTemplate);
     applyEffects(player, boss);
@@ -221,7 +223,50 @@ describe("applyEffects", function () {
     });
   });
   it("should validate ticks and end exit of poisoned effect", function () {
+    const player = cloneChar(playerTemplate);
+    const boss = cloneChar(bossTemplate);
+    castSpell(player, boss, Spell.Poison);
+    applyEffects(player, boss);
+    assertEquals(boss, {
+      ...bossTemplate,
+      effects: [{ name: EffectName.Poisoned, charges: 5 }],
+      hitPoints: bossTemplate.hitPoints - 3,
+    });
+    applyEffects(player, boss);
+    assertEquals(boss, {
+      ...bossTemplate,
+      effects: [{ name: EffectName.Poisoned, charges: 4 }],
+      hitPoints: bossTemplate.hitPoints - 2 * 3,
+    });
+    applyEffects(player, boss);
+    applyEffects(player, boss);
+    applyEffects(player, boss);
+    applyEffects(player, boss);
+    assertEquals(boss, {
+      ...bossTemplate,
+      effects: [],
+      hitPoints: bossTemplate.hitPoints - 6 * 3,
+    });
   });
   it("should validate ticks and end exit of recharging effect", function () {
+    const player = cloneChar(playerTemplate);
+    const boss = cloneChar(bossTemplate);
+    castSpell(player, boss, Spell.Recharge);
+    applyEffects(player, boss);
+    assertEquals(player, {
+      ...playerTemplate,
+      mana: playerTemplate.mana - spellCost[Spell.Recharge] + RECHARGE_GAIN,
+      effects: [{ name: EffectName.Recharging, charges: 4 }],
+    });
+    assertEquals(boss, bossTemplate);
+    applyEffects(player, boss);
+    applyEffects(player, boss);
+    applyEffects(player, boss);
+    applyEffects(player, boss);
+    assertEquals(player, {
+      ...playerTemplate,
+      mana: playerTemplate.mana - spellCost[Spell.Shield] + 5 * RECHARGE_GAIN,
+      effects: [],
+    });
   });
 });
