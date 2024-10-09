@@ -175,8 +175,12 @@ const basicPlayer: Character = {
 // what describes single step in scenario
 // inputs:
 // who will move (Player/ Boss)
-// list of combinations of Player and Boss, and mana spent
+// list of combinations of Player and Boss, and mana spent and effects, that can be used
+//
 //
 // outputs:
 // who will move
 // list of combinations of Player and Boss (very likely the count will differ, some combinations will be added, some wil), and mana spent
+
+// function getListOfAvailableSpells
+// depends on player mana, player effects, boss effects

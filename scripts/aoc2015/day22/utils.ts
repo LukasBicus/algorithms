@@ -56,6 +56,44 @@ export enum Spell {
   Recharge = "recharge",
 }
 
+export const spellCost: Record<Spell, number> = {
+  [Spell.MagicMissile]: 53,
+  [Spell.Drain]: 73,
+  [Spell.Shield]: 113,
+  [Spell.Poison]: 173,
+  [Spell.Recharge]: 229,
+};
+
+// spell is available, when player has enough mana
+// when author/target has no related effect already
+export function isSpellAvailable(
+  author: Character,
+  target: Character,
+  spell: Spell,
+): boolean {
+  if (author.mana < spellCost[spell]) {
+    return false;
+  }
+  switch (spell) {
+    case Spell.Shield:
+      if (author.effects.find((e) => e.name === EffectName.Shielded)) {
+        return false;
+      }
+      break;
+    case Spell.Poison:
+      if (target.effects.find((e) => e.name === EffectName.Poisoned)) {
+        return false;
+      }
+      break;
+    case Spell.Recharge:
+      if (author.effects.find((e) => e.name === EffectName.Recharging)) {
+        return false;
+      }
+      break;
+  }
+  return true;
+}
+
 // Magic Missile costs 53 mana. It instantly does 4 damage.
 // Drain costs 73 mana. It instantly does 2 damage and heals you for 2 hit points.
 // Shield costs 113 mana. It starts an effect that lasts for 6 turns. While it is active, your armor is increased by 7.
@@ -67,6 +105,9 @@ export function castSpell(
   target: Character,
   spell: Spell,
 ): void {
+  if (!isSpellAvailable(author, target, spell)) {
+    throw new Error("Spell not available");
+  }
   switch (spell) {
     case Spell.MagicMissile:
       author.mana = author.mana - 53;

@@ -1,6 +1,12 @@
 import { assertEquals, assertThrows } from "@std/assert";
 import { beforeEach, describe, it } from "@std/testing/bdd";
-import { castSpell, Character, EffectName, Spell } from "./utils.ts";
+import {
+  castSpell,
+  Character,
+  EffectName,
+  isSpellAvailable,
+  Spell,
+} from "./utils.ts";
 
 describe("castSpell", function () {
   const playerTemplate: Character = {
@@ -119,8 +125,53 @@ describe("castSpell", function () {
   });
 });
 
-// describe.skip("castSpell", function () {
-//   it("should cast spell", function () {
-//     assertEquals();
-//   });
-// });
+describe("isSpellAvailable", function () {
+  const player: Character = {
+    hitPoints: 100,
+    damage: 0,
+    defense: 0,
+    mana: 500,
+    effects: [],
+  };
+  const boss: Character = {
+    hitPoints: 200,
+    damage: 10,
+    defense: 2,
+    mana: 0,
+    effects: [],
+  };
+  it("should return false if player has no mana", function () {
+    assertEquals(
+      isSpellAvailable({ ...player, mana: 52 }, boss, Spell.MagicMissile),
+      false,
+    );
+  });
+  it("should return false if player has related effect on", function () {
+    assertEquals(
+      isSpellAvailable(
+        {
+          ...player,
+          effects: [{
+            name: EffectName.Recharging,
+            charges: 3,
+          }],
+        },
+        boss,
+        Spell.Recharge,
+      ),
+      false,
+    );
+  });
+  it("should return false if target has related effect on", function () {
+    assertEquals(
+      isSpellAvailable(player, {
+        ...boss,
+        effects: [{ name: EffectName.Poisoned, charges: 3 }],
+      }, Spell.Poison),
+      false,
+    );
+  });
+  it("should return true if spell is available", function () {
+    assertEquals(isSpellAvailable(player, boss, Spell.Shield), true);
+  });
+});
