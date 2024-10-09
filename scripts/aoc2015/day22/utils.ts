@@ -79,6 +79,19 @@ export function isSpellAvailable(
   return true;
 }
 
+export function getAvailableSpells(
+  author: Character,
+  target: Character,
+): Spell[] {
+  return [
+    Spell.MagicMissile,
+    Spell.Drain,
+    Spell.Shield,
+    Spell.Poison,
+    Spell.Recharge,
+  ].filter((spell) => isSpellAvailable(author, target, spell));
+}
+
 // Magic Missile costs 53 mana. It instantly does 4 damage.
 // Drain costs 73 mana. It instantly does 2 damage and heals you for 2 hit points.
 // Shield costs 113 mana. It starts an effect that lasts for 6 turns. While it is active, your armor is increased by 7.
