@@ -7,6 +7,7 @@ import {
   cloneChar,
   EffectName,
   isSpellAvailable,
+  isThereAWinner,
   RECHARGE_GAIN,
   SHIELD_DEFENSE_GAIN,
   Spell,
@@ -273,5 +274,55 @@ describe("applyEffects", function () {
       mana: playerTemplate.mana - spellCost[Spell.Recharge] + 5 * RECHARGE_GAIN,
       effects: [],
     });
+  });
+});
+
+describe("isThereAWinner", function () {
+  const playerTemplate: Character = {
+    hitPoints: 100,
+    damage: 0,
+    defense: 0,
+    mana: 500,
+    effects: [],
+  };
+  const bossTemplate: Character = {
+    hitPoints: 200,
+    damage: 10,
+    defense: 2,
+    mana: 0,
+    effects: [],
+  };
+  it("should return boss if player has no more mana for next spell", function () {
+    assertEquals(
+      isThereAWinner({
+        ...playerTemplate,
+        mana: 30,
+      }, bossTemplate),
+      "boss",
+    );
+  });
+  it("should return boss if player hitPoints are bellow one", function () {
+    assertEquals(
+      isThereAWinner({
+        ...playerTemplate,
+        hitPoints: 0,
+      }, bossTemplate),
+      "boss",
+    );
+  });
+  it("should return player if boss hitPoints are bellow one", function () {
+    assertEquals(
+      isThereAWinner(playerTemplate, {
+        ...bossTemplate,
+        hitPoints: 0,
+      }),
+      "player",
+    );
+  });
+  it("should return null otherwise if fight should continue", function () {
+    assertEquals(
+      isThereAWinner(playerTemplate, bossTemplate),
+      null,
+    );
   });
 });

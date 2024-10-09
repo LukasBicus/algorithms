@@ -178,3 +178,16 @@ export function applyEffects(
 export function cloneChar(char: Character): Character {
   return Object.assign({}, char);
 }
+
+export function isThereAWinner(
+  player: Character,
+  boss: Character,
+): "player" | "boss" | null {
+  if (boss.hitPoints < 1) {
+    return "player";
+  }
+  if (player.hitPoints < 1 || player.mana < spellCost[Spell.MagicMissile]) {
+    return "boss";
+  }
+  return null;
+}
