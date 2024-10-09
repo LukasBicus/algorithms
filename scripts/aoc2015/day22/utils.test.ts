@@ -345,26 +345,27 @@ describe("isThereAWinner", function () {
 });
 
 describe("a fight", function () {
-  const player: Character = {
-    hitPoints: 10,
-    mana: 250,
-    defense: 0,
-    damage: 0,
-    effects: [],
-  };
-  const boss: Character = {
-    hitPoints: 13,
-    mana: 0,
-    defense: 0,
-    damage: 8,
-    effects: [],
-  };
   it("player should win", function () {
+    const player: Character = {
+      hitPoints: 10,
+      mana: 250,
+      defense: 0,
+      damage: 0,
+      effects: [],
+    };
+    const boss: Character = {
+      hitPoints: 13,
+      mana: 0,
+      defense: 0,
+      damage: 8,
+      effects: [],
+    };
+
     // Player turn
     applyEffects(player, boss);
     assertEquals(isThereAWinner(player, boss, true), null);
     castSpell(player, boss, Spell.Poison);
-    isThereAWinner(player, boss, true);
+    isThereAWinner(player, boss, false);
     // Boss Turn
     applyEffects(player, boss);
     assertEquals(isThereAWinner(player, boss, false), null);
@@ -379,7 +380,7 @@ describe("a fight", function () {
       true,
     );
     castSpell(player, boss, Spell.MagicMissile);
-    assertEquals(isThereAWinner(player, boss, true), null);
+    assertEquals(isThereAWinner(player, boss, false), null);
 
     // Boss Turn
     applyEffects(player, boss);
@@ -389,5 +390,81 @@ describe("a fight", function () {
       false,
     );
     assertEquals(result, "player");
+  });
+
+  it("player should win II", function () {
+    const player: Character = {
+      hitPoints: 10,
+      mana: 250,
+      defense: 0,
+      damage: 0,
+      effects: [],
+    };
+    const boss: Character = {
+      hitPoints: 13,
+      mana: 0,
+      defense: 0,
+      damage: 8,
+      effects: [],
+    };
+    // Player turn
+    applyEffects(player, boss);
+    assertEquals(isThereAWinner(player, boss, true), null);
+    castSpell(player, boss, Spell.Recharge);
+    isThereAWinner(player, boss, false);
+
+    // Boss Turn
+    applyEffects(player, boss);
+    assertEquals(isThereAWinner(player, boss, false), null);
+    charAAttacksCharB(boss, player);
+    assertEquals(isThereAWinner(player, boss, false), null);
+
+    // Player turn
+    applyEffects(player, boss);
+    isThereAWinner(player, boss, true);
+    castSpell(player, boss, Spell.Shield);
+    assertEquals(isThereAWinner(player, boss, false), null);
+
+    // Boss Turn
+    applyEffects(player, boss);
+    assertEquals(isThereAWinner(player, boss, false), null);
+    charAAttacksCharB(boss, player);
+    assertEquals(isThereAWinner(player, boss, false), null);
+
+    // Player turn
+    applyEffects(player, boss);
+    isThereAWinner(player, boss, true);
+    castSpell(player, boss, Spell.Drain);
+    assertEquals(isThereAWinner(player, boss, false), null);
+
+    // Boss Turn
+    applyEffects(player, boss);
+    assertEquals(isThereAWinner(player, boss, false), null);
+    charAAttacksCharB(boss, player);
+    assertEquals(isThereAWinner(player, boss, false), null);
+
+    // Player turn
+    applyEffects(player, boss);
+    isThereAWinner(player, boss, true);
+    console.log("player", player);
+    castSpell(player, boss, Spell.Poison);
+    assertEquals(isThereAWinner(player, boss, false), null);
+
+    // Boss Turn
+    applyEffects(player, boss);
+    assertEquals(isThereAWinner(player, boss, false), null);
+    charAAttacksCharB(boss, player);
+    assertEquals(isThereAWinner(player, boss, false), null);
+
+    // Player turn
+    applyEffects(player, boss);
+    isThereAWinner(player, boss, true);
+    castSpell(player, boss, Spell.MagicMissile);
+    assertEquals(isThereAWinner(player, boss, false), null);
+
+    // Boss Turn
+    applyEffects(player, boss);
+    console.log("player", player);
+    assertEquals(isThereAWinner(player, boss, false), "player");
   });
 });

@@ -215,6 +215,26 @@ let activeScenarios: Scenario[] = [{
   spellsList: [],
 }];
 
+// activeScenarios = [{
+//   player: {
+//     hitPoints: 10,
+//     mana: 250,
+//     defense: 0,
+//     damage: 0,
+//     effects: [],
+//   },
+//   boss: {
+//     hitPoints: 13,
+//     mana: 0,
+//     defense: 0,
+//     damage: 8,
+//     effects: [],
+//   },
+//   turn: Turn.Player,
+//   currentManaSpent: 0,
+//   spellsList: [],
+// }];
+
 activeScenarios = [{
   player: {
     hitPoints: 10,
@@ -224,7 +244,7 @@ activeScenarios = [{
     effects: [],
   },
   boss: {
-    hitPoints: 13,
+    hitPoints: 14,
     mana: 0,
     defense: 0,
     damage: 8,
@@ -236,7 +256,6 @@ activeScenarios = [{
 }];
 
 function tryToUpdateMostEfficientlyManaSpent(playerManaSpent: number) {
-  console.log("tryToUpdateMostEfficientlyManaSpent", playerManaSpent);
   if (
     mostEfficientlyManaSpent === null ||
     playerManaSpent < mostEfficientlyManaSpent
@@ -275,7 +294,6 @@ while (activeScenarios.length > 0) {
         scenario.player,
         scenario.boss,
       );
-      console.log("result", resultAfterAttack);
       //        if boss wins do nothing
       //        if null, add a new scenario to the list of new scenarios
       if (resultAfterAttack === null) {
@@ -303,7 +321,6 @@ while (activeScenarios.length > 0) {
         castSpell(player, boss, spell);
         const manaSpent = spellCost[spell];
         const result = isThereAWinner(player, boss, false);
-        console.log("result", result);
         if (result === "player") {
           //        if player wins, try to update mostEfficientlyManaSpent
           tryToUpdateMostEfficientlyManaSpent(

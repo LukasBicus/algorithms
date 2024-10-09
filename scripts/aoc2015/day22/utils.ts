@@ -191,7 +191,8 @@ export function applyEffects(
 }
 
 export function cloneChar(char: Character): Character {
-  return Object.assign({}, char);
+  return JSON.parse(JSON.stringify(char));
+  // return Object.assign({}, char);
 }
 
 export function isThereAWinner(
