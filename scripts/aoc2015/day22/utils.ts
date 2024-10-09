@@ -108,18 +108,16 @@ export function castSpell(
   if (!isSpellAvailable(author, target, spell)) {
     throw new Error("Spell not available");
   }
+  author.mana = author.mana - spellCost[spell];
   switch (spell) {
     case Spell.MagicMissile:
-      author.mana = author.mana - 53;
       target.hitPoints = target.hitPoints - 4;
       break;
     case Spell.Drain:
-      author.mana = author.mana - 73;
       author.hitPoints = author.hitPoints + 2;
       target.hitPoints = target.hitPoints - 2;
       break;
     case Spell.Shield:
-      author.mana = author.mana - 113;
       author.defense = author.defense + 7;
       author.effects = [...author.effects, {
         name: EffectName.Shielded,
@@ -127,14 +125,12 @@ export function castSpell(
       }];
       break;
     case Spell.Poison:
-      author.mana = author.mana - 173;
       target.effects = [...target.effects, {
         name: EffectName.Poisoned,
         charges: 6,
       }];
       break;
     case Spell.Recharge:
-      author.mana = author.mana - 229;
       author.effects = [...author.effects, {
         name: EffectName.Recharging,
         charges: 5,

@@ -53,7 +53,10 @@ describe("castSpell", function () {
     assertEquals(player.effects.length, 0);
     assertEquals(boss.effects.length, 0);
     assertEquals(boss.hitPoints, bossTemplate.hitPoints - 4);
-    assertEquals(player.mana, playerTemplate.mana - 53);
+    assertEquals(
+      player.mana,
+      playerTemplate.mana - spellCost[Spell.MagicMissile],
+    );
   });
   // Drain costs 73 mana. It instantly does 2 damage and heals you for 2 hit points.
   it("should cast drain", function () {
@@ -69,7 +72,7 @@ describe("castSpell", function () {
     assertEquals(player, {
       ...playerTemplate,
       hitPoints: playerTemplate.hitPoints + 2,
-      mana: playerTemplate.mana - 73,
+      mana: playerTemplate.mana - spellCost[Spell.Drain],
     });
   });
   // Shield costs 113 mana. It starts an effect that lasts for 6 turns. While it is active, your armor is increased by 7.
@@ -87,7 +90,7 @@ describe("castSpell", function () {
         charges: 6,
       }],
       defense: playerTemplate.defense + 7,
-      mana: playerTemplate.mana - 113,
+      mana: playerTemplate.mana - spellCost[Spell.Shield],
     });
   });
   // Poison costs 173 mana. It starts an effect that lasts for 6 turns. At the start of each turn while it is active, it deals the boss 3 damage.
@@ -106,7 +109,7 @@ describe("castSpell", function () {
     });
     assertEquals(player, {
       ...playerTemplate,
-      mana: playerTemplate.mana - 173,
+      mana: playerTemplate.mana - spellCost[Spell.Poison],
     });
   });
   // Recharge costs 229 mana. It starts an effect that lasts for 5 turns. At the start of each turn while it is active, it gives you 101 new mana.
@@ -123,7 +126,7 @@ describe("castSpell", function () {
         name: EffectName.Recharging,
         charges: 5,
       }],
-      mana: playerTemplate.mana - 229,
+      mana: playerTemplate.mana - spellCost[Spell.Recharge],
     });
   });
 });
