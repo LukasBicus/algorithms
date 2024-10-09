@@ -215,6 +215,7 @@ let activeScenarios: Scenario[] = [{
   spellsList: [],
 }];
 
+// example I
 // activeScenarios = [{
 //   player: {
 //     hitPoints: 10,
@@ -235,25 +236,26 @@ let activeScenarios: Scenario[] = [{
 //   spellsList: [],
 // }];
 
-activeScenarios = [{
-  player: {
-    hitPoints: 10,
-    mana: 250,
-    defense: 0,
-    damage: 0,
-    effects: [],
-  },
-  boss: {
-    hitPoints: 14,
-    mana: 0,
-    defense: 0,
-    damage: 8,
-    effects: [],
-  },
-  turn: Turn.Player,
-  currentManaSpent: 0,
-  spellsList: [],
-}];
+// example II
+// activeScenarios = [{
+//   player: {
+//     hitPoints: 10,
+//     mana: 250,
+//     defense: 0,
+//     damage: 0,
+//     effects: [],
+//   },
+//   boss: {
+//     hitPoints: 14,
+//     mana: 0,
+//     defense: 0,
+//     damage: 8,
+//     effects: [],
+//   },
+//   turn: Turn.Player,
+//   currentManaSpent: 0,
+//   spellsList: [],
+// }];
 
 function tryToUpdateMostEfficientlyManaSpent(playerManaSpent: number) {
   if (
@@ -276,7 +278,6 @@ while (activeScenarios.length > 0) {
       scenario.boss,
       scenario.turn === Turn.Player,
     );
-    console.log("result", result);
     //    check if we should continue
     if (result === "player") {
       //      if player wins, try to update mostEfficientlyManaSpent
@@ -312,7 +313,6 @@ while (activeScenarios.length > 0) {
         scenario.player,
         scenario.boss,
       );
-      console.log("availableSpells", availableSpells);
       //    loop for each available spell
       for (const spell of availableSpells) {
         //      player casts a spell
