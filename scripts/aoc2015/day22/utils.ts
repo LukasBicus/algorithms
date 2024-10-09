@@ -133,7 +133,6 @@ export function applyEffects(
   author: Character,
   target: Character,
 ): void {
-  console.log("apply effects");
   const shieldEffect = author.effects.find((e) =>
     e.name === EffectName.Shielded
   );
@@ -145,6 +144,19 @@ export function applyEffects(
       author.defense = author.defense - SHIELD_DEFENSE_GAIN;
     } else {
       shieldEffect.charges = shieldEffect.charges - 1;
+    }
+  }
+  const rechargingEffect = author.effects.find((e) =>
+    e.name === EffectName.Recharging
+  );
+  if (rechargingEffect) {
+    author.mana = author.mana + RECHARGE_GAIN;
+    if (rechargingEffect.charges === 1) {
+      author.effects = author.effects.filter((e) =>
+        e.name !== EffectName.Recharging
+      );
+    } else {
+      rechargingEffect.charges = rechargingEffect.charges - 1;
     }
   }
 }

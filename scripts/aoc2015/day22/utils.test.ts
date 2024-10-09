@@ -248,10 +248,15 @@ describe("applyEffects", function () {
       hitPoints: bossTemplate.hitPoints - 6 * 3,
     });
   });
-  it("should validate ticks and end exit of recharging effect", function () {
+  it.only("should validate ticks and end exit of recharging effect", function () {
     const player = cloneChar(playerTemplate);
     const boss = cloneChar(bossTemplate);
     castSpell(player, boss, Spell.Recharge);
+    assertEquals(player, {
+      ...playerTemplate,
+      mana: playerTemplate.mana - spellCost[Spell.Recharge],
+      effects: [{ name: EffectName.Recharging, charges: 5 }],
+    });
     applyEffects(player, boss);
     assertEquals(player, {
       ...playerTemplate,
@@ -265,7 +270,7 @@ describe("applyEffects", function () {
     applyEffects(player, boss);
     assertEquals(player, {
       ...playerTemplate,
-      mana: playerTemplate.mana - spellCost[Spell.Shield] + 5 * RECHARGE_GAIN,
+      mana: playerTemplate.mana - spellCost[Spell.Recharge] + 5 * RECHARGE_GAIN,
       effects: [],
     });
   });
