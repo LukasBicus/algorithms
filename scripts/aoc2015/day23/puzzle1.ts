@@ -54,10 +54,45 @@ What is the value in register b when the program in your puzzle input is finishe
 // create a function, that parses a line with instruction
 // fill array of instructions
 
-// do
-// start to read instructions
-// each instruction will update a register (a/b) or/and update offset
-// -> create function for execution of each register
-// while offset is within (0..instructions.length)
-
 // console log b
+
+import {
+  ComputerState,
+  Instruction,
+  parseInstructionLine,
+  processInstruction,
+} from "./utils.ts";
+
+async function processFile(filename: string): Promise<void> {
+  const input = await Deno.readTextFile(filename);
+  const instructions: Instruction[] = [];
+  for (const line of input.split("\n")) {
+    const instruction = parseInstructionLine(line);
+    if (instruction) {
+      instructions.push(instruction);
+    }
+  }
+
+  let computerState: ComputerState = {
+    a: 0,
+    b: 0,
+    offset: 0,
+  };
+  // do
+  // start to read instructions
+  // each instruction will update a register (a/b) or/and update offset
+  // -> create function for execution of each register
+  do {
+    computerState = processInstruction(
+      computerState,
+      instructions[computerState.offset],
+    );
+    console.log("new state", computerState);
+    // while offset is within (0..instructions.length)
+  } while (
+    (computerState.offset < instructions.length) && computerState.offset >= 0
+  );
+  console.log("computer state", computerState);
+}
+
+processFile("simpleInput.txt");

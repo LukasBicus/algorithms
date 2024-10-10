@@ -55,7 +55,7 @@ export type JioInstruction = {
   offsetChange: number;
 };
 
-type Instruction =
+export type Instruction =
   | HlfInstruction
   | TplInstruction
   | IncInstruction
