@@ -1,6 +1,15 @@
 import { assertEquals, assertThrows } from "@std/assert";
 import { describe, it } from "@std/testing/bdd";
-import { InstructionShortcut, parseInstructionLine } from "./utils.ts";
+import {
+  ComputerState,
+  HlfInstruction,
+  IncInstruction,
+  InstructionShortcut,
+  JmpInstruction,
+  parseInstructionLine,
+  processInstruction,
+  TplInstruction,
+} from "./utils.ts";
 
 describe("parseInstructionLine", function () {
   it("should return null for invalid line", function () {
@@ -66,5 +75,69 @@ describe("parseInstructionLine", function () {
       register: "b",
       offsetChange: -2,
     });
+  });
+});
+
+describe("processInstruction", function () {
+  const initState: ComputerState = {
+    a: 10,
+    b: 20,
+    offset: 10,
+  };
+  it("should process half instruction", function () {
+    const instruction: HlfInstruction = {
+      offsetChange: 1,
+      register: "a",
+      shortcut: InstructionShortcut.Hlf,
+    };
+    assertEquals(
+      processInstruction(initState, instruction),
+      {
+        ...initState,
+        a: Math.floor(initState.a / 2),
+        offset: initState.offset + instruction.offsetChange,
+      },
+    );
+  });
+  it("should process triple instruction", function () {
+    const instruction: TplInstruction = {
+      offsetChange: 1,
+      register: "a",
+      shortcut: InstructionShortcut.Tpl,
+    };
+    assertEquals(
+      processInstruction(initState, instruction),
+      {
+        ...initState,
+        a: initState.a * 3,
+        offset: initState.offset + instruction.offsetChange,
+      },
+    );
+  });
+  it("should process increment instruction", function () {
+    const instruction: IncInstruction = {
+      offsetChange: 1,
+      register: "a",
+      shortcut: InstructionShortcut.Inc,
+    };
+    assertEquals(
+      processInstruction(initState, instruction),
+      {
+        ...initState,
+        a: initState.a + 1,
+        offset: initState.offset + instruction.offsetChange,
+      },
+    );
+  });
+
+  it("should process jump instruction", function () {
+    const instruction: JmpInstruction = {
+      offsetChange: 8,
+      shortcut: InstructionShortcut.Jmp,
+    };
+    assertEquals(
+      processInstruction(initState, instruction),
+      { ...initState, offset: initState.offset + instruction.offsetChange },
+    );
   });
 });

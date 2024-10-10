@@ -1,4 +1,4 @@
-type RegistersState = {
+export type ComputerState = {
   a: number;
   b: number;
   offset: number;
@@ -14,40 +14,40 @@ export enum InstructionShortcut {
 }
 
 // half
-type HlfInstruction = {
+export type HlfInstruction = {
   shortcut: InstructionShortcut.Hlf;
   register: string;
   offsetChange: 1;
 };
 
 // triple
-type TplInstruction = {
+export type TplInstruction = {
   shortcut: InstructionShortcut.Tpl;
   register: string;
   offsetChange: 1;
 };
 
 // increment
-type IncInstruction = {
+export type IncInstruction = {
   shortcut: InstructionShortcut.Inc;
   register: string;
   offsetChange: 1;
 };
 
 // jump
-type JmpInstruction = {
+export type JmpInstruction = {
   shortcut: InstructionShortcut.Jmp;
   offsetChange: number;
 };
 
 // jump if even
-type JieInstruction = {
+export type JieInstruction = {
   shortcut: InstructionShortcut.Jie;
   register: string;
   offsetChange: number;
 };
 // jump if one
-type JioInstruction = {
+export type JioInstruction = {
   shortcut: InstructionShortcut.Jio;
   register: string;
   offsetChange: number;
@@ -96,4 +96,11 @@ export function parseInstructionLine(line: string): Instruction | null {
     }
   }
   return null;
+}
+
+export function processInstruction(
+  state: ComputerState,
+  instruction: Instruction,
+): ComputerState {
+  return state;
 }
