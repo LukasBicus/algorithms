@@ -78,6 +78,15 @@ async function processFile(filename: string): Promise<void> {
     b: 0,
     offset: 0,
   };
+
+  // PUZZLE 2 START
+  computerState = {
+    a: 1,
+    b: 0,
+    offset: 0,
+  };
+  // PUZZLE 2 END
+
   // do
   // start to read instructions
   // each instruction will update a register (a/b) or/and update offset
