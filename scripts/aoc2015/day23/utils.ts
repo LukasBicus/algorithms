@@ -13,24 +13,26 @@ export enum InstructionShortcut {
   Jio = "jio",
 }
 
+type Register = "a" | "b";
+
 // half
 export type HlfInstruction = {
   shortcut: InstructionShortcut.Hlf;
-  register: string;
+  register: Register;
   offsetChange: 1;
 };
 
 // triple
 export type TplInstruction = {
   shortcut: InstructionShortcut.Tpl;
-  register: string;
+  register: Register;
   offsetChange: 1;
 };
 
 // increment
 export type IncInstruction = {
   shortcut: InstructionShortcut.Inc;
-  register: string;
+  register: Register;
   offsetChange: 1;
 };
 
@@ -43,13 +45,13 @@ export type JmpInstruction = {
 // jump if even
 export type JieInstruction = {
   shortcut: InstructionShortcut.Jie;
-  register: string;
+  register: Register;
   offsetChange: number;
 };
 // jump if one
 export type JioInstruction = {
   shortcut: InstructionShortcut.Jio;
-  register: string;
+  register: Register;
   offsetChange: number;
 };
 
@@ -70,7 +72,7 @@ export function parseInstructionLine(line: string): Instruction | null {
   if (simpleMatch) {
     return {
       shortcut: simpleMatch[1] as InstructionShortcut.Hlf,
-      register: simpleMatch[2],
+      register: simpleMatch[2] as Register,
       offsetChange: 1,
     };
   } else {
@@ -87,7 +89,7 @@ export function parseInstructionLine(line: string): Instruction | null {
         const absoluteChange = parseInt(jumpIfMatch[4], 10);
         return {
           shortcut: jumpIfMatch[1] as InstructionShortcut.Jie,
-          register: jumpIfMatch[2],
+          register: jumpIfMatch[2] as Register,
           offsetChange: jumpIfMatch[3] === "+"
             ? absoluteChange
             : -absoluteChange,
@@ -102,5 +104,31 @@ export function processInstruction(
   state: ComputerState,
   instruction: Instruction,
 ): ComputerState {
-  return state;
+  switch (instruction.shortcut) {
+    case InstructionShortcut.Hlf:
+      return {
+        ...state,
+        [instruction.register]: Math.floor(state[instruction.register] / 2),
+        offset: state.offset + instruction.offsetChange,
+      };
+    case InstructionShortcut.Tpl:
+      return {
+        ...state,
+        [instruction.register]: state[instruction.register] * 3,
+        offset: state.offset + instruction.offsetChange,
+      };
+    case InstructionShortcut.Inc:
+      return {
+        ...state,
+        [instruction.register]: state[instruction.register] + 1,
+        offset: state.offset + instruction.offsetChange,
+      };
+    case InstructionShortcut.Jmp:
+      return {
+        ...state,
+        offset: state.offset + instruction.offsetChange,
+      };
+    default:
+      return state;
+  }
 }
