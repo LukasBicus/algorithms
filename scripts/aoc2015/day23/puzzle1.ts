@@ -57,6 +57,7 @@ What is the value in register b when the program in your puzzle input is finishe
 // do
 // start to read instructions
 // each instruction will update a register (a/b) or/and update offset
+// -> create function for execution of each register
 // while offset is within (0..instructions.length)
 
 // console log b
