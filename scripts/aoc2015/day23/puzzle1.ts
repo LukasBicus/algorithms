@@ -87,12 +87,12 @@ async function processFile(filename: string): Promise<void> {
       computerState,
       instructions[computerState.offset],
     );
-    console.log("new state", computerState);
     // while offset is within (0..instructions.length)
   } while (
-    (computerState.offset < instructions.length) && computerState.offset >= 0
+    (computerState.offset < instructions.length) && (computerState.offset >= 0)
   );
   console.log("computer state", computerState);
 }
 
-processFile("simpleInput.txt");
+// processFile("simpleInput.txt");
+processFile("input.txt");

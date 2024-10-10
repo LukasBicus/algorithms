@@ -47,6 +47,10 @@ describe("parseInstructionLine", function () {
       shortcut: InstructionShortcut.Jmp,
       offsetChange: 2,
     });
+    assertEquals(parseInstructionLine("jmp +22"), {
+      shortcut: InstructionShortcut.Jmp,
+      offsetChange: 22,
+    });
     assertEquals(parseInstructionLine("jmp -7"), {
       shortcut: InstructionShortcut.Jmp,
       offsetChange: -7,

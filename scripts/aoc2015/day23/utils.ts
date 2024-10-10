@@ -64,8 +64,8 @@ export type Instruction =
   | JioInstruction;
 
 const simpleRegex = /(hlf|tpl|inc) ([ab])/;
-const jmpRegex = /jmp ([+-])(\d)+/;
-const jiRegex = /(jie|jio) ([ab]), ([+-])(\d)+/;
+const jmpRegex = /jmp ([+-])(\d+)/;
+const jiRegex = /(jie|jio) ([ab]), ([+-])(\d+)/;
 
 export function parseInstructionLine(line: string): Instruction | null {
   const simpleMatch = line.match(simpleRegex);
