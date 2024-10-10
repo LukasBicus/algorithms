@@ -5,6 +5,8 @@ import {
   HlfInstruction,
   IncInstruction,
   InstructionShortcut,
+  JieInstruction,
+  JioInstruction,
   JmpInstruction,
   parseInstructionLine,
   processInstruction,
@@ -81,7 +83,7 @@ describe("parseInstructionLine", function () {
 describe("processInstruction", function () {
   const initState: ComputerState = {
     a: 10,
-    b: 20,
+    b: 1,
     offset: 10,
   };
   it("should process half instruction", function () {
@@ -138,6 +140,48 @@ describe("processInstruction", function () {
     assertEquals(
       processInstruction(initState, instruction),
       { ...initState, offset: initState.offset + instruction.offsetChange },
+    );
+  });
+
+  it("should process jump if even instruction", function () {
+    const instructionA: JieInstruction = {
+      offsetChange: 8,
+      register: "a",
+      shortcut: InstructionShortcut.Jie,
+    };
+    const instructionB: JieInstruction = {
+      offsetChange: 8,
+      register: "b",
+      shortcut: InstructionShortcut.Jie,
+    };
+    assertEquals(
+      processInstruction(initState, instructionA),
+      { ...initState, offset: initState.offset + instructionA.offsetChange },
+    );
+    assertEquals(
+      processInstruction(initState, instructionB),
+      { ...initState, offset: initState.offset },
+    );
+  });
+
+  it("should process jump if one instruction", function () {
+    const instructionA: JioInstruction = {
+      offsetChange: 8,
+      register: "a",
+      shortcut: InstructionShortcut.Jio,
+    };
+    const instructionB: JioInstruction = {
+      offsetChange: 8,
+      register: "b",
+      shortcut: InstructionShortcut.Jio,
+    };
+    assertEquals(
+      processInstruction(initState, instructionA),
+      { ...initState, offset: initState.offset },
+    );
+    assertEquals(
+      processInstruction(initState, instructionB),
+      { ...initState, offset: initState.offset + instructionA.offsetChange },
     );
   });
 });

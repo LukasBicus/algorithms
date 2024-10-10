@@ -128,6 +128,20 @@ export function processInstruction(
         ...state,
         offset: state.offset + instruction.offsetChange,
       };
+    case InstructionShortcut.Jie:
+      return {
+        ...state,
+        offset: state[instruction.register] % 2 === 0
+          ? state.offset + instruction.offsetChange
+          : state.offset,
+      };
+    case InstructionShortcut.Jio:
+      return {
+        ...state,
+        offset: state[instruction.register] === 1
+          ? state.offset + instruction.offsetChange
+          : state.offset,
+      };
     default:
       return state;
   }
