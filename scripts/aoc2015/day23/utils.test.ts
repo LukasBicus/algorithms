@@ -160,7 +160,7 @@ describe("processInstruction", function () {
     );
     assertEquals(
       processInstruction(initState, instructionB),
-      { ...initState, offset: initState.offset },
+      { ...initState, offset: initState.offset + 1 },
     );
   });
 
@@ -177,7 +177,7 @@ describe("processInstruction", function () {
     };
     assertEquals(
       processInstruction(initState, instructionA),
-      { ...initState, offset: initState.offset },
+      { ...initState, offset: initState.offset + 1 },
     );
     assertEquals(
       processInstruction(initState, instructionB),
