@@ -61,6 +61,39 @@ type Instruction =
   | JieInstruction
   | JioInstruction;
 
+const simpleRegex = /(hlf|tpl|inc) ([ab])/;
+const jmpRegex = /jmp ([+-])(\d)+/;
+const jiRegex = /(jie|jio) ([ab]), ([+-])(\d)+/;
+
 export function parseInstructionLine(line: string): Instruction | null {
+  const simpleMatch = line.match(simpleRegex);
+  if (simpleMatch) {
+    return {
+      shortcut: simpleMatch[1] as InstructionShortcut.Hlf,
+      register: simpleMatch[2],
+      offsetChange: 1,
+    };
+  } else {
+    const jumpMatch = line.match(jmpRegex);
+    if (jumpMatch) {
+      const absoluteChange = parseInt(jumpMatch[2], 10);
+      return {
+        shortcut: InstructionShortcut.Jmp,
+        offsetChange: jumpMatch[1] === "+" ? absoluteChange : -absoluteChange,
+      };
+    } else {
+      const jumpIfMatch = line.match(jiRegex);
+      if (jumpIfMatch) {
+        const absoluteChange = parseInt(jumpIfMatch[4], 10);
+        return {
+          shortcut: jumpIfMatch[1] as InstructionShortcut.Jie,
+          register: jumpIfMatch[2],
+          offsetChange: jumpIfMatch[3] === "+"
+            ? absoluteChange
+            : -absoluteChange,
+        };
+      }
+    }
+  }
   return null;
 }
