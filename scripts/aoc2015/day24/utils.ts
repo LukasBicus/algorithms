@@ -28,9 +28,10 @@ export function isThereACombinationOfPackagesWithGivenWeight(
 
 export function getPackagesGroupsWithSmallestLengths(
   packages: number[],
+  groupCount = 3,
 ): number[][] {
   // return [];
-  const groupWeight = getWeightOfGroup(packages) / 3;
+  const groupWeight = getWeightOfGroup(packages) / groupCount;
   if (groupWeight !== Math.round(groupWeight)) {
     throw new Error("Unable to form groups");
   }

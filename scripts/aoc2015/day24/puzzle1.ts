@@ -80,10 +80,10 @@ const input = [
   113,
 ];
 
-function getLowestQE(packages: number[]) {
+function getLowestQE(packages: number[], groupCount = 3) {
   // split packages to 3 groups, so common heights of packages is equal (several solutions possible)
   // mark all combinations with lowest count of packages as group A
-  const theAGroups = getPackagesGroupsWithSmallestLengths(packages);
+  const theAGroups = getPackagesGroupsWithSmallestLengths(packages, groupCount);
 
   console.log("theAGroups", theAGroups);
   // compute quantum entanglement (QE) for all combinations
@@ -95,4 +95,7 @@ function getLowestQE(packages: number[]) {
 // simpleInput test
 // getLowestQE(simpleInput);
 // solve for input
-getLowestQE(input);
+// getLowestQE(input);
+
+// solve puzzle2 for input
+getLowestQE(input, 4);
