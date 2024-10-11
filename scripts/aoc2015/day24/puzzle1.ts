@@ -46,6 +46,8 @@ What is the quantum entanglement of the first group of packages in the ideal con
 
  */
 // read packages weights in input
+import { getPackagesGroupsWithSmallestLengths, getQEOfGroup } from "./utils.ts";
+
 const simpleInput = [1, 2, 3, 4, 5, 7, 8, 9, 10, 11];
 const input = [
   1,
@@ -78,12 +80,15 @@ const input = [
   113,
 ];
 
-// split packages to 3 groups, so common heights of packages is equal (several solutions possible)
-// based on packages weights and group weight
-// -> find first combination of packages, that
-// -> should give GroupWeight together
-// -> rest packages can be split to 2 equal groups
+function getLowestQE(packages: number[]) {
+  // split packages to 3 groups, so common heights of packages is equal (several solutions possible)
+  // mark all combinations with lowest count of packages as group A
+  const theAGroups = getPackagesGroupsWithSmallestLengths(packages);
+  // compute quantum entanglement (QE) for all combinations
+  const QEs = theAGroups.map((group) => getQEOfGroup(group));
+  // pick lowest QE -> result
+  console.log("minimum QE is: ", Math.min(...QEs));
+}
 
-// mark all combinations with lowest count of packages as group A
-// compute quantum entanglement (QE) for all combinations
-// pick lowest QE -> result
+// simpleInput test
+getLowestQE(simpleInput);

@@ -60,3 +60,9 @@ export function getPackagesGroupsWithSmallestLengths(
   }
   return validCombinations;
 }
+
+export function getQEOfGroup(input: number[]): number {
+  return input.reduce(function (acc, i) {
+    return acc * i;
+  });
+}
