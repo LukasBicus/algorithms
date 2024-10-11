@@ -35,14 +35,15 @@ export function getPackagesGroupsWithSmallestLengths(
     throw new Error("Unable to form groups");
   }
   const validCombinations: number[][] = [];
+  let theShortestCombinationLength: number | null = null;
   for (
     const combination of generateCombinationsWithoutRepetition(
       [...packages].sort((a, b) => b - a),
     )
   ) {
-    if (validCombinations.length > 0) {
-      if (combination.length > validCombinations[0].length) {
-        break;
+    if (theShortestCombinationLength !== null) {
+      if (combination.length > theShortestCombinationLength) {
+        continue;
       }
     }
     const combinationWeight = getWeightOfGroup(combination);
@@ -55,10 +56,17 @@ export function getPackagesGroupsWithSmallestLengths(
       isThereACombinationOfPackagesWithGivenWeight(restPackages, groupWeight)
     ) {
       validCombinations.push(combination.sort((a, b) => a - b));
-      console.log(combination);
+      if (
+        theShortestCombinationLength === null ||
+        combination.length < theShortestCombinationLength
+      ) {
+        theShortestCombinationLength = combination.length;
+      }
+      // console.log(combination);
     }
   }
-  return validCombinations;
+  const smallestLength = Math.min(...validCombinations.map((c) => c.length));
+  return validCombinations.filter((c) => c.length === smallestLength);
 }
 
 export function getQEOfGroup(input: number[]): number {
