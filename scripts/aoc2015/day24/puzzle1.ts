@@ -46,7 +46,38 @@ What is the quantum entanglement of the first group of packages in the ideal con
 
  */
 // read packages weights in input
-// sum weights and get weight for one group
+const simpleInput = [1, 2, 3, 4, 5, 7, 8, 9, 10, 11];
+const input = [
+  1,
+  3,
+  5,
+  11,
+  13,
+  17,
+  19,
+  23,
+  29,
+  31,
+  37,
+  41,
+  43,
+  47,
+  53,
+  59,
+  67,
+  71,
+  73,
+  79,
+  83,
+  89,
+  97,
+  101,
+  103,
+  107,
+  109,
+  113,
+];
+
 // split packages to 3 groups, so common heights of packages is equal (several solutions possible)
 // based on packages weights and group weight
 // -> find first combination of packages, that
