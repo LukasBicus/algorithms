@@ -38,3 +38,7 @@ export function* getPosition(finalPosition: Position): Generator<Position> {
     true
   );
 }
+
+export function getNextCode(prevCode: number): number {
+  return (prevCode * 252533) % 33554393;
+}
