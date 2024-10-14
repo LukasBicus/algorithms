@@ -1,6 +1,6 @@
 import { assertEquals, assertThrows } from "@std/assert";
 import { describe, it } from "@std/testing/bdd";
-import { getNextCode, getPosition } from "./utils.ts";
+import { getCodeOnInputPosition, getNextCode, getPosition } from "./utils.ts";
 
 describe("getPosition", function () {
   it("should return positions till { x: 1, y: 1 }", function () {
@@ -43,5 +43,14 @@ describe("getPosition", function () {
 describe("getNextCode", function () {
   it("should return valid code", function () {
     assertEquals(getNextCode(20151125), 31916031);
+  });
+});
+
+describe("getCodeOnInputPosition", function () {
+  it("Should return code on position {x: 0, y: 0}", function () {
+    assertEquals(getCodeOnInputPosition({ x: 0, y: 0 }, 20151125), 20151125);
+  });
+  it("Should return code on position {x: 2, y: 3}", function () {
+    assertEquals(getCodeOnInputPosition({ x: 2, y: 3 }, 20151125), 21345942);
   });
 });

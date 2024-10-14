@@ -1,4 +1,4 @@
-type Position = {
+export type Position = {
   x: number;
   y: number;
 };
@@ -41,4 +41,35 @@ export function* getPosition(finalPosition: Position): Generator<Position> {
 
 export function getNextCode(prevCode: number): number {
   return (prevCode * 252533) % 33554393;
+}
+
+export function getCodeOnInputPosition(
+  finalPosition: Position,
+  initialCode: number,
+): number {
+  // loop positions till final position
+  let prevCode: number = initialCode;
+  for (const position of getPosition(finalPosition)) {
+    // if position is 0, 0,
+    if (position.x === 0 && position.y === 0) {
+      //    store initialCOde to prevCode
+      prevCode = initialCode;
+      if (position.x === finalPosition.x && position.y === finalPosition.y) {
+        //    if final position is 0, 0 return initialCode
+        return initialCode;
+      }
+    } else {
+      // else
+      // for new position, compute code
+      const nextCode = getNextCode(prevCode);
+      if (position.x === finalPosition.x && position.y === finalPosition.y) {
+        // if it is final Position, return it
+        return nextCode;
+      } else {
+        // if not store it to prev code
+        prevCode = nextCode;
+      }
+    }
+  }
+  return 0;
 }
