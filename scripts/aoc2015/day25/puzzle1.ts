@@ -44,3 +44,22 @@ Santa looks nervous. Your puzzle input contains the message on the machine's con
 
 
  */
+
+// Algorithm
+
+// create a structure, that will hold results -> do we need it? no
+
+// create a function, that will provide you next position on paper ->
+// start with [0, 0]
+
+// y/x
+// y0, x0, x1, x3, ...
+// y1
+// y2
+// y3
+// ...
+
+// continue, computing codes till you get to required position (from puzzle input)
+
+// to get next code, you will need prev code and use formula:
+// newCode = (prevCode * 252533) % 33554393
