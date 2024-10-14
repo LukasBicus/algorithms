@@ -73,5 +73,5 @@ const puzzle1Input: Position = { x: 3082, y: 2977 };
 const simpleResult = getCodeOnInputPosition(simpleInput, 20151125);
 console.log(`simpleResult ${simpleResult}`);
 
-// const puzzle1Result = getCodeOnInputPosition(puzzle1Input, 20151125);
-// console.log(`puzzle1Result ${puzzle1Result}`);
+const puzzle1Result = getCodeOnInputPosition(puzzle1Input, 20151125);
+console.log(`puzzle1Result ${puzzle1Result}`);
