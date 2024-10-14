@@ -64,8 +64,14 @@ Santa looks nervous. Your puzzle input contains the message on the machine's con
 // to get next code, you will need prev code and use formula:
 // newCode = (prevCode * 252533) % 33554393
 
-import { Position } from "./utils.ts";
+import { getCodeOnInputPosition, Position } from "./utils.ts";
 
-const simpleInput: Position = { x: 4, y: 2 };
+const simpleInput: Position = { x: 0, y: 1 };
 
-const puzzle1Input: Position = { x: 3084, y: 2979 };
+const puzzle1Input: Position = { x: 3082, y: 2977 };
+
+const simpleResult = getCodeOnInputPosition(simpleInput, 20151125);
+console.log(`simpleResult ${simpleResult}`);
+
+// const puzzle1Result = getCodeOnInputPosition(puzzle1Input, 20151125);
+// console.log(`puzzle1Result ${puzzle1Result}`);

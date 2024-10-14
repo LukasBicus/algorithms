@@ -47,27 +47,21 @@ export function getCodeOnInputPosition(
   finalPosition: Position,
   initialCode: number,
 ): number {
+  if (finalPosition.x === 0 && finalPosition.y === 0) {
+    //    if final position is 0, 0 return initialCode
+    return initialCode;
+  }
   // loop positions till final position
   let prevCode: number = initialCode;
   for (const position of getPosition(finalPosition)) {
-    // if position is 0, 0,
-    if (position.x === 0 && position.y === 0) {
-      //    store initialCOde to prevCode
-      prevCode = initialCode;
+    // if position is not 0, 0,
+    if (!(position.x === 0 && position.y === 0)) {
       if (position.x === finalPosition.x && position.y === finalPosition.y) {
-        //    if final position is 0, 0 return initialCode
-        return initialCode;
-      }
-    } else {
-      // else
-      // for new position, compute code
-      const nextCode = getNextCode(prevCode);
-      if (position.x === finalPosition.x && position.y === finalPosition.y) {
-        // if it is final Position, return it
-        return nextCode;
+        // if it is final Position, return code for it
+        return getNextCode(prevCode);
       } else {
-        // if not store it to prev code
-        prevCode = nextCode;
+        // if not store nextCode to prev code
+        prevCode = getNextCode(prevCode);
       }
     }
   }
